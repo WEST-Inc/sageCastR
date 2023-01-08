@@ -5,4 +5,13 @@
 .pdf
 .PDF
 .Pdf
-./AuxData/corev4*
+AuxData/corev4_072915_final.cpg
+AuxData/corev4_072915_final.dbf
+AuxData/corev4_072915_final.prj
+AuxData/corev4_072915_final.sbn
+AuxData/corev4_072915_final.sbx
+AuxData/corev4_072915_final.shp
+AuxData/corev4_072915_final.shp.xml
+AuxData/corev4_072915_final.shx
+.DS_store
+Documents/sageCastManuscript_files/

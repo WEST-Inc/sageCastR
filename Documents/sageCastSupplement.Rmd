@@ -47,14 +47,14 @@ mcmcDir <- "../Output/MCMC/"
 subDirs <- list.files(mcmcDir)
 mcmcList <- list()
 
-paramLabs <- c("Intercept", "Dens. dep.", "Precip.", "Temp.", "Temporal var.")
+paramLabs <- c("Intercept", "Dens. dep.", "Precip.", "Temp.", "Temporal std. dev.")
 paramLabs <- factor(paramLabs, levels = paramLabs)
 
 tableLabs <- c("Intercept, $\\beta_{1}$", 
                "Density dependence, $\\beta_2$", 
                "Precipitation effect, $\\beta_3$", 
                "Temperature effect, $\\beta_4$", 
-               "Variance of temporal random effect, $\\sigma_y$")
+               "Std. dev. of temporal random effect, $\\sigma_y$")
 # tableLabs <- factor(tableLabs, levels = tableLabs)
     
 for(doArea in subDirs) {

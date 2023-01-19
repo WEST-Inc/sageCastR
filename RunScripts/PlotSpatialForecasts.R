@@ -3,12 +3,13 @@
 library(tidyverse)
 library(ncdf4)
 library(raster)
-library(sageCastR)
+# library(sageCastR)
 library(RColorBrewer)
 library(lattice)
 library(gridExtra)
 
 ncdfPath <- "L:\\102 - USGS\\102 - 88 - SageCastWY\\Output\\Forecasts\\"
+# ncdfPath <- "../../Desktop/Tredennick_files/"
 ncNames <- c("SaltWells-dast-forecast-2018-2045-ssp585.nc",
              "SaltWells-dast-forecast-2046-2070-ssp585.nc",
              "SaltWells-dast-forecast-2071-2100-ssp585.nc")
@@ -60,7 +61,7 @@ t <- 1  # get first year
 cover_slice <- cover_array[t,,,m]
 cover_slice[cover_slice > 100] <- 100
 cols <- colorRampPalette(brewer.pal(9,"BrBG"))(25)
-g1 <- levelplot(cover_slice, row.values = x, column.values = y, main = "2018 (observed)",
+g1 <- levelplot(cover_slice, row.values = x, column.values = 1-y, main = "2018 (observed)",
           xlab = "Longitude (meters)", ylab = "Latitude (meters)",
           col.regions = cols, at=seq(0, 100, length.out = 25),
           scales = list(tck = c(0,0), at = c(0), labels = c("")))
@@ -69,7 +70,7 @@ t <- 3
 cover_slice <- cover_array[t,,,m]
 cover_slice[cover_slice > 100] <- 100
 cols <- colorRampPalette(brewer.pal(9,"BrBG"))(25)
-g2 <- levelplot(cover_slice, row.values = x, column.values = y, main = "2020",
+g2 <- levelplot(cover_slice, row.values = x, column.values = 1-y, main = "2020",
           xlab = "Longitude (meters)", ylab = "Latitude (meters)",
           col.regions = cols, at=seq(0, 100, length.out = 25),
           scales = list(tck = c(0,0), at = c(0), labels = c("")))
@@ -78,7 +79,7 @@ t <- 22
 cover_slice <- cover_array[t,,,m]
 cover_slice[cover_slice > 100] <- 100
 cols <- colorRampPalette(brewer.pal(9,"BrBG"))(25)
-g3 <- levelplot(cover_slice, row.values = x, column.values = y, main = "2040",
+g3 <- levelplot(cover_slice, row.values = x, column.values = 1-y, main = "2040",
                 xlab = "Longitude (meters)", ylab = "Latitude (meters)",
                 col.regions = cols, at=seq(0, 100, length.out = 25),
                 scales = list(tck = c(0,0), at = c(0), labels = c("")))
@@ -133,7 +134,7 @@ cover_slice <- cover_array[t,,,m]
 cover_slice[cover_slice > 100] <- 100
 
 cols <- colorRampPalette(brewer.pal(9,"BrBG"))(25)
-g4 <- levelplot(cover_slice, row.values = x, column.values = y, main = "2060",
+g4 <- levelplot(cover_slice, row.values = x, column.values = 1-y, main = "2060",
                 xlab = "Longitude (meters)", ylab = "Latitude (meters)",
                 col.regions = cols, at=seq(0, 100, length.out = 25),
                 scales = list(tck = c(0,0), at = c(0), labels = c("")))
@@ -184,7 +185,7 @@ cover_slice <- cover_array[t,,,m]
 cover_slice[cover_slice > 100] <- 100
 
 cols <- colorRampPalette(brewer.pal(9,"BrBG"))(25)
-g5 <- levelplot(cover_slice, row.values = x, column.values = y, main = "2080",
+g5 <- levelplot(cover_slice, row.values = x, column.values = 1-y, main = "2080",
                 xlab = "Longitude (meters)", ylab = "Latitude (meters)",
                 col.regions = cols, at=seq(0, 100, length.out = 25),
                 scales = list(tck = c(0,0), at = c(0), labels = c("")))
@@ -196,7 +197,7 @@ cover_slice <- cover_array[t,,,m]
 cover_slice[cover_slice > 100] <- 100
 
 cols <- colorRampPalette(brewer.pal(9,"BrBG"))(25)
-g6 <- levelplot(cover_slice, row.values = x, column.values = y, main = "2100",
+g6 <- levelplot(cover_slice, row.values = x, column.values = 1-y, main = "2100",
                 xlab = "Longitude (meters)", ylab = "Latitude (meters)",
                 col.regions = cols, at=seq(0, 100, length.out = 25),
                 scales = list(tck = c(0,0), at = c(0), labels = c("")))

@@ -29,6 +29,7 @@ geometry: margin=1in
 linkcolor: black
 urlcolor: black
 ---
+
 \definecolor{ForestGreen}{rgb}{0.1,0.44,0.1} 
 \definecolor{blue}{rgb}{0,0,0.7} 
 \definecolor{red}{rgb}{0.8,0,0}
@@ -42,7 +43,7 @@ urlcolor: black
 \begin{centering}
 \textbf{\Large{Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
 
-\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredenn@gmail.com}; \textit{phone}, 970-443-1599; Current affiliation, Metrum Research Group}\textsuperscript{1,}, Adrian P. Monroe\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{3}}}
+\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredenn@gmail.com}; \textit{phone}, 970-443-1599. Current address: Metrum Research Group, Tariffville, Connecticut}\textsuperscript{1,}, Adrian P. Monroe\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{3}}}
 
 \textit{\small{\textsuperscript{1}Western EcoSystems Technology, Inc., Laramie, WY}} \\
 \textit{\small{\textsuperscript{2}Fort Collins Science Center, U.S. Geological Survey, Fort Collins, CO}} \\
@@ -134,35 +135,35 @@ Because populations, communities, and ecosystems are not static, using the curre
 A better approach is to consider the past, current, and future status of ecosystems.
 Doing so requires projections of how an ecosystem might respond to future stressors and conditions [@dietze_iterative_2018; @clark_ecological_2001].
 
-Infrastructure development indirectly and negatively affects species through habitat loss and transformation, which is a major driver of biodiversity loss [@powers_global_2019; @cardinale_biodiversity_2012; @sala_global_2000].
 Wildlife management often requires assessing tradeoffs between the benefits of development and the costs of habitat loss or degradation [@mcshane_hard_2011].
-To assess that tradeoff, managers often identify areas of high and low quality habitat.
-Low quality habitat is then preferred for habitat alteration.
+To assess that tradeoff, managers often identify areas of high and low quality habitat\new{, with low quality habitat preferred for habitat alteration.}
 But habitat quality is not static and global climate change has the potential alter the trajectory of an ecosystem.
 Some currently high quality habitat (for a particular species) might quickly change if on a range edge while lower quality habitat in the middle of the range might maintain its general structure and function longer [@amburgey_range_2018].
 Habitat on the edge of an ecosystem's range might also improve.
 For example, warming temperatures could benefit some plants at the cold edge of their range [@kleinhesselink_response_2018].
 Thus, climate change adds a new dimension to habitat assessments, where we are not only concerned about the current status of habitat but also what that habitat might look like 30 to 100 years in the future.
 
-Land management in the western United States focuses on several uses and species, but Greater sage-grouse (*Centrocercus urophasianus*, hereafter "sage-grouse") typically drive the conversation in sagebrush dominated ecosystems.
+Land management in the western United States focuses on several uses and species, but Greater sage-grouse (*Centrocercus urophasianus*, hereafter "sage-grouse") \new{has historically driven} the conversation in sagebrush dominated ecosystems.
 Sage-grouse are a protected species in Canada (Species at Risk Act [S.C. 2002, c. 29], https://laws-lois.justice.gc.ca/eng/acts/S-15.3/) and are listed as ``warranted, but precluded'' for listing under the United States Endangered Species Act of 1973 (U.S. Fish and Wildlife Service
 [USFWS] 2010).
-Sagebrush ecosystems provide critical habitat for Greater sage-grouse and other sagebrush obligate species [@carlisle_abundance_2020].
-Conservation of sagebrush ecosystems is primarily aimed at keeping sage-grouse off the endangered species list but sagebrush conservation will benefit other species, too [@rowland_greater_2006; @smith_habitat_2019; @pilliod_reptiles_2020].
+\new{A further review of population status and conservation efforts concluded the species did not warrant listing in 2015} [@united_states_fish_and_wildlife_service_endangered_2015].
+\new{While} conservation of sagebrush ecosystems is primarily aimed at keeping sage-grouse off the endangered species list but sagebrush conservation will benefit other species, too [@rowland_greater_2006; @smith_habitat_2019; @pilliod_reptiles_2020].
 In response to declining sage-grouse populations, the Wyoming Game and Fish Department has delineated 32 sage-grouse core areas, covering approximately 15 million acres of sage-grouse habitat (State of Wyoming 2015).
 The stated goal of the Core Area strategy is "...to minimize future disturbance by co-locating proposed disturbances within area already disturbed or naturally unsuitable" (State of Wyoming 2015).
-Sage-grouse populations are active in all core areas and most maintain stable populations [@edmunds_greater_2018], though populations outside of these core areas are not performing the same.
+Sage-grouse populations are active in all core areas and most maintain stable populations [@edmunds_greater_2018].
 
-In Wyoming, many of the landscapes with the highest potential for wind energy also support critical sage-grouse habitat in the form of sagebrush dominated ecosystems.
+<!-- Sagebrush ecosystems provide critical habitat for Greater sage-grouse and other sagebrush obligate species [@carlisle_abundance_2020]. -->
+
+\new{Habitat loss and transformation is a major driver of biodiversity loss} [@powers_global_2019; @cardinale_biodiversity_2012; @sala_global_2000], \new{and infrastructure development directly leads to habitat loss and transformation.}
+\new{Wyoming has ideal conditions for future renewable energy development such as wind} [@lloyd_prairie_2022]\new{, and while wind energy is excluded from sage-grouse core areas, achieving renewable electricity production targets would require expansion beyond disturbed lands} [@kiesecker_win-win_2011].
 This presents a challenge to land management: Should land be prioritized for sage-grouse conservation or renewable energy development?
-Renewable energy infrastructure that can mitigate the impacts of climate change could benefit sage-grouse in the long run.
-Therefore, it is critical to understand the potential impacts of climate change across sagebrush landscapes because some areas may become less beneficial to sage-grouse due to climate change, making those areas attractive for development of renewable energy infrastructure, potentially minimizing such conflicts.
-Considering how climate change impacts whether a sage-grouse core area is or will be "naturally unsuitable" clearly falls within the scope of the Core Area strategy.
-More broadly, assessing current and future habitat suitability *vis-a-vis* species of concern is essential as we face difficult and inevitable trade-offs between land preservation and land-use to combat climate change. 
+\new{However, if some areas may become less suitable for sage-grouse due to climate change, those areas might accommodate renewable energy infrastructure without long-term effects to the species.} 
+Considering how climate change impacts whether a sage-grouse core area is or will be “naturally unsuitable” clearly falls within the scope of the Core Area strategy.
+More broadly, assessing current and future habitat suitability *vis-a-vis* species of concern is useful as we face difficult and inevitable trade-offs between land preservation and land-use to combat climate change.
 
-The sagebrush biome, as a whole, is in peril [@palmquist_divergent_2021].
-But Wyoming is thought to be a stronghold where sagebrush will persist and possibly thrive in the future, especially compared to other parts of its range [@palmquist_divergent_2021].
-In part, this is because the sagebrush biome in Wyoming has been less susceptible to cheatgrass (*Bromus tectorum*) invasion, compared to other parts of the sagebrush biome [@pastick_rapid_2021].
+The sagebrush biome is in peril [@davies_saving_2011, @remington_sagebrush_2021].
+But Wyoming is thought to be a stronghold where sagebrush will persist and possibly thrive in the future, especially compared to other parts of its range [@palmquist_divergent_2021; @renwick_multi-model_2018-1].
+This may partly be due to relatively cooler temperatures in Wyoming (@renwick_multi-model_2018-1) and that Wyoming has largely avoided widespread cheatgrass (*Bromus tectorum*) invasion compared to other parts of the sagebrush biome [@pastick_rapid_2021].
 Cheatgrass invasion, and the subsequent cheatgrass-fire feedback cycle, is the main driver of the loss of sagebrush cover across most of sagebrush's range [@balch_introduced_2013].
 Because susceptibility to cheatgrass invasion is an indirect effect of climate change [@chambers_what_2007; @bradley_regional_2009], and because cheatgrass invasion has not been as dramatic in Wyoming, it stands to reason that the direct effects of climate change have important implications in Wyoming.
 This is especially true if increases in sagebrush cover due to climate change can inhibit cheatgrass invasion.
@@ -226,7 +227,7 @@ For each year we resampled the historic GCM raster data to match the spatial res
 Following @rupp_evaluation_2013, we calculated the relative error ($E^*$) across the entire time span for both climate variables and for each GCM as
 
 \begin{equation}
-E_{i,j}^* = \frac{E_{i,j} - \text{min}(E_{j})}{\text{max}(E_{j}) - \text{min}(E_{j})}
+E_{i,j}^* = \frac{E_{i,j} - \min\limits_{i}(E_{j})}{\max\limits_{i}(E_{j}) - \min\limits_i(E_{j})}
 \end{equation}
 
 \noindent{}where $i$ indexes the variable (temperature or precipitation) and $j$ indexes the GCM.
@@ -1259,15 +1260,15 @@ Moreover, projected increases were larger in magnitude than decreases and increa
 This finding suggests that few core areas are "lost causes" in terms of maintaining existing sagebrush cover in the future.
 Continued conservation of these core areas has the potential to increase sage-grouse populations in the future because the extent of the landscape with sagebrush cover that exceeds the nesting threshold is expected to increase for several core areas (Fig. \@ref(fig:nesting-targs)).
 Even when the threshold is not projected to be exceeded, sagebrush cover is most commonly projected to increase.
-While sagebrush is a key component of sage-grouse habitat, our models to not currently consider other factors that can affect habitat quality, including herbaceous vegetation, structure and configuration of sagebrush on the landscape, or disturbances [@fedy_habitat_2014].
+<!-- While sagebrush is a key component of sage-grouse habitat, our models to not currently consider other factors that can affect habitat quality, including herbaceous vegetation, structure and configuration of sagebrush on the landscape, or disturbances [@fedy_habitat_2014]. -->
 
 The most common climate response across the core areas was a positive effect of temperature on sagebrush performance.
 This finding is consistent with theoretical and empirical research suggesting that plants at the cold-limited edge of their distribution may benefit from global climate change [@amburgey_range_2018; @kleinhesselink_response_2018; @renwick_multi-model_2018].
 The finding is also consistent with results across a broader range of the sagebrush distribution using these same data sources [@rigge_projected_2021].
 Recent mechanistic modeling across the sagebrush biome also suggests that increases in temperature will benefit sagebrush in high elevation portions of its range, like Wyoming [@palmquist_divergent_2021].
-@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in warm, moisture-limited areas.
+@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in warm, moisture-limited areas. \comm{ATT TO CHECK THIS STATEMENT. DO WE MEAN COOL, MOIST?}
 Other studies have also found positive effects of temperature increases at high elevation sagebrush sites, likely due to earlier snowmelt and a longer growing season [@perfors_enhanced_2003; @harte_convergent_2015].
-Our statistical models appear to reflect these underlying mechanstic explanations at a majority of core areas.
+Our statistical models appear to reflect these underlying mechanistic explanations at a majority of core areas.
 A negative of effect of increased precipitation combined with a positive effect of temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snowmelt in warmer years.
 
 Climate responses were not uniform across core areas, however.
@@ -1285,11 +1286,11 @@ Regional, landscape, and local gradients in average climate [@kleinhesselink_res
 
 
 The biggest limiation of our study is that we only quantified the direct effects of climate on sagebrush performance.
-The indirect effects of climate change and other non-climate related effects might be more influential.
+Indirect effects of climate change and other non-climate related effects might be more influential.
 In particular, the fire-cheatgrass invasion cycle has been implicated as the major driver of sagebrush loss across most of its historical range.
 Recent modeling suggests that parts of Wyoming may become more suitable for cheatgrass but that cheatgrass invasion could be limited if disturbances that reduce native grass and shrub cover are limited [@palmquist_divergent_2021].
 Hotter and drier conditions in the future will likely increase fire risk throughout Wyoming shrublands, meaning it could be difficult to limit cheatgrass invasion if fires become widespread.
-Nonetheless, our results corroroborate those of @palmquist_divergent_2021 by suggesting that climate change alone should benefit, or at least not significantly disadvantage, sagebush in Wyoming.
+Nonetheless, our results corroborate those of @palmquist_divergent_2021 by suggesting that climate change alone should benefit, or at least not significantly disadvantage, sagebush in Wyoming.
 
 Our sagebrush projections can be used as part of a decision-support toolbox for managers in Wyoming.
 The projections are also useful for generating hypotheses and scientific questions.
@@ -1300,18 +1301,24 @@ Such explanations are critical to guide region-wide management of sagebrush land
 
 # Implications for sage-grouse management
 
-Sage-grouse are sagebrush-obligate species, meaning any increase in sagebrush cover likely benefits sage-grouse but consideration of other habitat components also affect habitat quality for sage-grouse [@fedy_habitat_2014].
-Although not all core areas are projected to increase in sagebrush cover, the magnitude of increase and the area over which we project increases far outweighs projected declines.
+Sage-grouse are sagebrush-obligate species, meaning any increase in sagebrush cover likely benefits sage-grouse.
+\new{However, other factors not considered here can affect habitat quality, including herbaceous vegetation, structure, and configuration of sagebrush on the landscape, and disturbances} @fedy_habitat_2014], \new{in addition to higher temperatures} [@blomberg_characteristics_2012; @lundblad_sensitivity_2022]. 
+\new{We also acknowledge that our use of thresholds to determine whether habitat was ``optimal'' for sage-grouse, while consistent with the Sage-grouse Habitat Assessment Framework} [@stiver_sage-grouse_2015], \new{may not correspond with more local trends in demography} [@smith_habitat_2019]. 
+\new{Indeed, most core areas we classified as currently "suboptimal" had stable population trends} [@edmunds_greater_2018] \new{whereas fewer core areas currently had "optimal" levels of sagebrush cover} (Fig. \@ref(fig:lambda-compares)). 
+\new{Therefore, we emphasize that while the thresholds used here were useful for a relative comparison of habitat status across core areas, studying effects of sagebrush cover on demographics such as population trends, at relevant spatial scales} [@monroe_spatial_2022], \new{would provide a more direct assessment of habitat quality for sage-grouse (and implications of climate change).}
+
+Nevertheless, not all core areas are projected to increase in sagebrush cover.
+But the magnitude of increase and the area over which we project increases far outweighs projected declines.
 These results highlight the importance of active and adaptive management in Wyoming's sage-grouse core areas, which contain about 37% of all sage-grouse [@fedy_habitat_2014].
 \new{Our results suggest that climate change per se is not going to cause declines in sagebrush in Wyoming.}
 \new{Therefore, management actions aimed at reducing cheatgrass invasion and limiting disturbances in core areas might help mitigate the negative, indirect impacts of climate change.}
 In part, this is good news because managing disturbances and plant invasions is more feasible than managing global climate change.
 
-Even still, effectively conserving all of the core areas may not be enough.
+Even still, effectively conserving all of the core areas may not be enough \new{to ensure sage-grouse conservation} [@hannah_protected_2007; @monzon_climate_2011]
 Sage-grouse use vast areas outside of the core areas as well, particularly in the apex of the population cycles [@heinrichs_influences_2019].
 Sage-grouse require diverse resource compositions across life stages, with an upper limit of annual life-time home ranges estimated at ~2975 km$^2$ [@connelly_response_2000; @connelly_conservation_2000].
 \new{This suggests that} maintaining large intact landscapes inside and outside of core areas (Heinrichs et al. 2019) \new{can help} ensure viable sage-grouse populations persist. 
-Our models help to identify sagebrush habitats that persist into the future given climate change, which should be protected from disturbances.
+Our models help to identify sagebrush habitats that \new{are likely to} persist into the future given climate change, \new{highlighting areas for potential long-term preservation and protection.}
 Areas with projected sagebrush declines may need to be more closely managed.
 
 

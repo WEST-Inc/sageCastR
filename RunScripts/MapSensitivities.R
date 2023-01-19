@@ -105,6 +105,7 @@ write.csv(combDat, file.path(outDatDir, "environ_sensitivity_summary.csv"))
 #----- Maps of sensitivities
 #-------------------------------------------------------------------------------
 
+combDat <- read.csv("Output/environ_sensitivity_summary.csv")
 coreMerge <- merge(coreAreas, combDat, by.all = NAME, all.x = T)
 coreMerge <- sf::st_transform(coreMerge, 26913)
 wyProj <- sf::st_transform(wy, 26913)

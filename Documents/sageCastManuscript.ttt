@@ -20,7 +20,7 @@ $\sigma_{\gamma}$ & standard deviation of temporal random effects & Cauchy(0, 2.
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{llrrrr}
 \toprule
-GCM Scenario & Time Period & Avg. Precip. (mm) & Var. Precip. & Avg. Temp. (deg. C) & Var. Temp.\\
+GCM Scenario & Time Period & Avg. Precip. (mm/day) & Var. Precip. & Avg. Temp. (deg. C) & Var. Temp.\\
 \midrule
 historical & Historical & 2.027 & 0.007 & 11.483 & 0.456\\
 ssp126 & 2020 - 2040 & 2.215 & 0.016 & 13.391 & 0.088\\

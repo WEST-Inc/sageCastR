@@ -538,7 +538,7 @@ climateAll <- read.csv("../AuxData/CMIP6_future_by_core.csv") %>%
                 MeanVar_pr, MeanMean_tas, MeanVar_tas) %>%
   rename("GCM Scenario" = experiment_id,
          "Time Period" = YearGroup,
-         "Avg. Precip. (mm)" = MeanMean_pr,
+         "Avg. Precip. (mm/day)" = MeanMean_pr,
          "Var. Precip." = MeanVar_pr,
          "Avg. Temp. (deg. C)" = MeanMean_tas,
          "Var. Temp." = MeanVar_tas)
@@ -733,7 +733,7 @@ The most consistent pattern was a positive effect of temperature on sagebrush pe
 <!-- Sensitivity to climate drivers was not strongly influenced by mean annual precipiation, mean annual temperature, or elevation (Table \@ref(tab:corrs)). -->
 <!-- Only sensitivity to precipitation had a significant correlation with elevation (Spearman's rank correlation = -0.32, $P=0.05$; Table \@ref(tab:corrs)). -->
 
-```{r sensitivities, fig.height = 7.5, fig.width=8.5, fig.cap = "Sensitivity of sagebrush cover to temperature and precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Panels to the right of the maps show the mean (crosshairs), 95% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area."} 
+```{r sensitivities, fig.height = 7.5, fig.width=8.5, fig.cap = "Sensitivity of sagebrush cover to average spring-through-summer temperature and average spring-through-summer precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Panels to the right of the maps show the mean (crosshairs), 95% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area."} 
 
 pal <- RColorBrewer::brewer.pal(7, name = "BrBG")
 pal[4] <- "grey80" 

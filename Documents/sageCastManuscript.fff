@@ -22,7 +22,7 @@
 \begin{figure}
 \centering
 \includegraphics{sageCastManuscript_files/figure-latex/sensitivities-1.pdf}
-\caption{\label{fig:sensitivities}Sensitivity of sagebrush cover to temperature and precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Panels to the right of the maps show the mean (crosshairs), 95\% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area.}
+\caption{\label{fig:sensitivities}Sensitivity of sagebrush cover to average spring-through-summer temperature and average spring-through-summer precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Panels to the right of the maps show the mean (crosshairs), 95\% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area.}
 \end{figure}
 \efloatseparator
  

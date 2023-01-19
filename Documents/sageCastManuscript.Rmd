@@ -189,12 +189,17 @@ There are no data for 2012, which we handled naively by letting 2011 be the "lag
 
 ```{r data, fig.width=8.5, fig.height=5, fig.cap="Observed time series of percent cover for each core area from the Back-In-Time product. Line shows mean cover in each year across all cells (pixels). The shaded region shows the mean plus/minus the standard deviation across all cells (pixels) in each year. Note that the y-axis changes across panels."}
 bit <- readRDS("../Output/historic_Sage_Cover_Summary.RDS")
+bit <- bit %>%
+  left_join(nameMap %>%
+              dplyr::select(Name, Abbreviation) %>%
+              rename("coreName" = Name)) %>%
+  mutate(lab = paste0(coreName, "\n(", Abbreviation, ")"))
 ggplot(bit, aes(x = year, y = mean)) +
   geom_ribbon(aes(ymin = mean-sd, ymax = mean+sd), alpha = 0.2, fill = "tan") +
   # geom_ribbon(aes(ymin = q025, ymax = q975), alpha = 0.2, fill = "tan") +
   geom_line(size = 2, color = "white") +
   geom_line() +
-  facet_wrap(~coreName, scales = "free_y", ncol = 6) +
+  facet_wrap(~lab, scales = "free_y", ncol = 6) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
         strip.text = element_text(size = 5)) +
   labs(x = "Year", y = "Cover (%)") +
@@ -1033,7 +1038,7 @@ This is because precipitation is not projected to increase or decrease much in t
 Because most core areas had a positive sensitivity to temperature, sagebrush cover is projected to increase at most core areas (Fig. \@ref(fig:projections)).
 Projections of sagebrush cover are similar across GCM scenarios until about mid-century, at which point ssp585 projections diverge if temperature has a large (positive or negative) effect on interannual changes in sagebrush cover (Fig. \@ref(fig:projections)).
 
-More core areas were projected to increase (n = 21 for ssp126; n = 22 for ssp245 and ssp585) than decrease (n = 13 for ssp126; n = 12 for ssp245 and ssp585) and the magnitude of increases was greater than decreases for each GCM scenario.
+More core areas were projected to increase \new{in sagebrush cover} (n = 21 for ssp126; n = 22 for ssp245 and ssp585) than decrease (n = 13 for ssp126; n = 12 for ssp245 and ssp585) and the magnitude of increases was greater than decreases for each GCM scenario.
 For decreases, the median percent difference between average cover in 2018 and average cover in 2100 was `r as.character(round(percentDiffs[1, "MedianPercDiff"]))`% for ssp126, `r as.character(round(percentDiffs[2, "MedianPercDiff"]))`% for ssp245, and `r as.character(round(percentDiffs[3, "MedianPercDiff"]))`% for ssp585.
 For increases, the median percent difference between average cover in 2018 and average cover in 2100 was `r as.character(round(percentDiffs[4, "MedianPercDiff"]))`% for ssp126, `r as.character(round(percentDiffs[5, "MedianPercDiff"]))`% for ssp245, and `r as.character(round(percentDiffs[6, "MedianPercDiff"]))`% for ssp585.
 The percent differences show that projected increases in sagebrush cover are nearly twice the magnitude of projected decreases for each GCM scenario, on average.
@@ -1043,7 +1048,7 @@ Summing across core areas, `r as.character(round(min(areaDiffsInc$TotalArea)))` 
 Figure \@ref(fig:spatial-projections) shows projections over time and space for the Salt Wells core area (as an example) under the ssp585 climate forcing scenario.
 Spatial heterogeneity is maintained because of the spatial offset included in the model, but heterogeneity is smoothed somewhat, resulting in slightly lower spatial variance.
 Lower spatial variance can impact the calculation of the proportion of grid cells with cover over or under the nesting and summer habitat targets.
-At this core area, projections show sagebrush declining in most of the area with a hotspot of increasing sagebrush on the western edge (Fig. \@ref(fig:spatial-projections)).
+At this core area, projections show sagebrush \new{increasing slightly over most of the area, but with large increases in cover in the western edge of the core area.} (Fig. \@ref(fig:spatial-projections)).
 
 Notable declines in sagebrush cover are projected for Bear River (BrRv), Elk Basin East (ElBE), Jackson (Jcks), Little Mountain (LttM), and North Gillette (NrthGll) core areas (Fig. \@ref(fig:projections)).
 These same core areas may become suboptimal for sage-grouse over the long-term, as projections suggest the proportion of cells in Bear River, Little Mountain, and Jackson that exceed the sage-grouse nesting target drop below 50% at some point in the future (Figs. \@ref(fig:nesting-targs) and \@ref(fig:lambda-compares)B).
@@ -1258,7 +1263,7 @@ We found that sagebrush performance at most core areas showed positive sensitivi
 Because average temperature is expected to increase in Wyoming in the future and average precipitation is expected to remain relatively constant, we project an increase in sagebrush cover at most core areas across Wyoming.
 Moreover, projected increases were larger in magnitude than decreases and increases were projected on about four times larger land area (about 45,000 $\text{km}^2$ expected to experience increases relative to about 13,000 $\text{km}^2$ expected to experience decreases, on average).
 This finding suggests that few core areas are "lost causes" in terms of maintaining existing sagebrush cover in the future.
-Continued conservation of these core areas has the potential to increase sage-grouse populations in the future because the extent of the landscape with sagebrush cover that exceeds the nesting threshold is expected to increase for several core areas (Fig. \@ref(fig:nesting-targs)).
+Continued conservation of these core areas has the potential to increase \new{the extent of the landscape with sagebrush cover exceeding the nesting and summer habitat thresholds} (Fig. \@ref(fig:nesting-targs) and Fig. Sx).
 Even when the threshold is not projected to be exceeded, sagebrush cover is most commonly projected to increase.
 <!-- While sagebrush is a key component of sage-grouse habitat, our models to not currently consider other factors that can affect habitat quality, including herbaceous vegetation, structure and configuration of sagebrush on the landscape, or disturbances [@fedy_habitat_2014]. -->
 
@@ -1266,7 +1271,7 @@ The most common climate response across the core areas was a positive effect of 
 This finding is consistent with theoretical and empirical research suggesting that plants at the cold-limited edge of their distribution may benefit from global climate change [@amburgey_range_2018; @kleinhesselink_response_2018; @renwick_multi-model_2018].
 The finding is also consistent with results across a broader range of the sagebrush distribution using these same data sources [@rigge_projected_2021].
 Recent mechanistic modeling across the sagebrush biome also suggests that increases in temperature will benefit sagebrush in high elevation portions of its range, like Wyoming [@palmquist_divergent_2021].
-@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in warm, moisture-limited areas. \comm{ATT TO CHECK THIS STATEMENT. DO WE MEAN COOL, MOIST?}
+@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in \new{cold, moist areas where sagebrush performance is temperature-limited.}
 Other studies have also found positive effects of temperature increases at high elevation sagebrush sites, likely due to earlier snowmelt and a longer growing season [@perfors_enhanced_2003; @harte_convergent_2015].
 Our statistical models appear to reflect these underlying mechanistic explanations at a majority of core areas.
 A negative of effect of increased precipitation combined with a positive effect of temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snowmelt in warmer years.

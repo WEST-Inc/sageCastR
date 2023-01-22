@@ -40,6 +40,19 @@ for(doCore in cores) {
 
 \pagebreak
 
+# Bayesian p-values
+```{r, eval = TRUE, results = "asis"}
+pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
+  drop_na()
+news <- readRDS("../Output/BayesianPValues-Redos.RDS") %>%
+  drop_na()
+allp <- bind_rows(pvals, news)
+colnames(allp) <- c("P-value type", "P-value", "Core Area")
+knitr::kable(allp, digits = 2)
+```
+
+\pagebreak
+
 # Posterior distributions
 
 ```{r posteriors, eval = TRUE, results = 'asis'}
@@ -94,7 +107,64 @@ for(doArea in subDirs) {
 }
 ```
 
+# Estimated equilibrium cover
 
+```{r equilibrium-cover, fig.cap="Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018."}
+obscover <- read.csv("../Output/historic_Sage_Cover_Summary.csv") %>%
+  group_by(coreName) %>%
+  summarise(MeanCover = mean(mean)) %>%
+  mutate(NameNoSep = gsub(" ", "", coreName)) %>%
+  left_join(nameMap) %>%
+  filter(!Name %in% badSites)
+
+allpostdirs <- list.files("../Output/MCMC/")
+allposts <- tibble()
+for(d in allpostdirs) {
+  f <- paste0("../Output/MCMC/", d, "/MCMC.RDS")
+  if(file.exists(f)) {
+    tmp <- readRDS(f)
+    cover <- exp(tmp[ , "Beta[1]"] / (1 - tmp[,"Beta[2]"]))
+    df <- data.frame(CoreArea = d,
+                     Cover = cover)
+    allposts <- bind_rows(allposts, df)
+  }
+}
+
+allposts <- allposts %>%
+  rename("NameNoSep" = CoreArea) %>%
+  left_join(nameMap) %>%
+  filter(!Name %in% badSites)
+
+ggplot(allposts, aes(x = Cover)) +
+  geom_density(color = NA, fill = "tan", adjust = 2) +
+  geom_vline(data = obscover, aes(xintercept = MeanCover)) +
+  facet_wrap(~Abbreviation, scales = "free") +
+  labs(x = "Average equilibrium cover (%)", y = NULL) +
+  theme(axis.line.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  scale_x_continuous(breaks = scales::pretty_breaks(3))
+```
+
+
+# Estimated colonization probabilities
+
+```{r colonization-res}
+colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
+  rename("Core area" = CoreArea,
+         "Pr(colonize | cover = 0)" = ProbabilityOfColonization,
+         "Mean cover in colonized cells" = MeanColonizationCover) %>%
+  filter(!`Core area` %in% badSites)
+
+kable(colonization, 
+      caption = "Results from colonization model for each core area. Pr(colonize | cover = 0) reads, 'the probability of colonizition given that current cover is zero.'",
+      digits = 2,
+      label = "colonization",
+      format = "latex", 
+      booktabs = TRUE,
+      linesep = "",
+      escape = FALSE) 
+```
 
 <!-- # Temporal random effects -->
 

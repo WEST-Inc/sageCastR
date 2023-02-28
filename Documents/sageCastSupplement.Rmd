@@ -20,7 +20,9 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, eval = FAL
 library(readxl)
 library(dplyr)
 library(ggplot2)
+library(ggthemes)
 library(tidyverse)
+library(knitr)
 ```
 
 
@@ -107,9 +109,50 @@ for(doArea in subDirs) {
 }
 ```
 
+\pagebreak
+
+# Elk Basin West traceplots
+
+```{r traces}
+mcmcList[["ElkBasinWest"]] %>%
+  as.data.frame() %>%
+  mutate(chain = rep(c(1,2,3), each = 1000)) %>%
+  group_by(chain) %>%
+  mutate(iter = 1:n()) %>%
+  ungroup() %>%
+  dplyr::select(-`lp__`) %>%
+  pivot_longer(cols = -c("iter", "chain")) %>%
+  ggplot(aes(iter, value, color = factor(chain))) +
+  geom_line(alpha = 0.5) +
+  facet_wrap(~name, scales = "free")
+```
+
+\pagebreak
+
+
 # Estimated equilibrium cover
 
-```{r equilibrium-cover, fig.cap="Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018."}
+Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018.
+
+```{r equilibrium-cover, eval = TRUE}
+nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
+
+pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
+  drop_na()
+news <- readRDS("../Output/BayesianPValues-Redos.RDS") %>%
+  drop_na()
+allp <- bind_rows(pvals, news)
+badp <- allp %>%
+  filter(value > 0.95 | value < 0.05) 
+
+badspace <- badp %>%
+  filter(name == "SpatialDiscrep")
+
+badtime <- badp %>%
+  filter(name == "TemporalDiscrep")
+
+badSites <- c(badspace$CoreArea, badtime$CoreArea)
+
 obscover <- read.csv("../Output/historic_Sage_Cover_Summary.csv") %>%
   group_by(coreName) %>%
   summarise(MeanCover = mean(mean)) %>%
@@ -146,10 +189,13 @@ ggplot(allposts, aes(x = Cover)) +
   scale_x_continuous(breaks = scales::pretty_breaks(3))
 ```
 
+\pagebreak
 
 # Estimated colonization probabilities
 
-```{r colonization-res}
+Results from colonization model for each core area. Pr(colonize | cover = 0) reads, "the probability of colonizition given that current cover is zero."
+
+```{r colonization-res, eval = TRUE, results='asis'}
 colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
   rename("Core area" = CoreArea,
          "Pr(colonize | cover = 0)" = ProbabilityOfColonization,
@@ -157,13 +203,8 @@ colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
   filter(!`Core area` %in% badSites)
 
 kable(colonization, 
-      caption = "Results from colonization model for each core area. Pr(colonize | cover = 0) reads, 'the probability of colonizition given that current cover is zero.'",
-      digits = 2,
-      label = "colonization",
-      format = "latex", 
-      booktabs = TRUE,
-      linesep = "",
-      escape = FALSE) 
+      digits = 2) %>%
+  print()
 ```
 
 <!-- # Temporal random effects -->
@@ -206,6 +247,8 @@ ggplot(allGammas, aes(x = yearid)) +
 ```
 
 
+\pagebreak
+
 # Nesting and summer cover thresholds
 
 ```{r targs,  eval = TRUE, results = 'asis'}
@@ -213,5 +256,62 @@ read.csv("../AuxData/CoreAreaNamesMapping.csv") %>%
   dplyr::select(Name, Abbreviation, Region, NestingTarget, SummerTarget) %>%
   knitr::kable() %>%
   print()
+```
 
+
+\pagebreak
+
+# Summer habitat cover targets compared to projections
+
+Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse summer cover threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area.
+
+```{r nesting-targs, fig.height=6, eval = TRUE}
+d <- "../Output/ForecastSummaries"
+allfiles <- list.files(d)
+summaryFiles <- allfiles[grep("summaries", allfiles, invert = TRUE)]
+
+props <- tibble()
+for(f in summaryFiles) {
+  name <- unlist(strsplit(f, "-"))[1]
+  scen <- unlist(strsplit(f, "-"))[5]
+  scen <- unlist(strsplit(scen, "[.]"))[1]
+  tmp <- read.csv(paste0("../Output/ForecastSummaries/", f)) %>%
+    mutate(CoreArea = name,
+           Scenario = scen)
+  props <- bind_rows(props, tmp)
+}
+
+props <- props %>%
+  mutate(CalYear = 2018+Year) %>%
+  filter(CalYear > 2018) %>%
+  group_by(CalYear, Scenario, CoreArea, TargetType) %>%
+  summarise(MeanProp = mean(Proportion),
+            LL95 = quantile(Proportion, 0.025),
+            UL95 = quantile(Proportion, 0.975),
+            LL68 = quantile(Proportion, 0.16),
+            UL68 = quantile(Proportion, 0.84),
+            .groups = "drop") %>%
+  rename("NameNoSep" = CoreArea) %>%
+  left_join(nameMap) %>%
+  filter(!Name %in% badSites)
+
+cols <- RColorBrewer::brewer.pal(7, "YlOrRd")[c(3,5,7)]
+
+ggplot(props %>% filter(TargetType == "summer"), aes(x = CalYear, y = MeanProp,
+                      color = Scenario, fill = Scenario)) +
+  geom_hline(aes(yintercept = 0.5), color = "grey35", linetype = 2) +
+  geom_ribbon(aes(ymin = LL95, ymax = UL95), alpha = 0.1, color = NA) +
+  geom_ribbon(aes(ymin = LL68, ymax = UL68), alpha = 0.3, color = NA) +
+  geom_line(alpha = 0.8) +
+  scale_color_manual(values = cols, name = NULL) +
+  scale_fill_manual(values = cols, name = NULL) +
+  labs(x = "Year", y = "Proportion of cells above target") +
+  facet_wrap(~Abbreviation, scales = "free_y") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+        axis.text.y = element_text(size = 6),
+        strip.text = element_text(size = 8),
+        legend.position = "bottom") +
+  scale_y_continuous(breaks= scales::pretty_breaks()) +
+  coord_cartesian(ylim = c(0,1)) +
+  guides(fill = FALSE) 
 ```

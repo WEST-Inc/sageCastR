@@ -29,7 +29,7 @@
 \begin{figure}
 \centering
 \includegraphics{sageCastManuscript_files/figure-latex/projections-1.pdf}
-\caption{\label{fig:projections}Projections of sagebrush percent cover from 2018 to 2080 under three climate change scenarios (ssp indicated by colors) for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68\% BCI; very light shaded ribbon bounds the 95\% BCI. Box and whiskers show the 68\% (boxes) and 95\% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, and 2080. The y-axis scale differs across plots.}
+\caption{\label{fig:projections}Projections of sagebrush percent cover from 2018 to 2100 under three climate change scenarios (ssp indicated by colors) for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68\% BCI; very light shaded ribbon bounds the 95\% BCI. Box and whiskers show the 68\% (boxes) and 95\% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, 2080, and 2100. The y-axis scale differs across plots.}
 \end{figure}
 \efloatseparator
  

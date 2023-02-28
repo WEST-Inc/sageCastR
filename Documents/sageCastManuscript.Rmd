@@ -59,7 +59,7 @@ urlcolor: black
 
 \noindent{}**Open Research Statement**
 
-\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: https://github.com/WEST-Inc/sageCastR). Data and code will be archived on Zenodo upon acceptance. Projections generated during this study are available as a USGS data release (Tredennick et al., 2023). All data used in this study are publicly available elsewhere as cited in the text.
+\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: https://github.com/WEST-Inc/sageCastR). Data and code will be archived on Zenodo upon acceptance. Projections generated during this study are available as a USGS data release (Tredennick et al., 2023 [citation to be added once provided by USGS]). All data used in this study are publicly available elsewhere as cited in the text.
 
 \newpage{}
 
@@ -131,7 +131,7 @@ Our approach is broadly applicable to quantitative climate change assessments wh
 
 Environmental management and stewardship requires assessing tradeoffs [@walters_ecological_1978; @farber_linking_2006].
 For example, land managers must consider the long-term impacts of climate change and the near-term impacts of ecosystem degradation [e.g., @nepstad_interactions_2008].
-Because populations, communities, and ecosystems are not static, using the current status of an ecosystem \new{may be insufficient to define protected areas for species} (Hannah et al. 2007, Monzón et al. 2011) or to make optimal management decisions [@boettiger_optimal_2016].
+Because populations, communities, and ecosystems are not static, using the current status of an ecosystem \new{may be insufficient to define protected areas for species} [@hannah_protected_2007; @monzon_climate_2011] or to make optimal management decisions [@boettiger_optimal_2016].
 A better approach is to consider the past, current, and future status of ecosystems.
 Doing so requires projections of how an ecosystem might respond to future stressors and conditions [@dietze_iterative_2018; @clark_ecological_2001].
 
@@ -303,7 +303,7 @@ k_{j} = \text{exp}\left( \frac{-d_{j} }{\left(r\times\frac{1}{3} \right)} \right
 
 \noindent{}where $d_j$ is the distance in meters from cell *j* to focal cell *i* and *n* is the total number of cells within the radius *r* of the focal cell.
 We defined *r* as the maximum range of spatial dependence in residuals from a simple generalized linear model (GLM) fit without climate covariates for each core area [@tredennick_forecasting_2016].
-The `focal` function from the **raster** package in R (CITE!!!) cannot accommodate missing values when calculating a focal mean with custom weights.
+The `focal` function from the **raster** package [@hijmans_raster_2023] in R cannot accommodate missing values when calculating a focal mean with custom weights.
 We pre-filled any cells with missing cover values using a focal mean with equal weight for all cells within the analysis radius *r*. 
 After calculating $\bar{f}_{i}$, all cells that originally had missing cover values were re-set to `NA` before calculating the final spatial offset value $w_i$.
 Missing cover values corresponded to masked areas not defined as "sagebrush" habitat in the RCMAP products.
@@ -465,7 +465,7 @@ We defined core areas as "optimal" or "suboptimal" for sage-grouse based on this
 We futher categorized core areas into four groups: 1) areas that were estimated to be optimal in 2019 and are projected to remain optimal by 2100, 2) areas that were estimated to be optimal in 2019 and are projected to become suboptimal by 2100, 3) areas that were estimated to be suboptimal in 2019 and are projected to become optimal by 2100, and 4) areas that were estimated to be suboptimal in 2019 and are projected to remain suboptimal by 2100.
 Categorization was done assuming the ssp585 climate forcing scenario because observed emissions have most closely followed the modeled emissions of ssp585's precursor (RCP8.5) in the recent past.
 We used the 2019 model projections as the baseline for categorization rather than observed cover in 2018 because the projections have slightly lower spatial variance than the observed data.
-We used sage-grouse population growth rate estimates from @edmunds_greater_2018 to see whether core areas projected to become optimal or suboptimal have currently declining, stable, or increasing sage-grouse populations.
+We used sage-grouse population growth rate estimates from @edmunds_greater_2018 [@noauthor_erratum_2018] to see whether core areas projected to become optimal or suboptimal have currently declining, stable, or increasing sage-grouse populations.
 
 <!-- ### Predicting sensitivity classification -->
 <!-- We sought to predict the variation of precipitation and temperature sensitivities across core areas based on soil conditions, elevation, mean annual precipitation, and mean annual temperature. -->

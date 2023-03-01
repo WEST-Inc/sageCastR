@@ -9,9 +9,9 @@ header-includes:
 ---
 
 \begin{centering}
-\textbf{\Large{Supporting Information for:\\Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
+\textbf{\Large{Online Supporting Information for:\\Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
 
-\textsc{\small{Andrew T. Tredennick, Thomas Prebyl, Adrian P. Monroe, John Lombardi, and Cameron L. Aldridge}}
+\textsc{\small{Andrew T. Tredennick, Adrian P. Monroe, Thomas Prebyl, John Lombardi, and Cameron L. Aldridge}}
 \end{centering}
 
 

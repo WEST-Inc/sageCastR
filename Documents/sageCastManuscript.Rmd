@@ -163,7 +163,7 @@ More broadly, assessing current and future habitat suitability *vis-a-vis* speci
 
 The sagebrush biome is in peril [@davies_saving_2011, @remington_sagebrush_2021],
 but Wyoming is thought to be a stronghold where sagebrush will persist and possibly thrive in the future, especially compared to other parts of its range [@palmquist_divergent_2021; @renwick_multi-model_2018-1].
-This may partly be due to relatively cooler temperatures in Wyoming [@renwick_multi-model_2018-1] and that Wyoming has largely avoided widespread cheatgrass (*Bromus tectorum*) invasion compared to other parts of the sagebrush biome [@pastick_rapid_2021].
+This may partly be due to relatively cooler temperatures in Wyoming [@renwick_multi-model_2018-1] and that Wyoming has largely avoided widespread cheatgrass (*Bromus tectorum* L.) invasion compared to other parts of the sagebrush biome [@pastick_rapid_2021].
 Cheatgrass invasion, and the subsequent cheatgrass-fire feedback cycle, is the main driver of the loss of sagebrush cover across most of sagebrush's range [@balch_introduced_2013].
 Because susceptibility to cheatgrass invasion is an indirect effect of climate change [@chambers_what_2007; @bradley_regional_2009], and because cheatgrass invasion has not been as dramatic in Wyoming, it stands to reason that the direct effects of climate change have important implications in Wyoming.
 Indeed, recent modeling suggests that warming temperatures will benefit sagebrush more than cheatgrass at high elevation sites, assuming fire is limited [@palmquist_divergent_2021].
@@ -179,7 +179,7 @@ Our approach is applicable to diverse situations where clear management targets 
 ## Data
 ### Remotely-sensed time series
 We used the Rangeland Condition, Monitoring, Assessment, and Projection (RCMAP) data product from the National Land Cover Database (NLCD), a product of the Multi-Resolution Land Characteristics Consortium [@rigge_quantifying_2020].
-We downloaded the "NLCD BIT Sagebrush Fractional Component" estimates for each year from 1985 to 2018, subset the data to the Wyoming Sage-grouse core areas, and then resampled the data up to 100-meter resolution using bilinear interpolation to aggregate cover across 30-meter grid cells.
+We downloaded the "NLCD BIT Sagebrush Fractional Component" estimates for each year from 1985 to 2018, subset the data to the Wyoming sage-grouse core areas, and then resampled the data up to 100-meter resolution using bilinear interpolation to aggregate cover across 30-meter grid cells.
 We resampled the data to make the analysis computationally tractable: decreasing the spatial resolution resulted in fewer cells of data per year and thus reduced the total size of the observed data.
 Time series of cover are shown in Fig. \@ref(fig:data).
 There are no data for 2012, which we handled naively by letting 2011 be the "lag cover year" for 2013.

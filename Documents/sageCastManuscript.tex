@@ -1,7 +1,7 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
-\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
   12pt,
@@ -25,16 +25,6 @@
   \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  colorlinks=true,
-  linkcolor={black},
-  filecolor={Maroon},
-  citecolor={Blue},
-  urlcolor={black},
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
@@ -63,6 +53,29 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 \usepackage{lineno}
 \linenumbers
 \usepackage{setspace}
@@ -92,26 +105,16 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={black},
+  pdfcreator={LaTeX via pandoc}}
 
 \author{}
 \date{\vspace{-2.5em}}
@@ -122,7 +125,7 @@
 \definecolor{blue}{rgb}{0,0,0.7} 
 \definecolor{red}{rgb}{0.8,0,0}
 
-\newcommand{\new}{\textcolor{red}} 
+\newcommand{\new}{\textcolor{blue}} 
 \newcommand{\comm}{\textcolor{ForestGreen}}
 \newcommand{\response}{\textcolor{blue}}
 \newcommand{\reply}{\textcolor{blue}}
@@ -131,12 +134,11 @@
 \begin{centering}
 \textbf{\Large{Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
 
-\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredennick@west-inc.com}; \textit{phone}, 307-721-7343}\textsuperscript{1,2}, Thomas Prebyl\textsuperscript{1}, Adrian P. Monroe\textsuperscript{3}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{4}}}
+\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredenn@gmail.com}; \textit{phone}, 970-443-1599. Current address: Metrum Research Group, Tariffville, Connecticut}\textsuperscript{1,}, Adrian P. Monroe\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{3}}}
 
 \textit{\small{\textsuperscript{1}Western EcoSystems Technology, Inc., Laramie, WY}} \\
-\textit{\small{\textsuperscript{2}Center for the Ecology of Infectious Diseases, University of Georgia, Athens, GA}} \\
-\textit{\small{\textsuperscript{3}Fort Collins Science Center, U.S. Geological Survey, Fort Collins, CO}} \\
-\textit{\small{\textsuperscript{4}Natural Resource Ecology Laboratory and Department of Ecosystem Science and Sustainability, Colorado State University, Fort Collins, CO, in cooperation with US Geological Survey, Fort Collins Science Center, Fort Collins, CO}}
+\textit{\small{\textsuperscript{2}Fort Collins Science Center, U.S. Geological Survey, Fort Collins, CO}} \\
+\textit{\small{\textsuperscript{3}Natural Resource Ecology Laboratory and Department of Ecosystem Science and Sustainability, Colorado State University, Fort Collins, CO, in cooperation with US Geological Survey, Fort Collins Science Center, Fort Collins, CO}}
 
 \end{centering}
 
@@ -147,14 +149,14 @@
 
 \noindent{}\textbf{Open Research Statement}
 
-\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: \url{https://github.com/atredennick/sagecastR}). Data and code will be archived on Zenodo upon acceptance.
+\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: \url{https://github.com/WEST-Inc/sageCastR}). Data and code will be archived on Zenodo upon acceptance. Projections generated during this study are available as a USGS data release (Tredennick et al. 2023). All data used in this study are publicly available elsewhere as cited in the text.
 
 \newpage{}
 
 \hypertarget{abstract}{%
 \section{Abstract}\label{abstract}}
 
-Sagebrush (\emph{Artemisia} spp.) ecosystems provide critical habitat for the near-threatened Greater sage-grouse (\emph{Centrocercus urophasianus}).
+Sagebrush (\emph{Artemisia} spp.) ecosystems provide critical habitat for the Greater sage-grouse (\emph{Centrocercus urophasianus}), \textcolor{blue}{a species of conservation concern}.
 Thus, future loss of sagebrush habitat because of land use change and global climate change is of concern.
 Here we use a dynamic additive spatio-temporal model to estimate the effects of climate on sagebrush cover dynamics at 32 sage-grouse management areas in Wyoming.
 We use the fitted models to quantify the sensitivity of each management area to precipitation and temperature, and to make probabilistic projections of sagebrush cover from present to 2100 under three climate change scenarios.
@@ -175,47 +177,45 @@ Our approach is broadly applicable to quantitative climate change assessments wh
 
 Environmental management and stewardship requires assessing tradeoffs (Walters and Hilborn 1978, Farber et al. 2006).
 For example, land managers must consider the long-term impacts of climate change and the near-term impacts of ecosystem degradation (e.g., Nepstad et al. 2008).
-Because populations, communities, and ecosystems are not static, using the current status of an ecosystem to make management decisions may not be optimal (Boettiger et al. 2016).
+Because populations, communities, and ecosystems are not static, using the current status of an ecosystem \textcolor{blue}{may be insufficient to define protected areas for species} (Hannah et al. 2007, Monzón et al. 2011) or to make optimal management decisions (Boettiger et al. 2016).
 A better approach is to consider the past, current, and future status of ecosystems.
 Doing so requires projections of how an ecosystem might respond to future stressors and conditions (Clark et al. 2001, Dietze et al. 2018).
 
-Infrastructure development indirectly and negatively affects species through habitat loss and transformation, which is a major driver of biodiversity loss (Sala et al. 2000, Cardinale et al. 2012, Powers and Jetz 2019).
 Wildlife management often requires assessing tradeoffs between the benefits of development and the costs of habitat loss or degradation (McShane et al. 2011).
-To assess that tradeoff, managers often identify areas of high and low quality habitat.
-Low quality habitat is then preferred for habitat alteration.
+To assess that tradeoff, managers often identify areas of high and low quality habitat\textcolor{blue}{, with low quality habitat preferred for habitat alteration.}
 But habitat quality is not static and global climate change has the potential alter the trajectory of an ecosystem.
 Some currently high quality habitat (for a particular species) might quickly change if on a range edge while lower quality habitat in the middle of the range might maintain its general structure and function longer (Amburgey et al. 2018).
 Habitat on the edge of an ecosystem's range might also improve.
 For example, warming temperatures could benefit some plants at the cold edge of their range (Kleinhesselink and Adler 2018).
 Thus, climate change adds a new dimension to habitat assessments, where we are not only concerned about the current status of habitat but also what that habitat might look like 30 to 100 years in the future.
 
-Land management in the western United States focuses on several uses and species, but Greater sage-grouse (\emph{Centrocercus urophasianus}, hereafter ``sage-grouse'') typically drive the conversation in sagebrush dominated ecosystems.
+Land management in the western United States focuses on several uses and species, but Greater sage-grouse (\emph{Centrocercus urophasianus}, hereafter ``sage-grouse'') \textcolor{blue}{has historically driven} the conversation in sagebrush dominated ecosystems.
 Sage-grouse are a protected species in Canada (Species at Risk Act {[}S.C. 2002, c.~29{]}, \url{https://laws-lois.justice.gc.ca/eng/acts/S-15.3/}) and are listed as ``warranted, but precluded'\,' for listing under the United States Endangered Species Act of 1973 (U.S. Fish and Wildlife Service
 {[}USFWS{]} 2010).
-Sagebrush ecosystems provide critical habitat for Greater sage-grouse and other sagebrush obligate species (Carlisle and Chalfoun 2020).
-Conservation of sagebrush ecosystems is primarily aimed at keeping sage-grouse off the endangered species list but sagebrush conservation will benefit other species, too (Rowland et al. 2006, Smith et al. 2019, Pilliod et al. 2020).
+\textcolor{blue}{A further review of population status and conservation efforts concluded the species did not warrant listing in 2015} (United States Fish and Wildlife Service 2015).
+\textcolor{blue}{While} conservation of sagebrush ecosystems is primarily aimed at keeping sage-grouse off the endangered species list but sagebrush conservation will benefit other species, too (Rowland et al. 2006, Smith et al. 2019, Pilliod et al. 2020).
 In response to declining sage-grouse populations, the Wyoming Game and Fish Department has delineated 32 sage-grouse core areas, covering approximately 15 million acres of sage-grouse habitat (State of Wyoming 2015).
 The stated goal of the Core Area strategy is ``\ldots to minimize future disturbance by co-locating proposed disturbances within area already disturbed or naturally unsuitable'' (State of Wyoming 2015).
-Sage-grouse populations are active in all core areas and most maintain stable populations (Edmunds et al. 2018), though populations outside of these core areas are not performing the same.
+Sage-grouse populations are active in all core areas and most maintain stable populations (Edmunds et al. 2018).
 
-In Wyoming, many of the landscapes with the highest potential for wind energy also support critical sage-grouse habitat in the form of sagebrush dominated ecosystems.
+\textcolor{blue}{Habitat loss and transformation is a major driver of biodiversity loss} (Sala et al. 2000, Cardinale et al. 2012, Powers and Jetz 2019), \textcolor{blue}{and infrastructure development directly leads to habitat loss and transformation.}
+\textcolor{blue}{Wyoming has ideal conditions for future renewable energy development such as wind} (Lloyd et al. 2022)\textcolor{blue}{, and while wind energy is excluded from sage-grouse core areas, achieving renewable electricity production targets would require expansion beyond disturbed lands} (Kiesecker et al. 2011).
 This presents a challenge to land management: Should land be prioritized for sage-grouse conservation or renewable energy development?
-Renewable energy infrastructure that can mitigate the impacts of climate change could benefit sage-grouse in the long run.
-Therefore, it is critical to understand the potential impacts of climate change across sagebrush landscapes because some areas may become less beneficial to sage-grouse due to climate change, making those areas attractive for development of renewable energy infrastructure, potentially minimizing such conflicts.
+\textcolor{blue}{However, if some areas may become less suitable for sage-grouse due to climate change, those areas might accommodate renewable energy infrastructure without long-term effects to the species.}
 Considering how climate change impacts whether a sage-grouse core area is or will be ``naturally unsuitable'' clearly falls within the scope of the Core Area strategy.
-More broadly, assessing current and future habitat suitability \emph{vis-a-vis} species of concern is essential as we face difficult and inevitable trade-offs between land preservation and land-use to combat climate change.
+More broadly, assessing current and future habitat suitability \emph{vis-a-vis} species of concern is useful as we face difficult and inevitable trade-offs between land preservation and land-use to combat climate change.
 
-The sagebrush biome, as a whole, is in peril (Palmquist et al. 2021).
-But Wyoming is thought to be a stronghold where sagebrush will persist and possibly thrive in the future, especially compared to other parts of its range (Palmquist et al. 2021).
-In part, this is because the sagebrush biome in Wyoming has been less susceptible to cheatgrass (\emph{Bromus tectorum}) invasion, compared to other parts of the sagebrush biome (Pastick et al. 2021).
+The sagebrush biome is in peril (Davies et al. 2011, Remington et al. 2021),
+but Wyoming is thought to be a stronghold where sagebrush will persist and possibly thrive in the future, especially compared to other parts of its range (Renwick et al. 2018a, Palmquist et al. 2021).
+This may partly be due to relatively cooler temperatures in Wyoming (Renwick et al. 2018a) and that Wyoming has largely avoided widespread cheatgrass (\emph{Bromus tectorum} L.) invasion compared to other parts of the sagebrush biome (Pastick et al. 2021).
 Cheatgrass invasion, and the subsequent cheatgrass-fire feedback cycle, is the main driver of the loss of sagebrush cover across most of sagebrush's range (Balch et al. 2013).
 Because susceptibility to cheatgrass invasion is an indirect effect of climate change (Chambers et al. 2007, Bradley 2009), and because cheatgrass invasion has not been as dramatic in Wyoming, it stands to reason that the direct effects of climate change have important implications in Wyoming.
-This is especially true if increases in sagebrush cover due to climate change can inhibit cheatgrass invasion.
 Indeed, recent modeling suggests that warming temperatures will benefit sagebrush more than cheatgrass at high elevation sites, assuming fire is limited (Palmquist et al. 2021).
 Therefore, this paper focuses on modeling the direct effects of climate on sagebrush cover change.
 
 Here we describe a computationally efficient Bayesian spatiotemporal modeling approach for making probabilistic projections of sagebrush cover dynamics under the direct effects of climate change in Wyoming, USA using remotely sensed cover estimates.
-A key feature of our approach is using the probabilistic projections to evaluate specific management targets for sagebrush cover in sage-grouse core areas.
+A key feature of our approach is using the probabilistic projections to evaluate specific management targets for sagebrush cover in sage-grouse core areas, \textcolor{blue}{with implications for other sagebrush-dependent wildlife} (Remington et al. 2021).
+\textcolor{blue}{Specifically, our goals are to: i) quantify the sensitivity of sagebrush percent cover in sage-grouse core areas to temperature and precipitation, ii) use the fitted models to project sagebrush percent cover into this future under climate change scenarios, and iii) evaluate the projections relative to sagebrush cover targets and current sage-grouse status in each core area.}
 Our approach is applicable to diverse situations where clear management targets exist and spatiotemporal data are available to train probabilistic models.
 
 \hypertarget{materials-and-methods}{%
@@ -228,10 +228,12 @@ Our approach is applicable to diverse situations where clear management targets 
 \subsubsection{Remotely-sensed time series}\label{remotely-sensed-time-series}}
 
 We used the Rangeland Condition, Monitoring, Assessment, and Projection (RCMAP) data product from the National Land Cover Database (NLCD), a product of the Multi-Resolution Land Characteristics Consortium (Rigge et al. 2020).
-We downloaded the ``NLCD BIT Sagebrush Fractional Component'' estimates for each year from 1985 to 2018, subset the data to the Wyoming Sage-grouse core areas, and then resampled the data up to 100-meter resolution using the mean to aggregate cover across 30-meter grid cells.
+We downloaded the ``NLCD BIT Sagebrush Fractional Component'' estimates for each year from 1985 to 2018, subset the data to the Wyoming sage-grouse core areas, and then resampled the data up to 100-meter resolution using bilinear interpolation to aggregate cover across 30-meter grid cells.
 We resampled the data to make the analysis computationally tractable: decreasing the spatial resolution resulted in fewer cells of data per year and thus reduced the total size of the observed data.
 Time series of cover are shown in Fig. \ref{fig:data}.
 There are no data for 2012, which we handled naively by letting 2011 be the ``lag cover year'' for 2013.
+\textcolor{blue}{The BIT products are estimates with associated error} (Rigge et al. 2020), which we ignore in this analysis.
+\textcolor{blue}{Assuming errors are not related to time or space, the impact of including error would likely increase the error of estimates in the model described below.}
 
 \begin{figure}
 \centering
@@ -243,11 +245,19 @@ There are no data for 2012, which we handled naively by letting 2011 be the ``la
 \subsubsection{Climate covariates}\label{climate-covariates}}
 
 We downloaded historical climate estimates from PRISM (\url{http://prism.oregonstate.edu/}), with spatial extents that matched the sage-grouse core areas.
+\textcolor{blue}{PRISM data were resampled to 100-m resolution using bilinear interpolation to match the BIT data.}
 From these estimates, we calculated two climate covariates: 1) average spring-through-summer temperature and 2) average spring-through-summer precipitation.
 We defined spring-through-summer as March 1 through August 31 for each year.
 We decided on the two covariates based on our previous work (Tredennick et al. 2016) and more recent work by Kleinhesselink and Adler (2018).
 Previous modeling of sagebrush dynamics in Wyoming and across the sagebrush range used ``lagged covariates'' like precipitation in the year prior to an observed transition.
-We do not use lagged covariates here because exploratory work suggests that lagged covariates result in correlated and confounded parameter estimates (Kleinhesselink pers. comm.).
+We do not use lagged covariates here because exploratory work suggests that lagged covariates result in correlated and confounded parameter estimates (Kleinhesselink written pers. comm., 2021).
+
+\textcolor{blue}{The choice to use two simple covariates is motivated by biology, modeling constraints, and the desire to avoid spurious, difficult-to-explain effects.} \textcolor{blue}{First, as mentioned above, average spring-through-summer precipitation and temperature have been identified as important covariates in previous work} (Tredennick et al. 2016, Kleinhesselink and Adler 2018).
+\textcolor{blue}{These two covariates also have the advantage of being directly tied to the limits of sagebrush performance in terms of cold, moist versus warm, dry sites} (Palmquist et al. 2021).
+\textcolor{blue}{Second, the models we fit are computationally intensive due to the large size of each core area and the number of core areas we modeled.}
+\textcolor{blue}{Avoiding variable selection reduces some computational constraints.}
+\textcolor{blue}{We also needed to use covariates that could be easily extracted and computed from GCM output for future projections}.
+\textcolor{blue}{Last, given the number of core areas we modeled, the use of many covariates could increase the chance of detecting spurious effects, which we sought to avoid.}
 
 \hypertarget{climate-projections}{%
 \subsubsection{Climate projections}\label{climate-projections}}
@@ -255,8 +265,12 @@ We do not use lagged covariates here because exploratory work suggests that lagg
 We used climate projections from Global Circulation Models (GCMs) that contributed to the CMIP6 project (Eyring et al. 2016).
 Groups that contributed to CMIP6 provided output from several experimental conditions.
 We used three common experimental conditions for generating future projections under different shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions) (see Eyring et al. (2016) for more details).
+\textcolor{blue}{ssp126 is a version the RCP2.6 scenario and assumes that radiative forcing reaches 2.6 W/m$^2$ in 2100.}
+\textcolor{blue}{ssp245 is a version of the RCP4.5 scenario and assumes that radiative forcing reaches 4.5 W/m$^2$ in 2100.}
+\textcolor{blue}{ssp585 is a version of the RCP8.5 scneario and assumes that radiative forcing reaches 8.5 W/m$^2$ in 2100.}
 GCM ouputs were downloaded from Lawrence Livermore National Library archives of CMIP6 model simulations and projections.
-We used the \texttt{esfg\_query} function from the \textbf{epwshiftr} R package (Jia and Chong 2020) the query the database and download the data.
+We used the \texttt{esfg\_query} function from the \textbf{epwshiftr} R package (Jia and Chong 2020) to query the database and download the data.
+\textcolor{blue}{GCMs had to include historic, ssp126, ssp245, and ssp585 scenarios for inclusion.}
 In total, we compiled future climate projections from 18 GCMs.
 We applied a bias correction to the GCM values by shifting the means of GCM projections in reference to PRISM data from the historical time period.
 
@@ -268,7 +282,7 @@ For each year we resampled the historic GCM raster data to match the spatial res
 Following Rupp et al. (2013), we calculated the relative error (\(E^*\)) across the entire time span for both climate variables and for each GCM as
 
 \begin{equation}
-E_{i,j}^* = \frac{E_{i,j} - \text{min}(E_{j})}{\text{max}(E_{j}) - \text{min}(E_{j})}
+E_{i,j}^* = \frac{E_{i,j} - \min\limits_{i}(E_{j})}{\max\limits_{i}(E_{j}) - \min\limits_i(E_{j})}
 \end{equation}
 
 \noindent{}where \(i\) indexes the variable (temperature or precipitation) and \(j\) indexes the GCM.
@@ -276,6 +290,8 @@ E_{i,j}^* = \frac{E_{i,j} - \text{min}(E_{j})}{\text{max}(E_{j}) - \text{min}(E_
 Last, we averaged the \(E^*\) values across the two variables (temperature and precipitation) to arrive at a single relative error value for each of the \(J\) GCMs: \(E_{j}^* = \left(\sum_{i=1}^N E_{i,j}^* \right) / N\), where \(N = 2\) is the total number of variables.
 The resulting relative errors for each GCM were used as weights (\(w_j = 1 - E_j^*\)) when making projections of sagebrush dynamics forced by the GCM output.
 Specifically, the projected time series of weather we used under each scenario is the weighted average of all GCMs, with \(w_j\) being the weight for each GCM \emph{j}.
+\textcolor{blue}{For simulating projections, GCM data were resampled from 100-km resultion to 1-km resolution, cropped to each core area extent, and then the average covariate value across 1-km grid cells within each core area was calculated.}
+\textcolor{blue}{This means that climate covariates for projections did not vary across space within each core area, only over time.}
 
 \hypertarget{model}{%
 \subsection{Model}\label{model}}
@@ -284,7 +300,8 @@ Specifically, the projected time series of weather we used under each scenario i
 \subsubsection{Dynamic additive spatio-temporal model for sagebrush cover}\label{dynamic-additive-spatio-temporal-model-for-sagebrush-cover}}
 
 We used a descriptive, dynamic model of sagebrush cover, building on our previous work (Tredennick et al. 2016) and animal population modeling described by Conn et al. (2015).
-Our model represents the observed sagebrush cover in cell \emph{i} of year \emph{t} (\(y_{i,t}\)) as arising from a Poisson process with rate \(\text{exp}(\mu_{i,t})\):
+\textcolor{blue}{Models were fit to each core area independently.}
+\textcolor{blue}{For each core area,} our model represents the observed sagebrush cover in cell \emph{i} of year \emph{t} (\(y_{i,t}\)) as arising from a Poisson process with rate \(\text{exp}(\mu_{i,t})\):
 
 \begin{equation}
 y_{i,t} \sim \text{Poisson}(\text{exp}(\mu_{i,t})).
@@ -294,13 +311,14 @@ y_{i,t} \sim \text{Poisson}(\text{exp}(\mu_{i,t})).
 
 \begin{equation}
 \label{eq:regression}
-\mu_{i,t} = \bm{\beta} x'_{i,t} + \gamma_{t} + w_{i}
+\mu_{i,t} = \bm{\beta} x_{i,t} + \gamma_{t} + w_{i}
 \end{equation}
 
 \noindent{}where \(\bm{\beta}\) is a vector of regression coefficients, \(x_{i,t}\) is a vector of covariates for cell \emph{i} at time \emph{t}, \(\gamma_{t}\) is a temporal random effect, and \(w_i\) is a spatial offset for each cell \emph{i}.
 The covariate vector \(x_{i,t}\) is one row of the design matrix \(\textbf{X}\), which includes a column of 1s for the intercept, a column of logged lag cover (\(\text{log}(y_{t-1})\)) values, a column for the precipitation covariate, and a column for the temperature covariate.
 \(\textbf{X}\) is a \(n \times p\) matrix and each row represents a single observation, indexed by time (\(t\), year of observation) and cell (\(i\), spatial location).
 We added a small offset (0.0001) to all one-year lagged observed percent cover values that occur in the design matrix \(\textbf{X}\) before logging those values so that 0 cover values could be included easily.
+\textcolor{blue}{There were very few instances of 0 cover, so this work-around likely had small, if any, influence on the results.}
 
 In previous work we estimated the spatial offset using kernel convolution and dimension reduction (Tredennick et al. 2016).
 Estimating the spatial offset is not strictly necessary because the data represent a full sample of the spatial domain.
@@ -325,7 +343,7 @@ k_{j} = \text{exp}\left( \frac{-d_{j} }{\left(r\times\frac{1}{3} \right)} \right
 
 \noindent{}where \(d_j\) is the distance in meters from cell \emph{j} to focal cell \emph{i} and \emph{n} is the total number of cells within the radius \emph{r} of the focal cell.
 We defined \emph{r} as the maximum range of spatial dependence in residuals from a simple generalized linear model (GLM) fit without climate covariates for each core area (Tredennick et al. 2016).
-The \texttt{focal} function from the \textbf{raster} package in R cannot accommodate missing values when calculating a focal mean with custom weights.
+The \texttt{focal} function from the \textbf{raster} package (Hijmans et al. 2023) in R cannot accommodate missing values when calculating a focal mean with custom weights.
 We pre-filled any cells with missing cover values using a focal mean with equal weight for all cells within the analysis radius \emph{r}.
 After calculating \(\bar{f}_{i}\), all cells that originally had missing cover values were re-set to \texttt{NA} before calculating the final spatial offset value \(w_i\).
 Missing cover values corresponded to masked areas not defined as ``sagebrush'' habitat in the RCMAP products.
@@ -408,11 +426,11 @@ The test statistics were then summed over time and space separately, yielding te
 \end{equation}
 
 \noindent{}We then computed Bayesian p-values as the proportion of the total number of MCMC iterations for which \(\tau^{\text{new}} > \tau\) for each cell or year.
-Lastly, we average the Bayesian p-values over years and cells to compute two final p-values to evaluate lack-of-fit: one for lack-of-fit over the spatial dimension (\(P_B^{\text{space}}\), averaged over years) and one for lack-of-fit over the temporal dimension (\(P_B^{\text{time}}\), averaged over cells).
+Lastly, we averaged the Bayesian p-values over years and cells to compute two final p-values to evaluate lack-of-fit: one for lack-of-fit over the spatial dimension (\(P_B^{\text{space}}\), averaged over years) and one for lack-of-fit over the temporal dimension (\(P_B^{\text{time}}\), averaged over cells).
 Posterior predictive checks were done using a new spatially balance sample of the data (i.e., a different sample than used to fit the model).
 
 All computations were done in R (R Core Team 2020).
-We bundled the computer code needed to format data, fit the model, evaluate the model, and project the model forward in an R package called \textbf{sageCastR} (\url{http://lar-git.west-inc.com/atredennick/sagecastr}).
+We bundled the computer code needed to format data, fit the model, evaluate the model, and project the model forward in an R package called \textbf{sageCastR} (\url{https://github.com/WEST-Inc/sageCastR}).
 Note that the R package is not a generalizable piece of software; it is a code bundle for this particular project.
 We also note that fitting the models required a high memory machine and parallel processing.
 Interested users can modify the code for future research.
@@ -433,6 +451,7 @@ We fit a bimonial regression model for each core area to estimate the probabilit
 This probability was used in the dynamic projections whenever a grid cell had zero cover to simulate whether the grid cell would stay at zero or increase to non-zero cover.
 We calculated the average cover in cells that transitioned from zero cover to non-zero cover for each core area.
 Those values were used in the simulation model as the cover assigned to cells that were simulated to transition from zero cover to non-zero cover.
+\textcolor{blue}{Projections generated during this study are available as a USGS data release} (Tredennick et al. 2023).
 
 Our main goal was to evaluate future cover projections relative to specific management targets.
 We defined two management targets: 1) the percent cover needed at 100-meter resolution to maintain sage-grouse nesting habitat and 2) the percent cover needed at 100-meter rosultion to maintain sage-grouse summer habitat.
@@ -440,29 +459,14 @@ We used the 1985-2018 sagebrush cover rasters (resampled to 100 m resolution) to
 This quantile should indicate potential sagebrush cover at each pixel while reducing the influence of temporal annomalies.
 Then, we divided Wyoming into three regions (southwest, central, and northeast) and determined the median value across all 95\% quantiles that intersected either nesting or summer sage-grouse habitat, by region (Fedy et al. 2014).
 These provided threshold values for nesting and summer habitat that were region-specific yet consistent with thresholds recommended by the Sage-grouse Habitat Assessment Framework: 15-25\% cover for nesting and 10-25\% cover for summer (Stiver et al. 2015).
-The threshold values we calculated are provided in the online supporting information.
+The threshold values we calculated are provided in the online supporting information (Table S81).
 
 Based on Fedy et al. (2014), we set our lanscape level management goal to be 50\% of grid cells in a core area meeting or exceeding the nesting target percent cover value.
 We defined core areas as ``optimal'' or ``suboptimal'' for sage-grouse based on this management goal: optimal = 50\% of grid cells meeting or exceeding the nesting target, suboptimal = 50\% of grid cells below the nesting target.
 We futher categorized core areas into four groups: 1) areas that were estimated to be optimal in 2019 and are projected to remain optimal by 2100, 2) areas that were estimated to be optimal in 2019 and are projected to become suboptimal by 2100, 3) areas that were estimated to be suboptimal in 2019 and are projected to become optimal by 2100, and 4) areas that were estimated to be suboptimal in 2019 and are projected to remain suboptimal by 2100.
 Categorization was done assuming the ssp585 climate forcing scenario because observed emissions have most closely followed the modeled emissions of ssp585's precursor (RCP8.5) in the recent past.
 We used the 2019 model projections as the baseline for categorization rather than observed cover in 2018 because the projections have slightly lower spatial variance than the observed data.
-We used sage-grouse population growth rate estimates from Edmunds et al. (2018) to see whether core areas projected to become optimal or suboptimal have currently declining, stable, or increasing sage-grouse populations.
-
-\hypertarget{predicting-sensitivity-classification}{%
-\subsubsection{Predicting sensitivity classification}\label{predicting-sensitivity-classification}}
-
-We sought to predict the variation of precipitation and temperature sensitivities across core areas based on soil conditions, elevation, mean annual precipitation, and mean annual temperature.
-We did this as a second-step after fitting the models above because the focus of our modeling was on predictions for each core area, rather than inference on why a core area was responding in a certain way.
-However, we did want to explore possible influences on sensitivities, if possible.
-
-We fit logistic regression models independently for temperature and precipition sensitivities after classifying the responses as negative or positive.
-Forty-seven covariates were included.
-Eleven soil properties from POLARIS (Chaney et al. 2019) were used for each core area, quantified as the mean, median, 5th percentile, and 95th percentile statistics across six depths.
-We averaged the metrics across depths to arrive at 11 \(\times\) 4 = 44 soil property covariates and three additional covariates: mean annual precipitation (from PRISM 30-year normals, 1981-2010), mean annual temperature (from PRISM 30-year normals, 1981-2010), and elevation (from USGS North America digital elevation map).
-All covariates were averaged over the grid cells in each core area.
-We used least-absolute shrinkage (LASSO) regression to perform model selection and identify the best predictor variables.
-Models were fit in Python (Van Rossum and Drake 2009) using scikit-learn (Pedregosa et al. 2011) libraries and routines.
+We used sage-grouse population growth rate estimates from Edmunds et al. (2018, {``Erratum''} 2018) to see whether core areas projected to become optimal or suboptimal have currently declining, stable, or increasing sage-grouse populations.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -470,13 +474,13 @@ Models were fit in Python (Van Rossum and Drake 2009) using scikit-learn (Pedreg
 \hypertarget{global-circulation-model-rankings-and-projections}{%
 \subsection{Global circulation model rankings and projections}\label{global-circulation-model-rankings-and-projections}}
 
-Relative errors of the GCMs showed that no single GCM was best at recreating historic temperature and precipitation (Fig. \ref{fig:gcm-ranks}A).
-The best GCM was INM-CM4-8, which had the lowest combined relative error for precipitation and temperature (Fig. \ref{fig:gcm-ranks}).
+Relative errors of the GCMs showed that no single GCM was best at recreating historic \textcolor{blue}{average spring-through-summer} temperature or \textcolor{blue}{average spring-through-summer} precipitation (Fig. \ref{fig:gcm-ranks}A).
+The best GCM was INM-CM4-8, which had the lowest combined relative error for precipitation and temperature (Fig. \ref{fig:gcm-ranks}A).
 The errors in the ``Combined'' panel are inversely proportional to the weights used when aggregating projections of sagebrush dynamics in the future.
 Projections based on the INM-CM4-8 future climate covariates will have the most weight and projections based on the SAMO-UNICON model will have the least weight.
 
-The amount of spring-through-summer precipitation is not expected to change in Wyoming, according to the GCMs we evaluated (Fig. \ref{fig:gcm-ranks}B).
-Temperature is projected to increase, with the largest increase expected under the ssp585 emissions scenario (Fig. \ref{fig:gcm-ranks}B).
+The amount of spring-through-summer precipitation is not expected to change in Wyoming, according to the GCMs we evaluated (Table \ref{tab:gcms}).
+Temperature is projected to increase, with the largest increase expected under the ssp585 emissions scenario (Table \ref{tab:gcms}; e.g., Fig. \ref{fig:gcm-ranks}B).
 Average temperature in 2080-2100 is projected to be 6.7 degrees Celsius higher than average temperature from 1982-2015 under the ssp585 emissions scenario (Table \ref{tab:gcms}).
 Interannual variation is not expected to substantially increase or decrease over time (Table \ref{tab:gcms}).
 
@@ -487,7 +491,7 @@ Interannual variation is not expected to substantially increase or decrease over
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{llrrrr}
 \toprule
-GCM Scenario & Time Period & Avg. Precip. (mm) & Var. Precip. & Avg. Temp. (deg. C) & Var. Temp.\\
+GCM Scenario & Time Period & Avg. spr-sum Precip. (mm/day) & Var. spr-sum Precip. & Avg. spr-sum Temp. (deg. C) & Var. spr-sum Temp.\\
 \midrule
 historical & Historical & 2.027 & 0.007 & 11.483 & 0.456\\
 ssp126 & 2020 - 2040 & 2.215 & 0.016 & 13.391 & 0.088\\
@@ -515,8 +519,10 @@ ssp585 & 2080 - 2100 & 2.284 & 0.018 & 18.014 & 0.229\\
 \hypertarget{statistical-model-evaluation}{%
 \subsection{Statistical model evaluation}\label{statistical-model-evaluation}}
 
-Convergence diagnostics indicated that all MCMC chains converged on their stationary distributions (upper 0.95 quantiles of \(\hat{R}\) \textless{} 1.1 for all parameters; see online supporting information).
-Most Bayesian \emph{P}-values indicated no lack-of-fit because they were greater than 0.05 and less than 0.95 for both the spatial (\(P_B^{\text{space}}\)) and temporal (\(P_B^{\text{time}}\)) test statistic \emph{P}-values.
+Convergence diagnostics indicated that most MCMC chains converged on their stationary distributions (upper 0.95 quantiles of \(\hat{R}\) \textless{} 1.1 for all parameters; Tables S1 - S39).
+\textcolor{blue}{This was true except for the model for Elk Basin West (Table S9).}
+\textcolor{blue}{Results from Elk Basin West are not further discussed because the MCMC chains did not converge and because the model failed the posterior predictive checks described next.}
+Most Bayesian \emph{P}-values indicated no lack-of-fit because they were greater than 0.05 and less than 0.95 for both the spatial (\(P_B^{\text{space}}\)) and temporal (\(P_B^{\text{time}}\)) test statistic \emph{P}-values (Table S40).
 The \(P_B^{\text{time}}\) value for Elk Basin West indicated lack-of-fit.
 The \(P_B^{\text{space}}\) values for Powder, Sage, Seedskadee, and Uinta indicated lack-of-fit.
 We do not present any further results on these sites because inference from their models cannot be trusted (Hobbs and Hooten 2015).
@@ -524,62 +530,11 @@ We do not present any further results on these sites because inference from thei
 \hypertarget{parameter-estimates}{%
 \subsection{Parameter estimates}\label{parameter-estimates}}
 
-Posterior distributions for all model parameters for each core area are presented in the online supporting information.
-The posterior distributions of equilibrium cover \(\left(y' = e^{\beta_1 / \left(1 - \beta_2 \right)}\right)\) for each core area contain the observed mean cover values, except for a few core areas (Fig. \ref{fig:equilibrium-cover}).
+Posterior distributions for all model parameters for each core area are presented in the online supporting information (Figs. S1 - S39; Tables S41 - S79).
+The posterior distributions of equilibrium cover \(\left(y' = e^{\beta_1 / \left(1 - \beta_2 \right)}\right)\) for each core area contain the observed mean cover values, except for a few core areas (Fig. S40).
 Cases where mean observed cover does not fall within estimated equilibrium cover suggest that climate effects over the past 30 years or other disturbances not modeled (but potentially reflected in random year effects) have kept cover from reaching the equilibrium.
 Climate effects are described as sensitivities below.
-
-\begin{figure}
-\centering
-\includegraphics{sageCastManuscript_files/figure-latex/equilibrium-cover-1.pdf}
-\caption{\label{fig:equilibrium-cover}Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018.}
-\end{figure}
-
-\begin{table}
-
-\caption{\label{tab:colonization}Results from colonization model for each core area. Pr(colonize | cover = 0) reads, 'the probability of colonizition given that current cover is zero.'}
-\centering
-\begin{tabular}[t]{lrr}
-\toprule
-Core area & Pr(colonize | cover = 0) & Mean cover in colonized cells\\
-\midrule
-Bear River & 0.35 & 3\\
-Blacks Fork & 0.14 & 2\\
-Buffalo & 0.35 & 2\\
-Continental Divide & 0.22 & 2\\
-Crowheart & 0.21 & 2\\
-Daniel & 0.22 & 2\\
-Douglas & 0.37 & 2\\
-Elk Basin East & 0.42 & 2\\
-Fontenelle & 0.17 & 2\\
-Grass Creek & 0.15 & 2\\
-Greater South Pass 1 & 0.17 & 2\\
-Greater South Pass 2 & 0.14 & 2\\
-Greater South Pass 3 & 0.18 & 2\\
-Greater South Pass 4 & 0.23 & 2\\
-Greater South Pass 5 & 0.13 & 2\\
-Hanna & 0.21 & 2\\
-Heart Mountain & 0.31 & 2\\
-Hyattville & 0.18 & 2\\
-Jackson & 0.42 & 4\\
-Little Mountain & 0.43 & 3\\
-Natrona 1 & 0.21 & 2\\
-Natrona 2 & 0.30 & 2\\
-Natrona 3 & 0.19 & 2\\
-Newcastle & 0.19 & 2\\
-North Gillette & 0.17 & 2\\
-North Glenrock & 0.28 & 3\\
-North Laramie & 0.38 & 3\\
-Oregon Basin & 0.19 & 2\\
-Salt Wells & 0.20 & 2\\
-Shell & 0.19 & 2\\
-South Rawlins & 0.39 & 3\\
-Thermopolis & 0.26 & 3\\
-Thunder Basin & 0.24 & 2\\
-Washakie & 0.36 & 3\\
-\bottomrule
-\end{tabular}
-\end{table}
+Results from the colonization probability model used for future simulations are presented in the online supporting information (Table S80).
 
 \hypertarget{sensitivities}{%
 \subsection{Sensitivities}\label{sensitivities}}
@@ -591,7 +546,7 @@ The most consistent pattern was a positive effect of temperature on sagebrush pe
 \begin{figure}
 \centering
 \includegraphics{sageCastManuscript_files/figure-latex/sensitivities-1.pdf}
-\caption{\label{fig:sensitivities}Sensitivity of sagebrush cover to temperature and precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Panels to the right of the maps show the mean (crosshairs), 95\% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area.}
+\caption{\label{fig:sensitivities}Sensitivity of sagebrush cover to average spring-through-summer temperature and average spring-through-summer precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Dark grey core areas are those whose models did not pass posterior predictive checks. Panels to the right of the maps show the mean (crosshairs), 95\% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area.}
 \end{figure}
 
 \begin{figure}
@@ -600,11 +555,11 @@ The most consistent pattern was a positive effect of temperature on sagebrush pe
 \caption{\label{fig:sen-scatter}Sensitivity of each core area to temperature and precipitation grouped by positive and negative responses to each climate driver. (A) Core areas with negative sensitivity to precipitation and positive sensitivity to temperature. (B) Core areas with positive sensitivity to precipitation and temperature, (C) Core areas with a negative sensitivity to precipitation and temperature. (D) Core areas with a positive sensitivity to precipitation and a negative sensitivity to temperature. Points show the posterior means and whiskers show the 95\% Bayesian credible intervals. Dashed tan lines show where sensitivity equals zero. The panel labels also indicate the number of core areas (n) in each sensitivity quadrant.}
 \end{figure}
 
-Averaging over all the posterior distributions for the precipitation and temperature effects, we found that overall average effect of precipitation was negative: mean = -0.036 (pseudo 95\% BCI = -0.038, -0.034).
-The overall average effect of temperature was positive: mean = 0.025 (pseudo 95\% BCI = 0.023, 0.027).
+Averaging over all the posterior distributions for the precipitation and temperature \textcolor{blue}{sensitivities}, we found that overall average \textcolor{blue}{sensitivity} to precipitation was negative: mean = -0.036 (pseudo 95\% BCI = -0.038, -0.034).
+The overall average \textcolor{blue}{sensitivity} to temperature was positive: mean = 0.025 (pseudo 95\% BCI = 0.023, 0.027).
 Note that we refer to the confidence intervals as ``pseudo BCIs'' because the average of the posteriors is not strictly the cross-core area posterior distribution.
 Nonetheless, the average values do inform the general pattern.
-The variance of the overall average effects should be viewed as the variance of the mean effect, not as the variance of effect sizes across core areas.
+The variance of the overall average \textcolor{blue}{sensitivities} should be viewed as the variance of the mean sensitivity, not as the variance of \textcolor{blue}{sensitivity magnitudes} across core areas.
 
 \hypertarget{projections}{%
 \subsection{Projections}\label{projections}}
@@ -614,7 +569,7 @@ This is because precipitation is not projected to increase or decrease much in t
 Because most core areas had a positive sensitivity to temperature, sagebrush cover is projected to increase at most core areas (Fig. \ref{fig:projections}).
 Projections of sagebrush cover are similar across GCM scenarios until about mid-century, at which point ssp585 projections diverge if temperature has a large (positive or negative) effect on interannual changes in sagebrush cover (Fig. \ref{fig:projections}).
 
-More core areas were projected to increase (n = 21 for ssp126; n = 22 for ssp245 and ssp585) than decrease (n = 13 for ssp126; n = 12 for ssp245 and ssp585) and the magnitude of increases was greater than decreases for each GCM scenario.
+More core areas were projected to increase \textcolor{blue}{in sagebrush cover} (n = 21 for ssp126; n = 22 for ssp245 and ssp585) than decrease (n = 13 for ssp126; n = 12 for ssp245 and ssp585) and the magnitude of increases was greater than decreases for each GCM scenario.
 For decreases, the median percent difference between average cover in 2018 and average cover in 2100 was -9\% for ssp126, -18\% for ssp245, and -24\% for ssp585.
 For increases, the median percent difference between average cover in 2018 and average cover in 2100 was 17\% for ssp126, 34\% for ssp245, and 79\% for ssp585.
 The percent differences show that projected increases in sagebrush cover are nearly twice the magnitude of projected decreases for each GCM scenario, on average.
@@ -622,13 +577,15 @@ Summing across core areas, 41711 - 45474 \(\text{km}^2\) of land is projected to
 12978 - 16740 \(\text{km}^2\) of land is projected to experience decreases in sagebrush cover on average, depending on GCM scenario.
 
 Figure \ref{fig:spatial-projections} shows projections over time and space for the Salt Wells core area (as an example) under the ssp585 climate forcing scenario.
+\textcolor{blue}{Salt Wells is located in southwestern Wyoming} (Fig. \ref{fig:sensitivities}).
 Spatial heterogeneity is maintained because of the spatial offset included in the model, but heterogeneity is smoothed somewhat, resulting in slightly lower spatial variance.
 Lower spatial variance can impact the calculation of the proportion of grid cells with cover over or under the nesting and summer habitat targets.
-At this core area, projections show sagebrush declining in most of the area with a hotspot of increasing sagebrush on the western edge (Fig. \ref{fig:spatial-projections}).
+At this core area, projections show sagebrush \textcolor{blue}{increasing slightly over most of the area, but with large increases in cover in the western edge of the core area.} (Fig. \ref{fig:spatial-projections}).
 
 Notable declines in sagebrush cover are projected for Bear River (BrRv), Elk Basin East (ElBE), Jackson (Jcks), Little Mountain (LttM), and North Gillette (NrthGll) core areas (Fig. \ref{fig:projections}).
-These same core areas may become suboptimal for sage-grouse over the long-term, as projections suggest the proportion of cells in Bear River, Little Mountain, and Jackson that exceed the sage-grouse nesting target drop below 50\% at some point in the future (Figs. \ref{fig:nesting-targs} and \ref{fig:lambda-compares}B).
+These same core areas may become suboptimal for sage-grouse over the long-term, as projections suggest the proportion of cells in Bear River, Little Mountain, and Jackson that exceed the sage-grouse nesting target (Table S81) drop below 50\% at some point in the future (Figs. \ref{fig:nesting-targs} and \ref{fig:lambda-compares}B).
 Twelve core areas are projected to switch from supoptimal to optimal for sage-grouse by crossing the 50\% threshold in the future (Figs. \ref{fig:nesting-targs} and \ref{fig:lambda-compares}D).
+\textcolor{blue}{Results based on summer habitat cover targets are similar (Fig. S41).}
 The most common projection (n = 16) is for currently suboptimal core areas to remain suboptimal, even though most will experience gains in sagebrush cover (Fig. \ref{fig:lambda-compares}).
 
 Most sage-grouse population growth rates have confidence intervals that overlap one, indicating a stable population (Fig. \ref{fig:lambda-compares}).
@@ -638,7 +595,7 @@ Ten of the 12 core areas projected to switch from suboptimal to optimal have mea
 \begin{figure}
 \centering
 \includegraphics{sageCastManuscript_files/figure-latex/projections-1.pdf}
-\caption{\label{fig:projections}Projections of sagebrush percent cover from 2018 to 2080 under three climate change scenarios (ssp indicated by colors) for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68\% BCI; very light shaded ribbon bounds the 95\% BCI. Box and whiskers show the 68\% (boxes) and 95\% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, and 2080. The y-axis scale differs across plots.}
+\caption{\label{fig:projections}Projections of sagebrush percent cover from 2018 to 2100 under three climate change scenarios (ssp indicated by colors) for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68\% BCI; very light shaded ribbon bounds the 95\% BCI. Box and whiskers show the 68\% (boxes) and 95\% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, 2080, and 2100. The y-axis scale differs across plots.}
 \end{figure}
 
 \begin{figure}
@@ -650,43 +607,14 @@ Ten of the 12 core areas projected to switch from suboptimal to optimal have mea
 \begin{figure}
 \centering
 \includegraphics{sageCastManuscript_files/figure-latex/nesting-targs-1.pdf}
-\caption{\label{fig:nesting-targs}Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse nesting threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68\% BCI; very light shaded ribbon bounds the 95\% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50\% of the area. The y-axis scale differs across plots.}
+\caption{\label{fig:nesting-targs}Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse nesting threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68\% BCI; very light shaded ribbon bounds the 95\% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50\% of the area.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics{sageCastManuscript_files/figure-latex/lambda-compares-1.pdf}
-\caption{\label{fig:lambda-compares}Sage-grouse population growth rates from Edmunds et al.~(2018) for each core area, grouped by whether (A) the core area is currently more suitable and projected to remain more suitable, (B) currently more suitable and projected to become less suitable, (C) currently less suitable and projected to remain less suitable, and (D) currently less suitable and projected to become more suitable. `More suitable' is defined as over 50\% of cells with cover over the nesting threshold. `Less suitable' is defined as fewer than 50\% of cells with cover over the nesting threshold.}
+\caption{\label{fig:lambda-compares}Sage-grouse population growth rates from Edmunds et al.~(2018) for each core area (point = estimate, whiskers = 95\% CI), grouped by whether (A) the core area is currently more suitable and projected to remain more suitable, (B) currently more suitable and projected to become less suitable, (C) currently less suitable and projected to remain less suitable, and (D) currently less suitable and projected to become more suitable. `More suitable' is defined as over 50\% of cells with cover over the nesting threshold. `Less suitable' is defined as fewer than 50\% of cells with cover over the nesting threshold.}
 \end{figure}
-
-\hypertarget{drivers-of-sensitivity-classifications}{%
-\subsection{Drivers of sensitivity classifications}\label{drivers-of-sensitivity-classifications}}
-
-The best model for predicting precipitation sensitivity class (negative or positive) failed to beat a null model of random classification.
-Therefore, we do not discuss results from the precipitation sensitivity classification model.
-The best model for predicting temperature sensitivity class (negative or positive) included six non-zero covariates, all of which were soil properties (Table \ref{tab:lassos}).
-The model achieved a leave-one-out cross-validation accuracy score of 0.66 and an F1 score of 0.78 (F1 \textless= 0.5 indicates a poor model).
-The covariate with the largest LASSO-penalized coefficient value was the average (averaged over grid cells and then over depths) of the 95th percentile of sand percentage (\(\hat{\beta}\) = 0.48).
-All coefficient values were positive, meaning that increases in the covariates values increased the odds that sensitivity to temperature will be positive.
-
-\begin{table}
-
-\caption{\label{tab:lassos}LASSO-penalized coefficient values for the selected model for classifying temperature sensitivity. Note that all predictor values were averaged over grid cells within a core area and then averaged over depth from surface. The 'alpha' covariate is: 'scale parameter inversely proportional to mean pore diameter'. Standard errors, confidence intervals, and/or p-values are not reported because these metrics are not yet available for penalized regression under frequentist framework.}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{lr}
-\toprule
-Soil property & LASSO-penalized coefficient value\\
-\midrule
-95th percentile of alpha & 0.15\\
-95th percentile of clay percentage & 0.34\\
-5th percentile of saturated hydraulic conductivity & 0.20\\
-5th percentile of organic matter & 0.30\\
-5th percentile of sand percentage & 0.22\\
-95th percentile of sand percentage & 0.48\\
-\bottomrule
-\end{tabular}}
-\end{table}
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
@@ -696,60 +624,67 @@ We found that sagebrush performance at most core areas showed positive sensitivi
 Because average temperature is expected to increase in Wyoming in the future and average precipitation is expected to remain relatively constant, we project an increase in sagebrush cover at most core areas across Wyoming.
 Moreover, projected increases were larger in magnitude than decreases and increases were projected on about four times larger land area (about 45,000 \(\text{km}^2\) expected to experience increases relative to about 13,000 \(\text{km}^2\) expected to experience decreases, on average).
 This finding suggests that few core areas are ``lost causes'' in terms of maintaining existing sagebrush cover in the future.
-Continued conservation of these core areas has the potential to increase sage-grouse populations in the future because the extent of the landscape with sagebrush cover that exceeds the nesting threshold is expected to increase for several core areas (Fig. \ref{fig:nesting-targs}).
+Continued conservation of these core areas has the potential to increase \textcolor{blue}{the extent of the landscape with sagebrush cover exceeding the nesting and summer habitat thresholds} (Figs. \ref{fig:nesting-targs} and S41).
 Even when the threshold is not projected to be exceeded, sagebrush cover is most commonly projected to increase.
-While sagebrush is a key component of sage-grouse habitat, our models to not currently consider other factors that can affect habitat quality, including herbaceous vegetation, structure and configuration of sagebrush on the landscape, or disturbances (Fedy et al. 2014).
 
 The most common climate response across the core areas was a positive effect of temperature on sagebrush performance.
-This finding is consistent with theoretical and empirical research suggesting that plants at the cold-limited edge of their distribution may benefit from global climate change (Amburgey et al. 2018, Kleinhesselink and Adler 2018, Renwick et al. 2018).
-The finding is also consistent with results across a broader range of the sagebrush distribution using these same data sources (Rigge et al. 2021).
+This finding is consistent with theoretical and empirical research suggesting that plants at the cold-limited edge of their distribution may benefit from global climate change (Amburgey et al. 2018, Kleinhesselink and Adler 2018, Renwick et al. 2018b).
+The finding is also consistent with results across a broader range of the sagebrush distribution using \textcolor{blue}{the BIT data but with more and different climate predictors} (Rigge et al. 2021).
 Recent mechanistic modeling across the sagebrush biome also suggests that increases in temperature will benefit sagebrush in high elevation portions of its range, like Wyoming (Palmquist et al. 2021).
-Palmquist et al. (2021) showed that soil moisture will likely remain adequate under a warming climate in warm, moisture-limited areas.
+Palmquist et al. (2021) showed that soil moisture will likely remain adequate under a warming climate in \textcolor{blue}{cold, moist areas where sagebrush performance is temperature-limited.}
 Other studies have also found positive effects of temperature increases at high elevation sagebrush sites, likely due to earlier snowmelt and a longer growing season (Perfors et al. 2003, Harte et al. 2015).
-Our statistical models appear to reflect these underlying mechanstic explanations at a majority of core areas.
+Our statistical models appear to reflect these underlying mechanistic explanations at a majority of core areas.
 A negative of effect of increased precipitation combined with a positive effect of temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snowmelt in warmer years.
+\textcolor{blue}{The confusing negative sensitivity of sagebrush to precipitation less becomes less so if the precipitation effect is related to temperature through an interaction we failed to model.}
 
 Climate responses were not uniform across core areas, however.
 The models showed positive and negative responses to both precipitation and temperature annual anomolies.
-Opposing effects of weather on sagebrush performance are not uncommon (Renwick et al. 2018, Palmquist et al. 2021).
+Opposing effects of weather on sagebrush performance are not uncommon (Renwick et al. 2018b, Palmquist et al. 2021).
 Regional, landscape, and local gradients in average climate (Kleinhesselink and Adler 2018), soil conditions (Schlaepfer et al. 2012), and subspecies composition (Rosentreter 2005) can have a strong influence on sagebrush responses to weather and climate.
-Our analysis of the drivers of estimated sensitivities yielded little insight, though.
-The model for precipiation sensitivity classification was no better than a random classifier.
-The model for temperature sensitivity classification showed that several soil properties predict whether temperature sensitivity will be positive or negative.
-Two covariates stood out with higher coefficient values: the average 95th percentail of sand percentage and the average 95th percentile of clay percentage.
-The odds of temperature sensitivity being positive (warmer temperatures \(\rightarrow\) increase in sagebrush cover) increased with both of those covariates.
-Based on these results, it appears that sagebrush climate response is mediated by the extremes of soil properties within a landscape.
-Indeed, all non-zero coefficients were associated with either 5th percentile or 95th percentile statistics (Table \ref{tab:lassos}).
-Thus, landscape level responses of sagebrush cover to climate may be mostly influenced by sagebrush that exist outside of average soil conditions.
 
 The biggest limiation of our study is that we only quantified the direct effects of climate on sagebrush performance.
-The indirect effects of climate change and other non-climate related effects might be more influential.
+Indirect effects of climate change and other non-climate related effects might be more influential.
 In particular, the fire-cheatgrass invasion cycle has been implicated as the major driver of sagebrush loss across most of its historical range.
 Recent modeling suggests that parts of Wyoming may become more suitable for cheatgrass but that cheatgrass invasion could be limited if disturbances that reduce native grass and shrub cover are limited (Palmquist et al. 2021).
 Hotter and drier conditions in the future will likely increase fire risk throughout Wyoming shrublands, meaning it could be difficult to limit cheatgrass invasion if fires become widespread.
-Nonetheless, our results corroroborate those of Palmquist et al. (2021) by suggesting that climate change alone should benefit, or at least not significantly disadvantage, sagebush in Wyoming.
+Schlaepfer et al. (2021) \textcolor{blue}{found a similar result in terms of sagebrush regeneration: regeneration will likely remain possible under a warming climate alone, but the fire-cheatgrass interaction will likely limit sagebrush persistence.}
+Nonetheless, our results corroborate those of Palmquist et al. (2021) and Schlaepfer et al. (2021) by suggesting that climate change alone should benefit, or at least not significantly disadvantage, sagebrush in Wyoming.
+
+\textcolor{blue}{A second limitation is that we implicitly assume that the relationships between sagebrush percent cover and temperature and precipitation are log-linear.
+That is, by using the statistical models to project cover into the future, we are assuming that the relationships quantified from historical data will be maintained in the future.
+It is certainly possible that sagebrush performance will plateau at temperatures and precipitation levels outside of the historical range of variability, either because of physiological limits or evolutionary adaptation} (Adler et al. 2020).
+\textcolor{blue}{Evolutionary adaptation represents just one of many possible "slow" processes that impact our ability to make projections using short-term data that likely represent "fast" processes} (Adler et al. 2020).
+\textcolor{blue}{Sagebrush are slow to recover from extreme events like drought that cause die-offs, representing another slow process potentially not capture by our models.}
+\textcolor{blue}{Therefore, our models likely miss the impact of such extreme events.}
 
 Our sagebrush projections can be used as part of a decision-support toolbox for managers in Wyoming.
 The projections are also useful for generating hypotheses and scientific questions.
 For example, what conditions lead to two core areas in the same region having divergent responses to temperature (North Gillette versus Thunder Basin, Fig. \ref{fig:sensitivities}A)?
 Observational and experimental studies could help explain the divergent responses.
+\textcolor{blue}{So too could targeted modeling studies that use more climate and environmental covariates then we used here.}
 Such explanations are critical to guide region-wide management of sagebrush landscapes in the face of climate change and potential cheatgrass invasion.
 
 \hypertarget{implications-for-sage-grouse-management}{%
 \section{Implications for sage-grouse management}\label{implications-for-sage-grouse-management}}
 
-Sage-grouse are sagebrush-obligate species, meaning any increase in sagebrush cover likely benefits sage-grouse but consideration of other habitat components also affect habitat quality for sage-grouse (Fedy et al. 2014).
-Although not all core areas are projected to increase in sagebrush cover, the magnitude of increase and the area over which we project increases far outweighs projected declines.
+Sage-grouse are sagebrush-obligate species, meaning any increase in sagebrush cover likely benefits sage-grouse.
+\textcolor{blue}{However, other factors not considered here can affect habitat quality, including herbaceous vegetation, structure, and configuration of sagebrush on the landscape, and disturbances} Fedy et al. (2014){]}, \textcolor{blue}{in addition to higher temperatures} (Blomberg et al. 2012, Lundblad et al. 2022).
+\textcolor{blue}{We also acknowledge that our use of thresholds to determine whether habitat was ``optimal'' for sage-grouse, while consistent with the Sage-grouse Habitat Assessment Framework} (Stiver et al. 2015), \textcolor{blue}{may not correspond with more local trends in demography} (Smith et al. 2020).
+\textcolor{blue}{Indeed, most core areas we classified as currently "suboptimal" had stable population trends} (Edmunds et al. 2018) \textcolor{blue}{whereas fewer core areas currently had "optimal" levels of sagebrush cover} (Fig. \ref{fig:lambda-compares}).
+\textcolor{blue}{Therefore, we emphasize that while the thresholds used here were useful for a relative comparison of habitat status across core areas, studying effects of sagebrush cover on demographics such as population trends, at relevant spatial scales} (Monroe et al. 2022), \textcolor{blue}{would provide a more direct assessment of habitat quality for sage-grouse (and implications of climate change).}
+
+Nevertheless, not all core areas are projected to increase in sagebrush cover.
+But the magnitude of increase and the area over which we project increases far outweighs projected declines.
 These results highlight the importance of active and adaptive management in Wyoming's sage-grouse core areas, which contain about 37\% of all sage-grouse (Fedy et al. 2014).
-Potential management actions include reducing cheatgrass invasion to the greatest extent possible and limiting disturbances in core areas.
-These management actions are important because our results, and others, indicate that climate change per se is not going to cause declines in sagebrush in Wyoming.
+\textcolor{blue}{Our results suggest that climate change per se is not going to cause declines in sagebrush in Wyoming.}
+\textcolor{blue}{Therefore, management actions aimed at reducing cheatgrass invasion and limiting disturbances in core areas might help mitigate the negative, indirect impacts of climate change.}
 In part, this is good news because managing disturbances and plant invasions is more feasible than managing global climate change.
 
-Even still, effectively conserving all of the core areas may not be enough.
+Even still, effectively conserving all of the core areas may not be enough \textcolor{blue}{to ensure sage-grouse conservation} (Hannah et al. 2007, Monzón et al. 2011).
 Sage-grouse use vast areas outside of the core areas as well, particularly in the apex of the population cycles (Heinrichs et al. 2019).
 Sage-grouse require diverse resource compositions across life stages, with an upper limit of annual life-time home ranges estimated at \textasciitilde2975 km\(^2\) (Connelly et al. 2000b, Connelly et al. 2000a).
-Maintaining large intact landscapes inside and outside of core areas (Heinrichs et al.~2019) will be necessary to ensure viable sage-grouse populations persist.
-Our models help to identify sagebrush habitats that persist into the future given climate change, which should be protected from disturbances.
+\textcolor{blue}{This suggests that} maintaining large intact landscapes inside and outside of core areas (Heinrichs et al.~2019) \textcolor{blue}{can help} ensure viable sage-grouse populations persist.
+Our models help to identify sagebrush habitats that \textcolor{blue}{are likely to} persist into the future given climate change, \textcolor{blue}{highlighting areas for potential long-term preservation and protection.}
 Areas with projected sagebrush declines may need to be more closely managed.
 
 \hypertarget{acknowledgements}{%
@@ -757,7 +692,7 @@ Areas with projected sagebrush declines may need to be more closely managed.
 
 This study was funded by the Bureau of Land Management and the US Geological Survey.
 Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. government.
-We thank Darren Long for reviewing preliminary versions of the manuscript.
+We thank Robert Shriver and Darren Long for reviewing preliminary versions of the manuscript.
 
 \hypertarget{references}{%
 \section{References}\label{references}}
@@ -770,161 +705,200 @@ We thank Darren Long for reviewing preliminary versions of the manuscript.
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-adler_matching_2020}{}}%
+Adler, P. B., E. P. White, and M. H. Cortez. 2020. \href{https://doi.org/10.1111/ecog.05271}{Matching the forecast horizon with the relevant spatial and temporal processes and data sources}. Ecography 43:1729--1739.
+
 \leavevmode\vadjust pre{\hypertarget{ref-amburgey_range_2018}{}}%
-Amburgey, S. M., D. A. W. Miller, E. H. C. Grant, T. A. G. Rittenhouse, M. F. Benard, J. L. Richardson, M. C. Urban, W. Hughson, A. B. Brand, C. J. Davis, C. R. Hardin, P. W. C. Paton, C. J. Raithel, R. A. Relyea, A. F. Scott, D. K. Skelly, D. E. Skidds, C. K. Smith, and E. E. Werner. 2018. Range position and climate sensitivity: {The} structure of among-population demographic responses to climatic variation. Global Change Biology 24:439--454.
+Amburgey, S. M., D. A. W. Miller, E. H. C. Grant, T. A. G. Rittenhouse, M. F. Benard, J. L. Richardson, M. C. Urban, W. Hughson, A. B. Brand, C. J. Davis, C. R. Hardin, P. W. C. Paton, C. J. Raithel, R. A. Relyea, A. F. Scott, D. K. Skelly, D. E. Skidds, C. K. Smith, and E. E. Werner. 2018. \href{https://doi.org/10.1111/gcb.13817}{Range position and climate sensitivity: {The} structure of among-population demographic responses to climatic variation}. Global Change Biology 24:439--454.
 
 \leavevmode\vadjust pre{\hypertarget{ref-balch_introduced_2013}{}}%
-Balch, J. K., B. A. Bradley, C. M. D'Antonio, and J. Gómez-Dans. 2013. Introduced annual grass increases regional fire activity across the arid western {USA} (1980--2009). Global Change Biology 19:173--183.
+Balch, J. K., B. A. Bradley, C. M. D'Antonio, and J. Gómez-Dans. 2013. \href{https://doi.org/10.1111/gcb.12046}{Introduced annual grass increases regional fire activity across the arid western {USA} (1980--2009)}. Global Change Biology 19:173--183.
+
+\leavevmode\vadjust pre{\hypertarget{ref-blomberg_characteristics_2012}{}}%
+Blomberg, E. J., J. S. Sedinger, M. T. Atamian, and D. V. Nonne. 2012. \href{https://doi.org/10.1890/ES11-00304.1}{Characteristics of climate and landscape disturbance influence the dynamics of greater sage-grouse populations}. Ecosphere 3:art55.
 
 \leavevmode\vadjust pre{\hypertarget{ref-boettiger_optimal_2016}{}}%
-Boettiger, C., M. Bode, J. N. Sanchirico, J. LaRiviere, A. Hastings, and P. R. Armsworth. 2016. Optimal management of a stochastically varying population when policy adjustment is costly. Ecological Applications 26:808--817.
+Boettiger, C., M. Bode, J. N. Sanchirico, J. LaRiviere, A. Hastings, and P. R. Armsworth. 2016. \href{https://doi.org/10.1890/15-0236}{Optimal management of a stochastically varying population when policy adjustment is costly}. Ecological Applications 26:808--817.
 
 \leavevmode\vadjust pre{\hypertarget{ref-bradley_regional_2009}{}}%
-Bradley, B. A. 2009. Regional analysis of the impacts of climate change on cheatgrass invasion shows potential risk and opportunity. Global Change Biology 15:196--208.
+Bradley, B. A. 2009. \href{https://doi.org/10.1111/j.1365-2486.2008.01709.x}{Regional analysis of the impacts of climate change on cheatgrass invasion shows potential risk and opportunity}. Global Change Biology 15:196--208.
 
 \leavevmode\vadjust pre{\hypertarget{ref-cardinale_biodiversity_2012}{}}%
-Cardinale, B. J., J. E. Duffy, A. Gonzalez, D. U. Hooper, C. Perrings, P. Venail, A. Narwani, G. M. Mace, D. Tilman, D. A. Wardle, A. P. Kinzig, G. C. Daily, M. Loreau, J. B. Grace, A. Larigauderie, D. S. Srivastava, and S. Naeem. 2012. Biodiversity loss and its impact on humanity. Nature 486:59--67.
-
-\leavevmode\vadjust pre{\hypertarget{ref-carlisle_abundance_2020}{}}%
-Carlisle, J., and A. Chalfoun. 2020. The abundance of {Greater} {Sage}-{Grouse} as a proxy for the abundance of sagebrush-associated songbirds in {Wyoming}, {USA}. Avian Conservation and Ecology 15.
+Cardinale, B. J., J. E. Duffy, A. Gonzalez, D. U. Hooper, C. Perrings, P. Venail, A. Narwani, G. M. Mace, D. Tilman, D. A. Wardle, A. P. Kinzig, G. C. Daily, M. Loreau, J. B. Grace, A. Larigauderie, D. S. Srivastava, and S. Naeem. 2012. \href{https://doi.org/10.1038/nature11148}{Biodiversity loss and its impact on humanity}. Nature 486:59--67.
 
 \leavevmode\vadjust pre{\hypertarget{ref-chambers_what_2007}{}}%
-Chambers, J. C., B. A. Roundy, R. R. Blank, S. E. Meyer, and A. Whittaker. 2007. What {Makes} {Great} {Basin} {Sagebrush} {Ecosystems} {Invasible} by {Bromus} {Tectorum}? Ecological Monographs 77:117--145.
-
-\leavevmode\vadjust pre{\hypertarget{ref-chaney_polaris_2019}{}}%
-Chaney, N. W., B. Minasny, J. D. Herman, T. W. Nauman, C. W. Brungard, C. L. S. Morgan, A. B. McBratney, E. F. Wood, and Y. Yimam. 2019. {POLARIS} {Soil} {Properties}: 30-m {Probabilistic} {Maps} of {Soil} {Properties} {Over} the {Contiguous} {United} {States}. Water Resources Research 55:2916--2938.
+Chambers, J. C., B. A. Roundy, R. R. Blank, S. E. Meyer, and A. Whittaker. 2007. \href{https://doi.org/10.1890/05-1991}{What {Makes} {Great} {Basin} {Sagebrush} {Ecosystems} {Invasible} by {Bromus} {Tectorum}?} Ecological Monographs 77:117--145.
 
 \leavevmode\vadjust pre{\hypertarget{ref-clark_ecological_2001}{}}%
-Clark, J. S., S. R. Carpenter, M. Barber, S. Collins, A. Dobson, J. A. Foley, D. M. Lodge, M. Pascual, R. Pielke, W. Pizer, C. Pringle, W. V. Reid, K. A. Rose, O. Sala, W. H. Schlesinger, D. H. Wall, and D. Wear. 2001. Ecological {Forecasts}: {An} {Emerging} {Imperative}. Science 293:657--660.
+Clark, J. S., S. R. Carpenter, M. Barber, S. Collins, A. Dobson, J. A. Foley, D. M. Lodge, M. Pascual, R. Pielke, W. Pizer, C. Pringle, W. V. Reid, K. A. Rose, O. Sala, W. H. Schlesinger, D. H. Wall, and D. Wear. 2001. \href{https://doi.org/10.1126/science.293.5530.657}{Ecological {Forecasts}: {An} {Emerging} {Imperative}}. Science 293:657--660.
 
 \leavevmode\vadjust pre{\hypertarget{ref-conn_using_2015}{}}%
-Conn, P. B., D. S. Johnson, J. M. V. Hoef, M. B. Hooten, J. M. London, and P. L. Boveng. 2015. Using spatiotemporal statistical models to estimate animal abundance and infer ecological dynamics from survey counts. Ecological Monographs 85:235--252.
+Conn, P. B., D. S. Johnson, J. M. V. Hoef, M. B. Hooten, J. M. London, and P. L. Boveng. 2015. \href{https://doi.org/10.1890/14-0959.1}{Using spatiotemporal statistical models to estimate animal abundance and infer ecological dynamics from survey counts}. Ecological Monographs 85:235--252.
 
 \leavevmode\vadjust pre{\hypertarget{ref-conn_guide_2018}{}}%
-Conn, P. B., D. S. Johnson, P. J. Williams, S. R. Melin, and M. B. Hooten. 2018. A guide to {Bayesian} model checking for ecologists. Ecological Monographs 88:526--542.
+Conn, P. B., D. S. Johnson, P. J. Williams, S. R. Melin, and M. B. Hooten. 2018. \href{https://doi.org/10.1002/ecm.1314}{A guide to {Bayesian} model checking for ecologists}. Ecological Monographs 88:526--542.
 
 \leavevmode\vadjust pre{\hypertarget{ref-connelly_conservation_2000}{}}%
 Connelly, J. W., S. T. Knick, M. A. Schroeder, and S. J. Stiver. 2000a. Conservation assessment of greater sage-grouse and sagebrush habitats. Western Association of Fish; Wildlife Agencies, Cheyenne, Wyoming.
 
 \leavevmode\vadjust pre{\hypertarget{ref-connelly_response_2000}{}}%
-Connelly, J. W., K. P. Reese, R. A. Fischer, and W. L. Wakkinen. 2000b. Response of a {Sage} {Grouse} {Breeding} {Population} to {Fire} in {Southeastern} {Idaho}. Wildlife Society Bulletin (1973-2006) 28:90--96.
+Connelly, J. W., K. P. Reese, R. A. Fischer, and W. L. Wakkinen. 2000b. \href{https://www.jstor.org/stable/4617288}{Response of a {Sage} {Grouse} {Breeding} {Population} to {Fire} in {Southeastern} {Idaho}}. Wildlife Society Bulletin (1973-2006) 28:90--96.
+
+\leavevmode\vadjust pre{\hypertarget{ref-davies_saving_2011}{}}%
+Davies, K. W., C. S. Boyd, J. L. Beck, J. D. Bates, T. J. Svejcar, and M. A. Gregg. 2011. \href{https://doi.org/10.1016/j.biocon.2011.07.016}{Saving the sagebrush sea: {An} ecosystem conservation plan for big sagebrush plant communities}. Biological Conservation 144:2573--2584.
 
 \leavevmode\vadjust pre{\hypertarget{ref-dietze_iterative_2018}{}}%
-Dietze, M. C., A. Fox, L. M. Beck-Johnson, J. L. Betancourt, M. B. Hooten, C. S. Jarnevich, T. H. Keitt, M. A. Kenney, C. M. Laney, L. G. Larsen, H. W. Loescher, C. K. Lunch, B. C. Pijanowski, J. T. Randerson, E. K. Read, A. T. Tredennick, R. Vargas, K. C. Weathers, and E. P. White. 2018. Iterative near-term ecological forecasting: {Needs}, opportunities, and challenges. Proceedings of the National Academy of Sciences 115:1424--1432.
+Dietze, M. C., A. Fox, L. M. Beck-Johnson, J. L. Betancourt, M. B. Hooten, C. S. Jarnevich, T. H. Keitt, M. A. Kenney, C. M. Laney, L. G. Larsen, H. W. Loescher, C. K. Lunch, B. C. Pijanowski, J. T. Randerson, E. K. Read, A. T. Tredennick, R. Vargas, K. C. Weathers, and E. P. White. 2018. \href{https://doi.org/10.1073/pnas.1710231115}{Iterative near-term ecological forecasting: {Needs}, opportunities, and challenges}. Proceedings of the National Academy of Sciences 115:1424--1432.
 
 \leavevmode\vadjust pre{\hypertarget{ref-edmunds_greater_2018}{}}%
-Edmunds, D. R., C. L. Aldridge, M. S. O'Donnell, and A. P. Monroe. 2018. Greater sage-grouse population trends across {Wyoming}. The Journal of Wildlife Management 82:397--412.
+Edmunds, D. R., C. L. Aldridge, M. S. O'Donnell, and A. P. Monroe. 2018. \href{https://doi.org/10.1002/jwmg.21386}{Greater sage-grouse population trends across {Wyoming}}. The Journal of Wildlife Management 82:397--412.
+
+\leavevmode\vadjust pre{\hypertarget{ref-noauthor_erratum_2018}{}}%
+\href{https://doi.org/10.1002/jwmg.21560}{Erratum}. 2018. The Journal of Wildlife Management 82:1808--1808.
 
 \leavevmode\vadjust pre{\hypertarget{ref-eyring_overview_2016}{}}%
-Eyring, V., S. Bony, G. A. Meehl, C. A. Senior, B. Stevens, R. J. Stouffer, and K. E. Taylor. 2016. Overview of the {Coupled} {Model} {Intercomparison} {Project} {Phase} 6 ({CMIP6}) experimental design and organization. Geoscientific Model Development 9:1937--1958.
+Eyring, V., S. Bony, G. A. Meehl, C. A. Senior, B. Stevens, R. J. Stouffer, and K. E. Taylor. 2016. \href{https://doi.org/10.5194/gmd-9-1937-2016}{Overview of the {Coupled} {Model} {Intercomparison} {Project} {Phase} 6 ({CMIP6}) experimental design and organization}. Geoscientific Model Development 9:1937--1958.
 
 \leavevmode\vadjust pre{\hypertarget{ref-farber_linking_2006}{}}%
-Farber, S., R. Costanza, D. L. Childers, J. Erickson, K. Gross, M. Grove, C. S. Hopkinson, J. Kahn, S. Pincetl, A. Troy, P. Warren, and M. Wilson. 2006. Linking {Ecology} and {Economics} for {Ecosystem} {Management}. BioScience 56:121--133.
+Farber, S., R. Costanza, D. L. Childers, J. Erickson, K. Gross, M. Grove, C. S. Hopkinson, J. Kahn, S. Pincetl, A. Troy, P. Warren, and M. Wilson. 2006. \href{https://doi.org/10.1641/0006-3568(2006)056\%5B0121:LEAEFE\%5D2.0.CO;2}{Linking {Ecology} and {Economics} for {Ecosystem} {Management}}. BioScience 56:121--133.
 
 \leavevmode\vadjust pre{\hypertarget{ref-fedy_habitat_2014}{}}%
-Fedy, B. C., K. E. Doherty, C. L. Aldridge, M. O'Donnell, J. L. Beck, B. Bedrosian, D. Gummer, M. J. Holloran, G. D. Johnson, N. W. Kaczor, C. P. Kirol, C. A. Mandich, D. Marshall, G. Mckee, C. Olson, A. C. Pratt, C. C. Swanson, and B. L. Walker. 2014. Habitat prioritization across large landscapes, multiple seasons, and novel areas: {An} example using greater sage-grouse in {Wyoming}. Wildlife Monographs 190:1--39.
+Fedy, B. C., K. E. Doherty, C. L. Aldridge, M. O'Donnell, J. L. Beck, B. Bedrosian, D. Gummer, M. J. Holloran, G. D. Johnson, N. W. Kaczor, C. P. Kirol, C. A. Mandich, D. Marshall, G. Mckee, C. Olson, A. C. Pratt, C. C. Swanson, and B. L. Walker. 2014. \href{https://doi.org/10.1002/wmon.1014}{Habitat prioritization across large landscapes, multiple seasons, and novel areas: {An} example using greater sage-grouse in {Wyoming}}. Wildlife Monographs 190:1--39.
 
 \leavevmode\vadjust pre{\hypertarget{ref-gelman_data_2006}{}}%
 Gelman, A., and J. Hill. 2006. Data {Analysis} {Using} {Regression} and {Multilevel}/{Hierarchical} {Models}. Cambridge University Press.
 
 \leavevmode\vadjust pre{\hypertarget{ref-gelman_inference_1992}{}}%
-Gelman, A., and D. B. Rubin. 1992. Inference from {Iterative} {Simulation} {Using} {Multiple} {Sequences}. Statistical Science 7:457--472.
+Gelman, A., and D. B. Rubin. 1992. \href{https://doi.org/10.1214/ss/1177011136}{Inference from {Iterative} {Simulation} {Using} {Multiple} {Sequences}}. Statistical Science 7:457--472.
 
 \leavevmode\vadjust pre{\hypertarget{ref-guo_rstan_2020}{}}%
-Guo, J., J. Gabry, B. Goodrich, S. Weber, D. Lee, K. Sakrejda, M. Martin, T. of C. University, O. Sklyar (R/cxxfunplus.R), T. R. C. Team (R/pairs.R, R/dynGet.R), J. Oehlschlaegel-Akiyoshi (R/pairs.R), J. Maddock (gamma.hpp), P. Bristow (gamma.hpp), N. Agrawal (gamma.hpp), C. Kormanyos (gamma.hpp), and B. Steve. 2020, July. Rstan: {R} {Interface} to {Stan}.
+Guo, J., J. Gabry, B. Goodrich, S. Weber, D. Lee, K. Sakrejda, M. Martin, T. of C. University, O. Sklyar (R/cxxfunplus.R), T. R. C. Team (R/pairs.R, R/dynGet.R), J. Oehlschlaegel-Akiyoshi (R/pairs.R), J. Maddock (gamma.hpp), P. Bristow (gamma.hpp), N. Agrawal (gamma.hpp), C. Kormanyos (gamma.hpp), and B. Steve. 2020, July. \href{https://CRAN.R-project.org/package=rstan}{Rstan: {R} {Interface} to {Stan}}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hannah_protected_2007}{}}%
+Hannah, L., G. Midgley, S. Andelman, M. Araújo, G. Hughes, E. Martinez-Meyer, R. Pearson, and P. Williams. 2007. \href{https://doi.org/10.1890/1540-9295(2007)5\%5B131:PANIAC\%5D2.0.CO;2}{Protected area needs in a changing climate}. Frontiers in Ecology and the Environment 5:131--138.
 
 \leavevmode\vadjust pre{\hypertarget{ref-harte_convergent_2015}{}}%
-Harte, J., S. R. Saleska, and C. Levy. 2015. Convergent ecosystem responses to 23-year ambient and manipulated warming link advancing snowmelt and shrub encroachment to transient and long-term climate--soil carbon feedback. Global Change Biology 21:2349--2356.
+Harte, J., S. R. Saleska, and C. Levy. 2015. \href{https://doi.org/10.1111/gcb.12831}{Convergent ecosystem responses to 23-year ambient and manipulated warming link advancing snowmelt and shrub encroachment to transient and long-term climate--soil carbon feedback}. Global Change Biology 21:2349--2356.
 
 \leavevmode\vadjust pre{\hypertarget{ref-heinrichs_influences_2019}{}}%
-Heinrichs, J. A., M. S. O'Donnell, C. L. Aldridge, S. L. Garman, and C. G. Homer. 2019. Influences of potential oil and gas development and future climate on {Sage}-grouse declines and redistribution. Ecological Applications 29:e01912.
+Heinrichs, J. A., M. S. O'Donnell, C. L. Aldridge, S. L. Garman, and C. G. Homer. 2019. \href{https://doi.org/10.1002/eap.1912}{Influences of potential oil and gas development and future climate on {Sage}-grouse declines and redistribution}. Ecological Applications 29:e01912.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hijmans_raster_2023}{}}%
+Hijmans, R. J., J. van Etten, M. Sumner, J. Cheng, D. Baston, A. Bevan, R. Bivand, L. Busetto, M. Canty, B. Fasoli, D. Forrest, A. Ghosh, D. Golicher, J. Gray, J. A. Greenberg, P. Hiemstra, K. Hingee, A. Ilich, I. for M. A. Geosciences, C. Karney, M. Mattiuzzi, S. Mosher, B. Naimi, J. Nowosad, E. Pebesma, O. P. Lamigueiro, E. B. Racine, B. Rowlingson, A. Shortridge, B. Venables, and R. Wueest. 2023, January. \href{https://CRAN.R-project.org/package=raster}{Raster: {Geographic} {Data} {Analysis} and {Modeling}}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-hobbs_bayesian_2015}{}}%
-Hobbs, N. T., and M. B. Hooten. 2015. Bayesian {Models}: {A} {Statistical} {Primer} for {Ecologists}. Princeton University Press.
+Hobbs, N. T., and M. B. Hooten. 2015. \href{https://press.princeton.edu/books/hardcover/9780691159287/bayesian-models}{Bayesian {Models}: {A} {Statistical} {Primer} for {Ecologists}}. Princeton University Press.
 
 \leavevmode\vadjust pre{\hypertarget{ref-ives_estimating_2003}{}}%
-Ives, A. R., B. Dennis, K. L. Cottingham, and S. R. Carpenter. 2003. Estimating {Community} {Stability} and {Ecological} {Interactions} from {Time}-{Series} {Data}. Ecological Monographs 73:301--330.
+Ives, A. R., B. Dennis, K. L. Cottingham, and S. R. Carpenter. 2003. \href{https://doi.org/10.1890/0012-9615(2003)073\%5B0301:ECSAEI\%5D2.0.CO;2}{Estimating {Community} {Stability} and {Ecological} {Interactions} from {Time}-{Series} {Data}}. Ecological Monographs 73:301--330.
 
 \leavevmode\vadjust pre{\hypertarget{ref-jia_epwshiftr_2020}{}}%
-Jia, H., and A. Chong. 2020. Epwshiftr: {Create} {Future} '{EnergyPlus}' {Weather} {Files} using '{CMIP6}' {Data}.
+Jia, H., and A. Chong. 2020. \href{https://CRAN.R-project.org/package=epwshiftr}{Epwshiftr: {Create} {Future} '{EnergyPlus}' {Weather} {Files} using '{CMIP6}' {Data}}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-kiesecker_win-win_2011}{}}%
+Kiesecker, J. M., J. S. Evans, J. Fargione, K. Doherty, K. R. Foresman, T. H. Kunz, D. Naugle, N. P. Nibbelink, and N. D. Niemuth. 2011. \href{https://doi.org/10.1371/journal.pone.0017566}{Win-{Win} for {Wind} and {Wildlife}: {A} {Vision} to {Facilitate} {Sustainable} {Development}}. PLOS ONE 6:e17566.
 
 \leavevmode\vadjust pre{\hypertarget{ref-kleinhesselink_response_2018}{}}%
-Kleinhesselink, A. R., and P. B. Adler. 2018. The response of big sagebrush ({Artemisia} tridentata) to interannual climate variation changes across its range. Ecology 99:1139--1149.
+Kleinhesselink, A. R., and P. B. Adler. 2018. \href{https://doi.org/10.1002/ecy.2191}{The response of big sagebrush ({Artemisia} tridentata) to interannual climate variation changes across its range}. Ecology 99:1139--1149.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lloyd_prairie_2022}{}}%
+Lloyd, J. D., C. L. Aldridge, T. D. Allison, C. W. LeBeau, L. B. McNew, and V. L. Winder. 2022. \href{https://doi.org/10.1002/wsb.1305}{Prairie grouse and wind energy: {The} state of the science and implications for risk assessment}. Wildlife Society Bulletin 46:e1305.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lundblad_sensitivity_2022}{}}%
+Lundblad, C. G., C. A. Hagen, J. P. Donnelly, S. T. Vold, A. M. Moser, and S. P. Espinosa. 2022. \href{https://doi.org/10.1016/j.ecolind.2022.109231}{Sensitivity to weather drives {Great} {Basin} mesic resources and {Greater} {Sage}-{Grouse} productivity}. Ecological Indicators 142:109231.
 
 \leavevmode\vadjust pre{\hypertarget{ref-mcdonald_sdraw_2020}{}}%
-McDonald, T., A. M. (HIP. sampling methods), M. Kleinsausser, and S. E. (Auto. testing and Travis). 2020, July. {SDraw}: {Spatially} {Balanced} {Samples} of {Spatial} {Objects}.
+McDonald, T., A. M. (HIP. sampling methods), M. Kleinsausser, and S. E. (Auto. testing and Travis). 2020, July. \href{https://CRAN.R-project.org/package=SDraw}{{SDraw}: {Spatially} {Balanced} {Samples} of {Spatial} {Objects}}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-mcshane_hard_2011}{}}%
-McShane, T. O., P. D. Hirsch, T. C. Trung, A. N. Songorwa, A. Kinzig, B. Monteferri, D. Mutekanga, H. V. Thang, J. L. Dammert, M. Pulgar-Vidal, M. Welch-Devine, J. Peter Brosius, P. Coppolillo, and S. O'Connor. 2011. Hard choices: {Making} trade-offs between biodiversity conservation and human well-being. Biological Conservation 144:966--972.
+McShane, T. O., P. D. Hirsch, T. C. Trung, A. N. Songorwa, A. Kinzig, B. Monteferri, D. Mutekanga, H. V. Thang, J. L. Dammert, M. Pulgar-Vidal, M. Welch-Devine, J. Peter Brosius, P. Coppolillo, and S. O'Connor. 2011. \href{https://doi.org/10.1016/j.biocon.2010.04.038}{Hard choices: {Making} trade-offs between biodiversity conservation and human well-being}. Biological Conservation 144:966--972.
+
+\leavevmode\vadjust pre{\hypertarget{ref-monroe_spatial_2022}{}}%
+Monroe, A. P., J. A. Heinrichs, A. L. Whipple, M. S. O'Donnell, D. R. Edmunds, and C. L. Aldridge. 2022. \href{https://doi.org/10.1002/ecs2.4320}{Spatial scale selection for informing species conservation in a changing landscape}. Ecosphere 13:e4320.
+
+\leavevmode\vadjust pre{\hypertarget{ref-monzon_climate_2011}{}}%
+Monzón, J., L. Moyer-Horner, and M. B. Palamar. 2011. \href{https://doi.org/10.1525/bio.2011.61.10.5}{Climate {Change} and {Species} {Range} {Dynamics} in {Protected} {Areas}}. BioScience 61:752--761.
 
 \leavevmode\vadjust pre{\hypertarget{ref-nepstad_interactions_2008}{}}%
-Nepstad, D. C., C. M. Stickler, B. S.-. Filho, and F. Merry. 2008. Interactions among {Amazon} land use, forests and climate: Prospects for a near-term forest tipping point. Philosophical Transactions of the Royal Society B: Biological Sciences 363:1737--1746.
+Nepstad, D. C., C. M. Stickler, B. S.-. Filho, and F. Merry. 2008. \href{https://doi.org/10.1098/rstb.2007.0036}{Interactions among {Amazon} land use, forests and climate: Prospects for a near-term forest tipping point}. Philosophical Transactions of the Royal Society B: Biological Sciences 363:1737--1746.
 
 \leavevmode\vadjust pre{\hypertarget{ref-ogle_ensuring_2020}{}}%
-Ogle, K., and J. J. Barber. 2020. Ensuring identifiability in hierarchical mixed effects {Bayesian} models. Ecological Applications 30:e02159.
+Ogle, K., and J. J. Barber. 2020. \href{https://doi.org/10.1002/eap.2159}{Ensuring identifiability in hierarchical mixed effects {Bayesian} models}. Ecological Applications 30:e02159.
 
 \leavevmode\vadjust pre{\hypertarget{ref-palmquist_divergent_2021}{}}%
-Palmquist, K. A., D. R. Schlaepfer, R. R. Renne, S. C. Torbit, K. E. Doherty, T. E. Remington, G. Watson, J. B. Bradford, and W. K. Lauenroth. 2021. Divergent climate change effects on widespread dryland plant communities driven by climatic and ecohydrological gradients. Global Change Biology n/a.
+Palmquist, K. A., D. R. Schlaepfer, R. R. Renne, S. C. Torbit, K. E. Doherty, T. E. Remington, G. Watson, J. B. Bradford, and W. K. Lauenroth. 2021. \href{https://doi.org/10.1111/gcb.15776}{Divergent climate change effects on widespread dryland plant communities driven by climatic and ecohydrological gradients}. Global Change Biology n/a.
 
 \leavevmode\vadjust pre{\hypertarget{ref-pastick_rapid_2021}{}}%
-Pastick, N. J., B. K. Wylie, M. B. Rigge, D. Dahal, S. P. Boyte, M. O. Jones, B. W. Allred, S. Parajuli, and Z. Wu. 2021. Rapid {Monitoring} of the {Abundance} and {Spread} of {Exotic} {Annual} {Grasses} in the {Western} {United} {States} {Using} {Remote} {Sensing} and {Machine} {Learning}. AGU Advances 2:e2020AV000298.
-
-\leavevmode\vadjust pre{\hypertarget{ref-pedregosa_scikit-learn_2011}{}}%
-Pedregosa, F., G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas, A. Passos, D. Cournapeau, M. Brucher, M. Perrot, and É. Duchesnay. 2011. Scikit-learn: {Machine} {Learning} in {Python}. Journal of Machine Learning Research 12:2825--2830.
+Pastick, N. J., B. K. Wylie, M. B. Rigge, D. Dahal, S. P. Boyte, M. O. Jones, B. W. Allred, S. Parajuli, and Z. Wu. 2021. \href{https://doi.org/10.1029/2020AV000298}{Rapid {Monitoring} of the {Abundance} and {Spread} of {Exotic} {Annual} {Grasses} in the {Western} {United} {States} {Using} {Remote} {Sensing} and {Machine} {Learning}}. AGU Advances 2:e2020AV000298.
 
 \leavevmode\vadjust pre{\hypertarget{ref-perfors_enhanced_2003}{}}%
-Perfors, T., J. Harte, and S. E. Alter. 2003. Enhanced growth of sagebrush ({Artemisia} tridentata) in response to manipulated ecosystem warming. Global Change Biology 9:736--742.
+Perfors, T., J. Harte, and S. E. Alter. 2003. \href{https://doi.org/10.1046/j.1365-2486.2003.00559.x}{Enhanced growth of sagebrush ({Artemisia} tridentata) in response to manipulated ecosystem warming}. Global Change Biology 9:736--742.
 
 \leavevmode\vadjust pre{\hypertarget{ref-pilliod_reptiles_2020}{}}%
-Pilliod, D. S., M. I. Jeffries, R. S. Arkle, and D. H. Olson. 2020. Reptiles {Under} the {Conservation} {Umbrella} of the {Greater} {Sage}-{Grouse}. The Journal of Wildlife Management 84:478--491.
+Pilliod, D. S., M. I. Jeffries, R. S. Arkle, and D. H. Olson. 2020. \href{https://doi.org/10.1002/jwmg.21821}{Reptiles {Under} the {Conservation} {Umbrella} of the {Greater} {Sage}-{Grouse}}. The Journal of Wildlife Management 84:478--491.
 
 \leavevmode\vadjust pre{\hypertarget{ref-powers_global_2019}{}}%
-Powers, R. P., and W. Jetz. 2019. Global habitat loss and extinction risk of terrestrial vertebrates under future land-use-change scenarios. Nature Climate Change 9:323--329.
+Powers, R. P., and W. Jetz. 2019. \href{https://doi.org/10.1038/s41558-019-0406-z}{Global habitat loss and extinction risk of terrestrial vertebrates under future land-use-change scenarios}. Nature Climate Change 9:323--329.
 
 \leavevmode\vadjust pre{\hypertarget{ref-r_core_team_r_2020}{}}%
-R Core Team. 2020. R: {A} {Language} and {Environment} for {Statistical} {Computing}. R Foundation for Statistical Computing.
+R Core Team. 2020. \href{https://www.R-project.org/}{R: {A} {Language} and {Environment} for {Statistical} {Computing}.} R Foundation for Statistical Computing.
+
+\leavevmode\vadjust pre{\hypertarget{ref-remington_sagebrush_2021}{}}%
+Remington, T. E., P. A. Deibert, S. E. Hanser, D. M. Davis, L. A. Robb, and J. L. Welty. 2021. \href{https://doi.org/10.3133/ofr20201125}{Sagebrush conservation strategy---{Challenges} to sagebrush conservation}. \{USGS\} \{Numbered\} \{Series\}, U.S. Geological Survey, Reston, VA.
 
 \leavevmode\vadjust pre{\hypertarget{ref-renwick_multi-model_2018}{}}%
-Renwick, K. M., C. Curtis, A. R. Kleinhesselink, D. Schlaepfer, B. A. Bradley, C. L. Aldridge, B. Poulter, and P. B. Adler. 2018. Multi-model comparison highlights consistency in predicted effect of warming on a semi-arid shrub. Global Change Biology 24:424--438.
+Renwick, K. M., C. Curtis, A. R. Kleinhesselink, D. Schlaepfer, B. A. Bradley, C. L. Aldridge, B. Poulter, and P. B. Adler. 2018b. \href{https://doi.org/10.1111/gcb.13900}{Multi-model comparison highlights consistency in predicted effect of warming on a semi-arid shrub}. Global Change Biology 24:424--438.
+
+\leavevmode\vadjust pre{\hypertarget{ref-renwick_multi-model_2018-1}{}}%
+Renwick, K. M., C. Curtis, A. R. Kleinhesselink, D. Schlaepfer, B. A. Bradley, C. L. Aldridge, B. Poulter, and P. B. Adler. 2018a. \href{https://doi.org/10.1111/gcb.13900}{Multi-model comparison highlights consistency in predicted effect of warming on a semi-arid shrub}. Global Change Biology 24:424--438.
 
 \leavevmode\vadjust pre{\hypertarget{ref-rigge_quantifying_2020}{}}%
-Rigge, M., C. Homer, L. Cleeves, D. K. Meyer, B. Bunde, H. Shi, G. Xian, S. Schell, and M. Bobo. 2020. Quantifying {Western} {U}.{S}. {Rangelands} as {Fractional} {Components} with {Multi}-{Resolution} {Remote} {Sensing} and {In} {Situ} {Data}. Remote Sensing 12:412.
+Rigge, M., C. Homer, L. Cleeves, D. K. Meyer, B. Bunde, H. Shi, G. Xian, S. Schell, and M. Bobo. 2020. \href{https://doi.org/10.3390/rs12030412}{Quantifying {Western} {U}.{S}. {Rangelands} as {Fractional} {Components} with {Multi}-{Resolution} {Remote} {Sensing} and {In} {Situ} {Data}}. Remote Sensing 12:412.
 
 \leavevmode\vadjust pre{\hypertarget{ref-rigge_projected_2021}{}}%
-Rigge, M., H. Shi, and K. Postma. 2021. Projected change in rangeland fractional component cover across the sagebrush biome under climate change through 2085. Ecosphere 12:e03538.
+Rigge, M., H. Shi, and K. Postma. 2021. \href{https://doi.org/10.1002/ecs2.3538}{Projected change in rangeland fractional component cover across the sagebrush biome under climate change through 2085}. Ecosphere 12:e03538.
 
 \leavevmode\vadjust pre{\hypertarget{ref-rosentreter_sagebrush_2005}{}}%
-Rosentreter, R. 2005. Sagebrush identification, ecology, and palatability relative to sage-grouse. In: Shaw, Nancy L.; Pellant, Mike; Monsen, Stephen B., comps. 2005. Sage-grouse habitat restoration symposium proceedings; 2001 June 4-7, Boise, ID. Proc. RMRS-P-38. Fort Collins, CO: U.S. Department of Agriculture, Forest Service, Rocky Mountain Research Station. p. 3-16 038.
+Rosentreter, R. 2005. \href{https://www.fs.usda.gov/treesearch/pubs/21434}{Sagebrush identification, ecology, and palatability relative to sage-grouse}. In: Shaw, Nancy L.; Pellant, Mike; Monsen, Stephen B., comps. 2005. Sage-grouse habitat restoration symposium proceedings; 2001 June 4-7, Boise, ID. Proc. RMRS-P-38. Fort Collins, CO: U.S. Department of Agriculture, Forest Service, Rocky Mountain Research Station. p. 3-16 038.
 
 \leavevmode\vadjust pre{\hypertarget{ref-rowland_greater_2006}{}}%
-Rowland, M. M., M. J. Wisdom, L. H. Suring, and C. W. Meinke. 2006. Greater sage-grouse as an umbrella species for sagebrush-associated vertebrates. Biological Conservation 129:323--335.
+Rowland, M. M., M. J. Wisdom, L. H. Suring, and C. W. Meinke. 2006. \href{https://doi.org/10.1016/j.biocon.2005.10.048}{Greater sage-grouse as an umbrella species for sagebrush-associated vertebrates}. Biological Conservation 129:323--335.
 
 \leavevmode\vadjust pre{\hypertarget{ref-rupp_evaluation_2013}{}}%
-Rupp, D. E., J. T. Abatzoglou, K. C. Hegewisch, and P. W. Mote. 2013. Evaluation of {CMIP5} 20th century climate simulations for the {Pacific} {Northwest} {USA}. Journal of Geophysical Research: Atmospheres 118:10, 884--10, 906.
+Rupp, D. E., J. T. Abatzoglou, K. C. Hegewisch, and P. W. Mote. 2013. \href{https://doi.org/10.1002/jgrd.50843}{Evaluation of {CMIP5} 20th century climate simulations for the {Pacific} {Northwest} {USA}}. Journal of Geophysical Research: Atmospheres 118:10, 884--10, 906.
 
 \leavevmode\vadjust pre{\hypertarget{ref-sala_global_2000}{}}%
-Sala, O. E., F. S. Chapin, Iii, J. J. Armesto, E. Berlow, J. Bloomfield, R. Dirzo, E. Huber-Sanwald, L. F. Huenneke, R. B. Jackson, A. Kinzig, R. Leemans, D. M. Lodge, H. A. Mooney, M. Oesterheld, N. L. Poff, M. T. Sykes, B. H. Walker, M. Walker, and D. H. Wall. 2000. Global {Biodiversity} {Scenarios} for the {Year} 2100. Science 287:1770--1774.
+Sala, O. E., F. S. Chapin, Iii, J. J. Armesto, E. Berlow, J. Bloomfield, R. Dirzo, E. Huber-Sanwald, L. F. Huenneke, R. B. Jackson, A. Kinzig, R. Leemans, D. M. Lodge, H. A. Mooney, M. Oesterheld, N. L. Poff, M. T. Sykes, B. H. Walker, M. Walker, and D. H. Wall. 2000. \href{https://doi.org/10.1126/science.287.5459.1770}{Global {Biodiversity} {Scenarios} for the {Year} 2100}. Science 287:1770--1774.
+
+\leavevmode\vadjust pre{\hypertarget{ref-schlaepfer_understanding_2021}{}}%
+Schlaepfer, D. R., J. B. Bradford, W. K. Lauenroth, and R. K. Shriver. 2021. \href{https://doi.org/10.1002/ecs2.3695}{Understanding the future of big sagebrush regeneration: Challenges of projecting complex ecological processes}. Ecosphere 12:e03695.
 
 \leavevmode\vadjust pre{\hypertarget{ref-schlaepfer_ecohydrological_2012}{}}%
-Schlaepfer, D. R., W. K. Lauenroth, and J. B. Bradford. 2012. Ecohydrological niche of sagebrush ecosystems. Ecohydrology 5:453--466.
+Schlaepfer, D. R., W. K. Lauenroth, and J. B. Bradford. 2012. \href{https://doi.org/10.1002/eco.238}{Ecohydrological niche of sagebrush ecosystems}. Ecohydrology 5:453--466.
 
 \leavevmode\vadjust pre{\hypertarget{ref-smith_habitat_2019}{}}%
-Smith, I. T., J. L. Rachlow, L. K. Svancara, L. A. McMahon, and S. J. Knetter. 2019. Habitat specialists as conservation umbrellas: {Do} areas managed for greater sage-grouse also protect pygmy rabbits? Ecosphere 10:e02827.
+Smith, I. T., J. L. Rachlow, L. K. Svancara, L. A. McMahon, and S. J. Knetter. 2019. \href{https://doi.org/10.1002/ecs2.2827}{Habitat specialists as conservation umbrellas: {Do} areas managed for greater sage-grouse also protect pygmy rabbits?} Ecosphere 10:e02827.
+
+\leavevmode\vadjust pre{\hypertarget{ref-smith_are_2020}{}}%
+Smith, J. T., B. W. Allred, C. S. Boyd, J. C. Carlson, K. W. Davies, C. A. Hagen, D. E. Naugle, A. C. Olsen, and J. D. Tack. 2020. \href{https://doi.org/10.1002/jwmg.21837}{Are {Sage}-{Grouse} {Fine}-{Scale} {Specialists} or {Shrub}-{Steppe} {Generalists}?} The Journal of Wildlife Management 84:759--774.
 
 \leavevmode\vadjust pre{\hypertarget{ref-stan_development_team_stan_2020}{}}%
-Stan Development Team. 2020. Stan {Modeling} {Language} {Users} {Guide} and {Reference} {Manual}, 2.12.2.
+Stan Development Team. 2020. \href{https://mc-stan.org}{Stan {Modeling} {Language} {Users} {Guide} and {Reference} {Manual}, 2.12.2}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-stiver_sage-grouse_2015}{}}%
 Stiver, S. J., E. T. Rinkes, D. E. Naugle, P. D. Makela, D. A. Nance, and J. W. Karl. 2015. Sage-grouse {Habitat} {Assessment} {Framework}: {A} {Multiscale} {Assessment} {Tool}. {Technical} {Reference} 6710-1. Bureau of Land Management; Western Association of Fish; Wildlife Agencies, Denver, Colorado.
 
 \leavevmode\vadjust pre{\hypertarget{ref-tredennick_forecasting_2016}{}}%
-Tredennick, A. T., M. B. Hooten, C. L. Aldridge, C. G. Homer, A. R. Kleinhesselink, and P. B. Adler. 2016. Forecasting climate change impacts on plant populations over large spatial extents. Ecosphere 7:e01525.
+Tredennick, A. T., M. B. Hooten, C. L. Aldridge, C. G. Homer, A. R. Kleinhesselink, and P. B. Adler. 2016. \href{https://doi.org/10.1002/ecs2.1525}{Forecasting climate change impacts on plant populations over large spatial extents}. Ecosphere 7:e01525.
 
-\leavevmode\vadjust pre{\hypertarget{ref-van_rossum_python_2009}{}}%
-Van Rossum, G., and F. L. Drake. 2009. Python 3 {Reference} {Manual}. CreateSpace, Scotts Valley, CA.
+\leavevmode\vadjust pre{\hypertarget{ref-tredennick_data_2023}{}}%
+Tredennick, A. T., A. P. Monroe, T. Prebyl, J. Lombardi, and C. L. Aldridge. 2023. \href{https://doi.org/10.5066/P9G58V48}{Sagebrush projections for greater sage-grouse core areas in wyoming, USA, 2018-2100}. U.S. Geological Survey data release.
+
+\leavevmode\vadjust pre{\hypertarget{ref-united_states_fish_and_wildlife_service_endangered_2015}{}}%
+United States Fish and Wildlife Service. 2015. \href{https://www.federalregister.gov/documents/2015/10/02/2015-24292/endangered-and-threatened-wildlife-and-plants-12-month-finding-on-a-petition-to-list-greater}{Endangered and {Threatened} {Wildlife} and {Plants}; 12-{Month} {Finding} on a {Petition} {To} {List} {Greater} {Sage}-{Grouse} ({Centrocercus} urophasianus) as an {Endangered} or {Threatened} {Species}}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-walters_ecological_1978}{}}%
-Walters, C. J., and R. Hilborn. 1978. Ecological {Optimization} and {Adaptive} {Management}. Annual Review of Ecology and Systematics 9:157--188.
+Walters, C. J., and R. Hilborn. 1978. \href{https://doi.org/10.1146/annurev.es.09.110178.001105}{Ecological {Optimization} and {Adaptive} {Management}}. Annual Review of Ecology and Systematics 9:157--188.
 
 \end{CSLReferences}
 

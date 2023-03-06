@@ -1,6 +1,13 @@
 ---
+title: Online Supporting Information
+subtitle: Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales
+author: |
+  | Andrew T. Tredennick, Adrian P. Monroe, Thomas Prebyl, 
+  | John Lombardi, and Cameron L. Aldridge
 layout: 12pt
-output: pdf_document
+output: 
+  pdf_document:
+    toc: true
 bibliography: sagecast.bib
 csl: ecology.csl
 header-includes:
@@ -8,11 +15,8 @@ header-includes:
  \floatplacement{figure}{H}
 ---
 
-\begin{centering}
-\textbf{\Large{Supporting Information for:\\Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
-
-\textsc{\small{Andrew T. Tredennick, Thomas Prebyl, Adrian P. Monroe, John Lombardi, and Cameron L. Aldridge}}
-\end{centering}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
 
 
 ```{r setup, include=FALSE}
@@ -20,22 +24,45 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, eval = FAL
 library(readxl)
 library(dplyr)
 library(ggplot2)
+library(ggthemes)
 library(tidyverse)
+library(knitr)
 ```
 
+\pagebreak
 
 # Potential scale reduction factors
 
 Potential scale reduction factors ($\hat{R}$) help diagnose MCMC convergence.
 MCMC algorithms have reached convergence when $\hat{R} < 1.1$.
 
-```{r rhats, eval = TRUE, results = "asis"}
+```{r rhats, eval = TRUE, results = 'asis'}
+nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
 rhats <- readRDS("../Output/rhats.RDS")
 cores <- names(rhats)
 for(doCore in cores) {
+  thisname <- nameMap %>%
+    filter(NameNoSep == doCore) %>%
+    pull(Name)
+  thiscap <- paste0("Potential scale reduction factors ($\\hat{R}$) for all parameters in the model for the ", thisname, " core area.")
    tab <- rhats[[doCore]]$psrf
-   print(knitr::kable(tab, digits = 2, format = "latex", caption = doCore))
+   print(knitr::kable(tab, digits = 2, caption = thiscap))
+   cat("\\pagebreak")
 }
+```
+
+\pagebreak
+
+# Bayesian P-values
+```{r, eval = TRUE, results = "asis"}
+pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
+  drop_na()
+news <- readRDS("../Output/BayesianPValues-Redos.RDS") %>%
+  drop_na()
+allp <- bind_rows(pvals, news) %>%
+  pivot_wider(names_from = "name", values_from = "value") %>%
+  setNames(c("Core area", "Spatial Bayesian P-value", "Temporal Bayesian P-value"))
+knitr::kable(allp, digits = 2, caption = "Bayesian P-values for each core area. P-values greater than 0.95 or less than 0.05 indicate lack of fit. See main text for description of the P-value calculations.")
 ```
 
 \pagebreak
@@ -47,16 +74,19 @@ mcmcDir <- "../Output/MCMC/"
 subDirs <- list.files(mcmcDir)
 mcmcList <- list()
 
-paramLabs <- c("Intercept", "Dens. dep.", "Precip.", "Temp.", "Temporal var.")
+paramLabs <- c("Intercept", "Dens. dep.", "Precip.", "Temp.", "Temporal std. dev.")
 paramLabs <- factor(paramLabs, levels = paramLabs)
 
 tableLabs <- c("Intercept, $\\beta_{1}$", 
                "Density dependence, $\\beta_2$", 
                "Precipitation effect, $\\beta_3$", 
                "Temperature effect, $\\beta_4$", 
-               "Variance of temporal random effect, $\\sigma_y$")
+               "Std. dev. of temporal random effect, $\\sigma_y$")
 # tableLabs <- factor(tableLabs, levels = tableLabs)
-    
+
+allplots <- list() 
+alltables <- list()
+i = 1
 for(doArea in subDirs) {
    tmp <- readRDS(paste0(mcmcDir, doArea, "/MCMC.RDS"))
    mcmcList[[doArea]] <- tmp
@@ -67,14 +97,18 @@ for(doArea in subDirs) {
       gather(key = "Parameter", value = "value", -iteration) %>%
       mutate(Parameter = factor(Parameter, levels = paramLabs))
    
-   p <- ggplot(tmpDf, aes(x = value, y=..density..)) +
-    geom_histogram(color = "black", fill = "grey") +
+   thisname <- nameMap %>%
+    filter(NameNoSep == doArea) %>%
+    pull(Name)
+   
+   allplots[[i]] <- ggplot(tmpDf, aes(x = value, y=..density..)) +
+    geom_histogram(color = "black", fill = "grey", bins = 30) +
     facet_wrap(~Parameter, nrow = 2, scales = "free") +
     ggthemes::theme_few(base_size = 12) +
-    labs(x = "Parameter estimate", y = "Posterior density") +
-    ggtitle(doArea)
-   
-   print(p)
+    labs(x = "Parameter estimate", y = "Posterior density")
+   thiscap <- paste0("Posterior distributions of key parameters for the ", thisname, " core area.")
+   names(allplots)[i] <- thiscap
+   # print(p)
    
    # table of posterior summaries
    postSummary <- tmpDf %>%
@@ -87,14 +121,118 @@ for(doArea in subDirs) {
      dplyr::select(-Parameter) %>%
      as.data.frame()
    rownames(postSummary) <- tableLabs
-     
+   alltables[[i]] <- postSummary
+   names(alltables)[i] <- paste0("Statistical summaries of posterior distributions of key parameters for the ", thisname, " core area. SD = standard deviation; 2.5% and 97.5% quantiles bound the 95% Bayesian credible interval.")
    
-   print(knitr::kable(postSummary, digits = 2))
-   cat("\n")
+   i = i+1
 }
 ```
 
+```{r post-plots, eval = TRUE, fig.cap=names(allplots), results='asis'}
+for(i in 1:length(allplots)) {
+  print(allplots[[i]])
+  cat('\n\n')
+  print(knitr::kable(alltables[[i]], caption = names(alltables)[i], digits = 2))
+  cat('\n')
+  cat("\\pagebreak")
+}
 
+```
+
+\pagebreak
+
+<!-- # Elk Basin West traceplots -->
+
+```{r traces, eval = FALSE}
+mcmcList[["ElkBasinWest"]] %>%
+  as.data.frame() %>%
+  mutate(chain = rep(c(1,2,3), each = 1000)) %>%
+  group_by(chain) %>%
+  mutate(iter = 1:n()) %>%
+  ungroup() %>%
+  dplyr::select(-`lp__`) %>%
+  pivot_longer(cols = -c("iter", "chain")) %>%
+  ggplot(aes(iter, value, color = factor(chain))) +
+  geom_line(alpha = 0.5) +
+  facet_wrap(~name, scales = "free")
+```
+
+<!-- \pagebreak -->
+
+
+# Estimated equilibrium cover
+
+```{r equilibrium-cover, eval = TRUE, fig.cap="Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018."}
+nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
+
+pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
+  drop_na()
+news <- readRDS("../Output/BayesianPValues-Redos.RDS") %>%
+  drop_na()
+allp <- bind_rows(pvals, news)
+badp <- allp %>%
+  filter(value > 0.95 | value < 0.05) 
+
+badspace <- badp %>%
+  filter(name == "SpatialDiscrep")
+
+badtime <- badp %>%
+  filter(name == "TemporalDiscrep")
+
+badSites <- c(badspace$CoreArea, badtime$CoreArea)
+
+obscover <- read.csv("../Output/historic_Sage_Cover_Summary.csv") %>%
+  group_by(coreName) %>%
+  summarise(MeanCover = mean(mean)) %>%
+  mutate(NameNoSep = gsub(" ", "", coreName)) %>%
+  left_join(nameMap) %>%
+  filter(!Name %in% badSites)
+
+allpostdirs <- list.files("../Output/MCMC/")
+allposts <- tibble()
+for(d in allpostdirs) {
+  f <- paste0("../Output/MCMC/", d, "/MCMC.RDS")
+  if(file.exists(f)) {
+    tmp <- readRDS(f)
+    cover <- exp(tmp[ , "Beta[1]"] / (1 - tmp[,"Beta[2]"]))
+    df <- data.frame(CoreArea = d,
+                     Cover = cover)
+    allposts <- bind_rows(allposts, df)
+  }
+}
+
+allposts <- allposts %>%
+  rename("NameNoSep" = CoreArea) %>%
+  left_join(nameMap) %>%
+  filter(!Name %in% badSites)
+
+ggplot(allposts, aes(x = Cover)) +
+  geom_density(color = NA, fill = "tan", adjust = 2) +
+  geom_vline(data = obscover, aes(xintercept = MeanCover)) +
+  facet_wrap(~Abbreviation, scales = "free") +
+  labs(x = "Average equilibrium cover (%)", y = NULL) +
+  theme(axis.line.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  scale_x_continuous(breaks = scales::pretty_breaks(3))
+```
+
+\pagebreak
+
+# Estimated colonization probabilities
+
+```{r colonization-res, eval = TRUE, results='asis'}
+colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
+  rename("Core area" = CoreArea,
+         "Pr(colonize | cover = 0)" = ProbabilityOfColonization,
+         "Mean cover in colonized cells" = MeanColonizationCover) %>%
+  filter(!`Core area` %in% badSites)
+
+kable(colonization, 
+      digits = 2,
+      caption = 'Results from colonization model for each core area. Pr(colonize | cover = 0) reads, "the probability of colonizition given that current cover is zero."') %>%
+print()
+```
 
 <!-- # Temporal random effects -->
 
@@ -136,12 +274,69 @@ ggplot(allGammas, aes(x = yearid)) +
 ```
 
 
+\pagebreak
+
 # Nesting and summer cover thresholds
 
 ```{r targs,  eval = TRUE, results = 'asis'}
 read.csv("../AuxData/CoreAreaNamesMapping.csv") %>%
   dplyr::select(Name, Abbreviation, Region, NestingTarget, SummerTarget) %>%
-  knitr::kable() %>%
+  knitr::kable(caption = "Percent sagebrush cover thresholds for sage-grouse nesting habitat and summer habitat. See main text for details.") %>%
   print()
+```
 
+
+\pagebreak
+
+# Summer habitat cover targets compared to projections
+
+```{r nesting-targs, fig.height=6, eval = TRUE, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse summer cover threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area."}
+d <- "../Output/ForecastSummaries"
+allfiles <- list.files(d)
+summaryFiles <- allfiles[grep("summaries", allfiles, invert = TRUE)]
+
+props <- tibble()
+for(f in summaryFiles) {
+  name <- unlist(strsplit(f, "-"))[1]
+  scen <- unlist(strsplit(f, "-"))[5]
+  scen <- unlist(strsplit(scen, "[.]"))[1]
+  tmp <- read.csv(paste0("../Output/ForecastSummaries/", f)) %>%
+    mutate(CoreArea = name,
+           Scenario = scen)
+  props <- bind_rows(props, tmp)
+}
+
+props <- props %>%
+  mutate(CalYear = 2018+Year) %>%
+  filter(CalYear > 2018) %>%
+  group_by(CalYear, Scenario, CoreArea, TargetType) %>%
+  summarise(MeanProp = mean(Proportion),
+            LL95 = quantile(Proportion, 0.025),
+            UL95 = quantile(Proportion, 0.975),
+            LL68 = quantile(Proportion, 0.16),
+            UL68 = quantile(Proportion, 0.84),
+            .groups = "drop") %>%
+  rename("NameNoSep" = CoreArea) %>%
+  left_join(nameMap) %>%
+  filter(!Name %in% badSites)
+
+cols <- RColorBrewer::brewer.pal(7, "YlOrRd")[c(3,5,7)]
+
+ggplot(props %>% filter(TargetType == "summer"), aes(x = CalYear, y = MeanProp,
+                      color = Scenario, fill = Scenario)) +
+  geom_hline(aes(yintercept = 0.5), color = "grey35", linetype = 2) +
+  geom_ribbon(aes(ymin = LL95, ymax = UL95), alpha = 0.1, color = NA) +
+  geom_ribbon(aes(ymin = LL68, ymax = UL68), alpha = 0.3, color = NA) +
+  geom_line(alpha = 0.8) +
+  scale_color_manual(values = cols, name = NULL) +
+  scale_fill_manual(values = cols, name = NULL) +
+  labs(x = "Year", y = "Proportion of cells above target") +
+  facet_wrap(~Abbreviation, scales = "free_y") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+        axis.text.y = element_text(size = 6),
+        strip.text = element_text(size = 8),
+        legend.position = "bottom") +
+  scale_y_continuous(breaks= scales::pretty_breaks()) +
+  coord_cartesian(ylim = c(0,1)) +
+  guides(fill = FALSE) 
 ```

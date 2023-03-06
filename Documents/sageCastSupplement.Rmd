@@ -1,6 +1,13 @@
 ---
+title: Online Supporting Information
+subtitle: Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales
+author: |
+  | Andrew T. Tredennick, Adrian P. Monroe, Thomas Prebyl, 
+  | John Lombardi, and Cameron L. Aldridge
 layout: 12pt
-output: pdf_document
+output: 
+  pdf_document:
+    toc: true
 bibliography: sagecast.bib
 csl: ecology.csl
 header-includes:
@@ -8,11 +15,8 @@ header-includes:
  \floatplacement{figure}{H}
 ---
 
-\begin{centering}
-\textbf{\Large{Online Supporting Information for:\\Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
-
-\textsc{\small{Andrew T. Tredennick, Adrian P. Monroe, Thomas Prebyl, John Lombardi, and Cameron L. Aldridge}}
-\end{centering}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
 
 
 ```{r setup, include=FALSE}
@@ -25,32 +29,40 @@ library(tidyverse)
 library(knitr)
 ```
 
+\pagebreak
 
 # Potential scale reduction factors
 
 Potential scale reduction factors ($\hat{R}$) help diagnose MCMC convergence.
 MCMC algorithms have reached convergence when $\hat{R} < 1.1$.
 
-```{r rhats, eval = TRUE, results = "asis"}
+```{r rhats, eval = TRUE, results = 'asis'}
+nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
 rhats <- readRDS("../Output/rhats.RDS")
 cores <- names(rhats)
 for(doCore in cores) {
+  thisname <- nameMap %>%
+    filter(NameNoSep == doCore) %>%
+    pull(Name)
+  thiscap <- paste0("Potential scale reduction factors ($\\hat{R}$) for all parameters in the model for the ", thisname, " core area.")
    tab <- rhats[[doCore]]$psrf
-   print(knitr::kable(tab, digits = 2, format = "latex", caption = doCore))
+   print(knitr::kable(tab, digits = 2, caption = thiscap))
+   cat("\\pagebreak")
 }
 ```
 
 \pagebreak
 
-# Bayesian p-values
+# Bayesian P-values
 ```{r, eval = TRUE, results = "asis"}
 pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
   drop_na()
 news <- readRDS("../Output/BayesianPValues-Redos.RDS") %>%
   drop_na()
-allp <- bind_rows(pvals, news)
-colnames(allp) <- c("P-value type", "P-value", "Core Area")
-knitr::kable(allp, digits = 2)
+allp <- bind_rows(pvals, news) %>%
+  pivot_wider(names_from = "name", values_from = "value") %>%
+  setNames(c("Core area", "Spatial Bayesian P-value", "Temporal Bayesian P-value"))
+knitr::kable(allp, digits = 2, caption = "Bayesian P-values for each core area. P-values greater than 0.95 or less than 0.05 indicate lack of fit. See main text for description of the P-value calculations.")
 ```
 
 \pagebreak
@@ -71,7 +83,9 @@ tableLabs <- c("Intercept, $\\beta_{1}$",
                "Temperature effect, $\\beta_4$", 
                "Std. dev. of temporal random effect, $\\sigma_y$")
 # tableLabs <- factor(tableLabs, levels = tableLabs)
-    
+
+allplots <- list()  
+i = 1
 for(doArea in subDirs) {
    tmp <- readRDS(paste0(mcmcDir, doArea, "/MCMC.RDS"))
    mcmcList[[doArea]] <- tmp
@@ -82,38 +96,47 @@ for(doArea in subDirs) {
       gather(key = "Parameter", value = "value", -iteration) %>%
       mutate(Parameter = factor(Parameter, levels = paramLabs))
    
-   p <- ggplot(tmpDf, aes(x = value, y=..density..)) +
+   allplots[[i]] <- ggplot(tmpDf, aes(x = value, y=..density..)) +
     geom_histogram(color = "black", fill = "grey") +
     facet_wrap(~Parameter, nrow = 2, scales = "free") +
     ggthemes::theme_few(base_size = 12) +
     labs(x = "Parameter estimate", y = "Posterior density") +
     ggtitle(doArea)
-   
-   print(p)
+   names(allplots)[i] <- paste0("Caption ", i)
+   # print(p)
    
    # table of posterior summaries
-   postSummary <- tmpDf %>%
-     group_by(Parameter) %>%
-     summarise(Mean = mean(value),
-               Median = median(value),
-               SD = sd(value),
-               `2.5%` = quantile(value, 0.025),
-               `97.5%` = quantile(value, 0.975)) %>%
-     dplyr::select(-Parameter) %>%
-     as.data.frame()
-   rownames(postSummary) <- tableLabs
-     
-   
-   print(knitr::kable(postSummary, digits = 2))
-   cat("\n")
+   # postSummary <- tmpDf %>%
+   #   group_by(Parameter) %>%
+   #   summarise(Mean = mean(value),
+   #             Median = median(value),
+   #             SD = sd(value),
+   #             `2.5%` = quantile(value, 0.025),
+   #             `97.5%` = quantile(value, 0.975)) %>%
+   #   dplyr::select(-Parameter) %>%
+   #   as.data.frame()
+   # rownames(postSummary) <- tableLabs
+   #   
+   # 
+   # print(knitr::kable(postSummary, digits = 2))
+   # cat("\n")
+   i = i+1
 }
+```
+
+```{r post-plots, eval = TRUE, fig.cap=names(allplots), results='asis'}
+for(plots in allplots) {
+  print(plots)
+  cat('\n\n')
+}
+
 ```
 
 \pagebreak
 
 # Elk Basin West traceplots
 
-```{r traces}
+```{r traces, eval = FALSE}
 mcmcList[["ElkBasinWest"]] %>%
   as.data.frame() %>%
   mutate(chain = rep(c(1,2,3), each = 1000)) %>%
@@ -134,7 +157,7 @@ mcmcList[["ElkBasinWest"]] %>%
 
 Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018.
 
-```{r equilibrium-cover, eval = TRUE}
+```{r equilibrium-cover, eval = FALSE}
 nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
 
 pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
@@ -195,7 +218,7 @@ ggplot(allposts, aes(x = Cover)) +
 
 Results from colonization model for each core area. Pr(colonize | cover = 0) reads, "the probability of colonizition given that current cover is zero."
 
-```{r colonization-res, eval = TRUE, results='asis'}
+```{r colonization-res, eval = FALSE, results='asis'}
 colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
   rename("Core area" = CoreArea,
          "Pr(colonize | cover = 0)" = ProbabilityOfColonization,
@@ -251,7 +274,7 @@ ggplot(allGammas, aes(x = yearid)) +
 
 # Nesting and summer cover thresholds
 
-```{r targs,  eval = TRUE, results = 'asis'}
+```{r targs,  eval = FALSE, results = 'asis'}
 read.csv("../AuxData/CoreAreaNamesMapping.csv") %>%
   dplyr::select(Name, Abbreviation, Region, NestingTarget, SummerTarget) %>%
   knitr::kable() %>%
@@ -265,7 +288,7 @@ read.csv("../AuxData/CoreAreaNamesMapping.csv") %>%
 
 Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse summer cover threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area.
 
-```{r nesting-targs, fig.height=6, eval = TRUE}
+```{r nesting-targs, fig.height=6, eval = FALSE}
 d <- "../Output/ForecastSummaries"
 allfiles <- list.files(d)
 summaryFiles <- allfiles[grep("summaries", allfiles, invert = TRUE)]

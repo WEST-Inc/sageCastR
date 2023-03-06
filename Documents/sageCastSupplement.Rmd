@@ -84,7 +84,8 @@ tableLabs <- c("Intercept, $\\beta_{1}$",
                "Std. dev. of temporal random effect, $\\sigma_y$")
 # tableLabs <- factor(tableLabs, levels = tableLabs)
 
-allplots <- list()  
+allplots <- list() 
+alltables <- list()
 i = 1
 for(doArea in subDirs) {
    tmp <- readRDS(paste0(mcmcDir, doArea, "/MCMC.RDS"))
@@ -96,45 +97,51 @@ for(doArea in subDirs) {
       gather(key = "Parameter", value = "value", -iteration) %>%
       mutate(Parameter = factor(Parameter, levels = paramLabs))
    
+   thisname <- nameMap %>%
+    filter(NameNoSep == doArea) %>%
+    pull(Name)
+   
    allplots[[i]] <- ggplot(tmpDf, aes(x = value, y=..density..)) +
-    geom_histogram(color = "black", fill = "grey") +
+    geom_histogram(color = "black", fill = "grey", bins = 30) +
     facet_wrap(~Parameter, nrow = 2, scales = "free") +
     ggthemes::theme_few(base_size = 12) +
-    labs(x = "Parameter estimate", y = "Posterior density") +
-    ggtitle(doArea)
-   names(allplots)[i] <- paste0("Caption ", i)
+    labs(x = "Parameter estimate", y = "Posterior density")
+   thiscap <- paste0("Posterior distributions of key parameters for the ", thisname, " core area.")
+   names(allplots)[i] <- thiscap
    # print(p)
    
    # table of posterior summaries
-   # postSummary <- tmpDf %>%
-   #   group_by(Parameter) %>%
-   #   summarise(Mean = mean(value),
-   #             Median = median(value),
-   #             SD = sd(value),
-   #             `2.5%` = quantile(value, 0.025),
-   #             `97.5%` = quantile(value, 0.975)) %>%
-   #   dplyr::select(-Parameter) %>%
-   #   as.data.frame()
-   # rownames(postSummary) <- tableLabs
-   #   
-   # 
-   # print(knitr::kable(postSummary, digits = 2))
-   # cat("\n")
+   postSummary <- tmpDf %>%
+     group_by(Parameter) %>%
+     summarise(Mean = mean(value),
+               Median = median(value),
+               SD = sd(value),
+               `2.5%` = quantile(value, 0.025),
+               `97.5%` = quantile(value, 0.975)) %>%
+     dplyr::select(-Parameter) %>%
+     as.data.frame()
+   rownames(postSummary) <- tableLabs
+   alltables[[i]] <- postSummary
+   names(alltables)[i] <- paste0("Statistical summaries of posterior distributions of key parameters for the ", thisname, " core area. SD = standard deviation; 2.5% and 97.5% quantiles bound the 95% Bayesian credible interval.")
+   
    i = i+1
 }
 ```
 
 ```{r post-plots, eval = TRUE, fig.cap=names(allplots), results='asis'}
-for(plots in allplots) {
-  print(plots)
+for(i in 1:length(allplots)) {
+  print(allplots[[i]])
   cat('\n\n')
+  print(knitr::kable(alltables[[i]], caption = names(alltables)[i], digits = 2))
+  cat('\n')
+  cat("\\pagebreak")
 }
 
 ```
 
 \pagebreak
 
-# Elk Basin West traceplots
+<!-- # Elk Basin West traceplots -->
 
 ```{r traces, eval = FALSE}
 mcmcList[["ElkBasinWest"]] %>%
@@ -150,14 +157,12 @@ mcmcList[["ElkBasinWest"]] %>%
   facet_wrap(~name, scales = "free")
 ```
 
-\pagebreak
+<!-- \pagebreak -->
 
 
 # Estimated equilibrium cover
 
-Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018.
-
-```{r equilibrium-cover, eval = FALSE}
+```{r equilibrium-cover, eval = TRUE, fig.cap="Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018."}
 nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
 
 pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
@@ -216,9 +221,7 @@ ggplot(allposts, aes(x = Cover)) +
 
 # Estimated colonization probabilities
 
-Results from colonization model for each core area. Pr(colonize | cover = 0) reads, "the probability of colonizition given that current cover is zero."
-
-```{r colonization-res, eval = FALSE, results='asis'}
+```{r colonization-res, eval = TRUE, results='asis'}
 colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
   rename("Core area" = CoreArea,
          "Pr(colonize | cover = 0)" = ProbabilityOfColonization,
@@ -226,8 +229,9 @@ colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
   filter(!`Core area` %in% badSites)
 
 kable(colonization, 
-      digits = 2) %>%
-  print()
+      digits = 2,
+      caption = 'Results from colonization model for each core area. Pr(colonize | cover = 0) reads, "the probability of colonizition given that current cover is zero."') %>%
+print()
 ```
 
 <!-- # Temporal random effects -->
@@ -274,10 +278,10 @@ ggplot(allGammas, aes(x = yearid)) +
 
 # Nesting and summer cover thresholds
 
-```{r targs,  eval = FALSE, results = 'asis'}
+```{r targs,  eval = TRUE, results = 'asis'}
 read.csv("../AuxData/CoreAreaNamesMapping.csv") %>%
   dplyr::select(Name, Abbreviation, Region, NestingTarget, SummerTarget) %>%
-  knitr::kable() %>%
+  knitr::kable(caption = "Percent sagebrush cover thresholds for sage-grouse nesting habitat and summer habitat. See main text for details.") %>%
   print()
 ```
 
@@ -286,9 +290,7 @@ read.csv("../AuxData/CoreAreaNamesMapping.csv") %>%
 
 # Summer habitat cover targets compared to projections
 
-Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse summer cover threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area.
-
-```{r nesting-targs, fig.height=6, eval = FALSE}
+```{r nesting-targs, fig.height=6, eval = TRUE, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse summer cover threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area."}
 d <- "../Output/ForecastSummaries"
 allfiles <- list.files(d)
 summaryFiles <- allfiles[grep("summaries", allfiles, invert = TRUE)]

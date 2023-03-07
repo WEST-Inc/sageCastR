@@ -43,11 +43,11 @@ urlcolor: black
 \begin{centering}
 \textbf{\Large{Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
 
-\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredenn@gmail.com}; \textit{phone}, 970-443-1599. Current address: Metrum Research Group, Tariffville, Connecticut}\textsuperscript{1,}, Adrian P. Monroe\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{3}}}
+\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredenn@gmail.com}; \textit{phone}, 970-443-1599. Current address: Metrum Research Group, Tariffville, Connecticut}\textsuperscript{1,}, Adrian P. Monroe\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{2,3}}}
 
 \textit{\small{\textsuperscript{1}Western EcoSystems Technology, Inc., Laramie, WY}} \\
-\textit{\small{\textsuperscript{2}Fort Collins Science Center, U.S. Geological Survey, Fort Collins, CO}} \\
-\textit{\small{\textsuperscript{3}Natural Resource Ecology Laboratory and Department of Ecosystem Science and Sustainability, Colorado State University, Fort Collins, CO, in cooperation with US Geological Survey, Fort Collins Science Center, Fort Collins, CO}}
+\textit{\small{\textsuperscript{2}U.S. Geological Survey, Fort Collins Science Center, Fort Collins, CO}} \\
+\textit{\small{\textsuperscript{3}Natural Resource Ecology Laboratory and Department of Ecosystem Science and Sustainability, Colorado State University, Fort Collins, CO, in cooperation with U.S. Geological Survey, Fort Collins Science Center, Fort Collins, CO}}
 
 \end{centering}
 
@@ -130,14 +130,14 @@ Our approach is broadly applicable to quantitative climate change assessments wh
 # Introduction
 
 Environmental management and stewardship requires assessing tradeoffs [@walters_ecological_1978; @farber_linking_2006].
-For example, land managers must consider the long-term impacts of climate change and the near-term impacts of ecosystem degradation [e.g., @nepstad_interactions_2008].
+For example, land managers must consider the long-term effects of climate change and the near-term impacts of ecosystem degradation [e.g., @nepstad_interactions_2008].
 Because populations, communities, and ecosystems are not static, using the current status of an ecosystem \new{may be insufficient to define protected areas for species} [@hannah_protected_2007; @monzon_climate_2011] or to make optimal management decisions [@boettiger_optimal_2016].
 A better approach is to consider the past, current, and future status of ecosystems.
 Doing so requires projections of how an ecosystem might respond to future stressors and conditions [@dietze_iterative_2018; @clark_ecological_2001].
 
 Wildlife management often requires assessing tradeoffs between the benefits of development and the costs of habitat loss or degradation [@mcshane_hard_2011].
 To assess that tradeoff, managers often identify areas of high and low quality habitat\new{, with low quality habitat preferred for habitat alteration.}
-But habitat quality is not static and global climate change has the potential alter the trajectory of an ecosystem.
+But habitat quality is not static and global climate change has the potential to alter the trajectory of an ecosystem.
 Some currently high quality habitat (for a particular species) might quickly change if on a range edge while lower quality habitat in the middle of the range might maintain its general structure and function longer [@amburgey_range_2018].
 Habitat on the edge of an ecosystem's range might also improve.
 For example, warming temperatures could benefit some plants at the cold edge of their range [@kleinhesselink_response_2018].
@@ -157,7 +157,7 @@ Sage-grouse populations are active in all core areas and most maintain stable po
 \new{Habitat loss and transformation is a major driver of biodiversity loss} [@powers_global_2019; @cardinale_biodiversity_2012; @sala_global_2000], \new{and infrastructure development directly leads to habitat loss and transformation.}
 \new{Wyoming has ideal conditions for future renewable energy development such as wind} [@lloyd_prairie_2022]\new{, and while wind energy is excluded from sage-grouse core areas, achieving renewable electricity production targets would require expansion beyond disturbed lands} [@kiesecker_win-win_2011].
 This presents a challenge to land management: Should land be prioritized for sage-grouse conservation or renewable energy development?
-\new{However, if some areas may become less suitable for sage-grouse due to climate change, those areas might accommodate renewable energy infrastructure without long-term effects to the species.} 
+\new{However, if some areas may become less suitable for sage-grouse due to climate change, those areas might accommodate renewable energy infrastructure without long-term effects on the species.} 
 Considering how climate change impacts whether a sage-grouse core area is or will be “naturally unsuitable” clearly falls within the scope of the Core Area strategy.
 More broadly, assessing current and future habitat suitability *vis-a-vis* species of concern is useful as we face difficult and inevitable trade-offs between land preservation and land-use to combat climate change.
 
@@ -216,7 +216,7 @@ From these estimates, we calculated two climate covariates: 1) average spring-th
 We defined spring-through-summer as March 1 through August 31 for each year.
 We decided on the two covariates based on our previous work [@tredennick_forecasting_2016] and more recent work by @kleinhesselink_response_2018.
 Previous modeling of sagebrush dynamics in Wyoming and across the sagebrush range used "lagged covariates" like precipitation in the year prior to an observed transition.
-We do not use lagged covariates here because exploratory work suggests that lagged covariates result in correlated and confounded parameter estimates (Kleinhesselink written pers. comm., 2021).
+We do not use lagged covariates here because exploratory work indicates that lagged covariates result in correlated and confounded parameter estimates (Kleinhesselink written pers. comm., 2021).
 
 \new{The choice to use two simple covariates is motivated by biology, modeling constraints, and the desire to avoid spurious, difficult-to-explain effects.} \new{First, as mentioned above, average spring-through-summer precipitation and temperature have been identified as important covariates in previous work} [@tredennick_forecasting_2016; @kleinhesselink_response_2018].
 \new{These two covariates also have the advantage of being directly tied to the limits of sagebrush performance in terms of cold, moist versus warm, dry sites} [@palmquist_divergent_2021].
@@ -250,11 +250,11 @@ E_{i,j}^* = \frac{E_{i,j} - \min\limits_{i}(E_{j})}{\max\limits_{i}(E_{j}) - \mi
 \end{equation}
 
 \noindent{}where $i$ indexes the variable (temperature or precipitation) and $j$ indexes the GCM.
-$E_{i,j}$ is the mean absulute error, calculated as $E_{i,j} = \frac{\sum_{k=1}^K|x_{i,j,k} - z_{i,j,k}|}{K}$, where $x$ is the observed value from PRISM and $z$ is the value from the GCM and $k$ indexes the observation (an annual mean value for a particular year), and $K$ is the total number of observations.
+$E_{i,j}$ is the mean absolute error, calculated as $E_{i,j} = \frac{\sum_{k=1}^K|x_{i,j,k} - z_{i,j,k}|}{K}$, where $x$ is the observed value from PRISM and $z$ is the value from the GCM and $k$ indexes the observation (an annual mean value for a particular year), and $K$ is the total number of observations.
 Last, we averaged the $E^*$ values across the two variables (temperature and precipitation) to arrive at a single relative error value for each of the $J$ GCMs: $E_{j}^* = \left(\sum_{i=1}^N E_{i,j}^* \right) / N$, where $N = 2$ is the total number of variables. 
 The resulting relative errors for each GCM were used as weights ($w_j = 1 - E_j^*$) when making projections of sagebrush dynamics forced by the GCM output.
 Specifically, the projected time series of weather we used under each scenario is the weighted average of all GCMs, with $w_j$ being the weight for each GCM *j*.
-\new{For simulating projections, GCM data were resampled from 100-km resultion to 1-km resolution, cropped to each core area extent, and then the average covariate value across 1-km grid cells within each core area was calculated.}
+\new{For simulating projections, GCM data were resampled from 100-km resolution to 1-km resolution, cropped to each core area extent, and then the average covariate value across 1-km grid cells within each core area was calculated.}
 \new{This means that climate covariates for projections did not vary across space within each core area, only over time.}
 
 
@@ -386,7 +386,7 @@ $\sigma_{\gamma}$ & standard deviation of temporal random effects & Cauchy(0, 2.
 
 ### Model fitting and evaluation
 We used Hamiltonian Monte Carlo (HMC) to approximate the posterior distributions of all unknown parameters.
-Specifically, we used the Stan software [@stan_development_team_stan_2020] to implement the HMC algorithm, using the rstan package [@guo_rstan_2020] to connect Stan to R.
+Specifically, we used the Stan software [@stan_development_team_stan_2020] to implement the HMC Markov chain Monte Carlo (MCMC) algorithm, using the rstan package [@guo_rstan_2020] to connect Stan to R.
 We ran three chains of 1,000 iterations after a burn-in of 1,000 iterations.
 Convergence of the MCMC chains was assessed visually with traceplots and by ensuring that the 95% upper credible interval of scale reduction factors ($\hat{R}$) were less than 1.1 [@gelman_inference_1992; @gelman_data_2006].
 Convergence diagnostics for the intercept ($\beta_1$) and the temporal random effects ($\gamma_t$) were computed after applying "post-sweeping" to address mixing and convergence problems associated with weak identifiability [@ogle_ensuring_2020].
@@ -820,7 +820,7 @@ precipPost <- apply(precipMat, 1, mean)
 precipSummary <- paste0(
   "mean = ",
   as.character(round(median(precipPost), 3)),
-  " (pseudo 95% BCI = ",
+  " (pseudo 95% Bayesian credible interval (BCI) = ",
   as.character(round(quantile(precipPost, 0.025), 3)),
   ", ",
   as.character(round(quantile(precipPost, 0.975), 3)),
@@ -1010,7 +1010,7 @@ For decreases, the median percent difference between average cover in 2018 and a
 For increases, the median percent difference between average cover in 2018 and average cover in 2100 was `r as.character(round(percentDiffs[4, "MedianPercDiff"]))`% for ssp126, `r as.character(round(percentDiffs[5, "MedianPercDiff"]))`% for ssp245, and `r as.character(round(percentDiffs[6, "MedianPercDiff"]))`% for ssp585.
 The percent differences show that projected increases in sagebrush cover are nearly twice the magnitude of projected decreases for each GCM scenario, on average.
 Summing across core areas, `r as.character(round(min(areaDiffsInc$TotalArea)))` - `r as.character(round(max(areaDiffsInc$TotalArea)))`  $\text{km}^2$ of land is projected to experience increases in sagebrush cover on average, depending on GCM scenario.
-`r as.character(round(min(areaDiffsDec$TotalArea)))` - `r as.character(round(max(areaDiffsDec$TotalArea)))`  $\text{km}^2$ of land is projected to experience decreases in sagebrush cover on average, depending on GCM scenario.
+In contrast, `r as.character(round(min(areaDiffsDec$TotalArea)))` - `r as.character(round(max(areaDiffsDec$TotalArea)))`  $\text{km}^2$ of land is projected to experience decreases in sagebrush cover on average, depending on GCM scenario.
 
 Figure \@ref(fig:spatial-projections) shows projections over time and space for the Salt Wells core area (as an example) under the ssp585 climate forcing scenario.
 \new{Salt Wells is located in southwestern Wyoming} (Fig. \@ref(fig:sensitivities)).
@@ -1244,7 +1244,7 @@ Recent mechanistic modeling across the sagebrush biome also suggests that increa
 Other studies have also found positive effects of temperature increases at high elevation sagebrush sites, likely due to earlier snowmelt and a longer growing season [@perfors_enhanced_2003; @harte_convergent_2015].
 Our statistical models appear to reflect these underlying mechanistic explanations at a majority of core areas.
 A negative of effect of increased precipitation combined with a positive effect of temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snowmelt in warmer years.
-\new{The confusing negative sensitivity of sagebrush to precipitation less becomes less so if the precipitation effect is related to temperature through an interaction we failed to model.}
+\new{The negative sensitivity of sagebrush to precipitation is confusing, but becomes less confusing if the precipitation effect is related to temperature through an interaction we failed to model.}
 
 Climate responses were not uniform across core areas, however.
 The models showed positive and negative responses to both precipitation and temperature annual anomolies.
@@ -1272,7 +1272,7 @@ Nonetheless, our results corroborate those of @palmquist_divergent_2021 and @sch
 That is, by using the statistical models to project cover into the future, we are assuming that the relationships quantified from historical data will be maintained in the future.
 It is certainly possible that sagebrush performance will plateau at temperatures and precipitation levels outside of the historical range of variability, either because of physiological limits or evolutionary adaptation} [@adler_matching_2020].
 \new{Evolutionary adaptation represents just one of many possible "slow" processes that impact our ability to make projections using short-term data that likely represent "fast" processes} [@adler_matching_2020].
-\new{Sagebrush are slow to recover from extreme events like drought that cause die-offs, representing another slow process potentially not capture by our models.}
+\new{Sagebrush are slow to recover from extreme events like drought that cause die-offs, representing another slow process potentially not captured by our models.}
 \new{Therefore, our models likely miss the impact of such extreme events.}
 
 Our sagebrush projections can be used as part of a decision-support toolbox for managers in Wyoming.
@@ -1292,7 +1292,7 @@ Sage-grouse are sagebrush-obligate species, meaning any increase in sagebrush co
 \new{Therefore, we emphasize that while the thresholds used here were useful for a relative comparison of habitat status across core areas, studying effects of sagebrush cover on demographics such as population trends, at relevant spatial scales} [@monroe_spatial_2022], \new{would provide a more direct assessment of habitat quality for sage-grouse (and implications of climate change).}
 
 Nevertheless, not all core areas are projected to increase in sagebrush cover.
-But the magnitude of increase and the area over which we project increases far outweighs projected declines.
+But the magnitude of increase and the area over which we project increases far outweigh projected declines.
 These results highlight the importance of active and adaptive management in Wyoming's sage-grouse core areas, which contain about 37% of all sage-grouse [@fedy_habitat_2014].
 \new{Our results suggest that climate change per se is not going to cause declines in sagebrush in Wyoming.}
 \new{Therefore, management actions aimed at reducing cheatgrass invasion and limiting disturbances in core areas might help mitigate the negative, indirect impacts of climate change.}
@@ -1307,7 +1307,7 @@ Areas with projected sagebrush declines may need to be more closely managed.
 
 
 # Acknowledgements
-This study was funded by the Bureau of Land Management and the US Geological Survey.
+This study was funded by the Bureau of Land Management and the U.S. Geological Survey.
 Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. government.
 We thank Robert Shriver and Darren Long for reviewing preliminary versions of the manuscript.
 

@@ -29,11 +29,12 @@ geometry: margin=1in
 linkcolor: black
 urlcolor: black
 ---
+
 \definecolor{ForestGreen}{rgb}{0.1,0.44,0.1} 
 \definecolor{blue}{rgb}{0,0,0.7} 
 \definecolor{red}{rgb}{0.8,0,0}
 
-\newcommand{\new}{\textcolor{red}} 
+\newcommand{\new}{\textcolor{blue}} 
 \newcommand{\comm}{\textcolor{ForestGreen}}
 \newcommand{\response}{\textcolor{blue}}
 \newcommand{\reply}{\textcolor{blue}}
@@ -42,12 +43,11 @@ urlcolor: black
 \begin{centering}
 \textbf{\Large{Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
 
-\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredennick@west-inc.com}; \textit{phone}, 307-721-7343}\textsuperscript{1,2}, Thomas Prebyl\textsuperscript{1}, Adrian P. Monroe\textsuperscript{3}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{4}}}
+\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredenn@gmail.com}; \textit{phone}, 970-443-1599. Current address: Metrum Research Group, Tariffville, Connecticut}\textsuperscript{1,}, Adrian P. Monroe\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{3}}}
 
 \textit{\small{\textsuperscript{1}Western EcoSystems Technology, Inc., Laramie, WY}} \\
-\textit{\small{\textsuperscript{2}Center for the Ecology of Infectious Diseases, University of Georgia, Athens, GA}} \\
-\textit{\small{\textsuperscript{3}Fort Collins Science Center, U.S. Geological Survey, Fort Collins, CO}} \\
-\textit{\small{\textsuperscript{4}Natural Resource Ecology Laboratory and Department of Ecosystem Science and Sustainability, Colorado State University, Fort Collins, CO, in cooperation with US Geological Survey, Fort Collins Science Center, Fort Collins, CO}}
+\textit{\small{\textsuperscript{2}Fort Collins Science Center, U.S. Geological Survey, Fort Collins, CO}} \\
+\textit{\small{\textsuperscript{3}Natural Resource Ecology Laboratory and Department of Ecosystem Science and Sustainability, Colorado State University, Fort Collins, CO, in cooperation with US Geological Survey, Fort Collins Science Center, Fort Collins, CO}}
 
 \end{centering}
 
@@ -59,7 +59,7 @@ urlcolor: black
 
 \noindent{}**Open Research Statement**
 
-\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: https://github.com/atredennick/sagecastR). Data and code will be archived on Zenodo upon acceptance.
+\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: https://github.com/WEST-Inc/sageCastR). Data and code will be archived on Zenodo upon acceptance. Projections generated during this study are available as a USGS data release [@tredennick_data_2023]. All data used in this study are publicly available elsewhere as cited in the text.
 
 \newpage{}
 
@@ -67,6 +67,7 @@ urlcolor: black
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
+library(stringr)
 library(readxl)
 library(ggrepel)
 library(lubridate)
@@ -92,16 +93,14 @@ nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
 noNumNameMap <- nameMap %>%
   mutate(NewName = trimws(gsub('[0-9]+', '', Name), "right"))
 
-coreAreaLambdas <- read.csv("../AuxData/EdmundsLambdaEstimates.csv") %>%
+coreAreaLambdas <- read_csv("../AuxData/EdmundsLambdaEstimates.csv") %>%
   filter(a == "a") %>%
   filter(Population != "All Non-Core Areas") %>%
   rename("NewName" = Population) %>%
   right_join(noNumNameMap, by = "NewName")
 
 # calculate area of each core area
-gisDir <- "\\\\lar-file-srv/Data/102 - USGS/102 - 88 - SageCastWY/Data/SageGrouseCoreAreasv4/"
-
-coreAreaSizes <- sf::st_read(file.path(gisDir,"corev4_072915_final.shp")) %>%
+coreAreaSizes <- sf::st_read("../AuxData/corev4_072915_final.shp") %>%
   mutate(Area_km2 = Acres * 0.00404686) %>%
   dplyr::select(NAME, Area_km2) %>%
   rename("Name" = NAME) %>%
@@ -112,7 +111,7 @@ coreAreaSizes$geometry <- NULL
 
 # Abstract
 
-Sagebrush (*Artemisia* spp.) ecosystems provide critical habitat for the near-threatened Greater sage-grouse (*Centrocercus urophasianus*).
+Sagebrush (*Artemisia* spp.) ecosystems provide critical habitat for the Greater sage-grouse (*Centrocercus urophasianus*), \new{a species of conservation concern}.
 Thus, future loss of sagebrush habitat because of land use change and global climate change is of concern.
 Here we use a dynamic additive spatio-temporal model to estimate the effects of climate on sagebrush cover dynamics at 32 sage-grouse management areas in Wyoming. 
 We use the fitted models to quantify the sensitivity of each management area to precipitation and temperature, and to make probabilistic projections of sagebrush cover from present to 2100 under three climate change scenarios. 
@@ -132,47 +131,47 @@ Our approach is broadly applicable to quantitative climate change assessments wh
 
 Environmental management and stewardship requires assessing tradeoffs [@walters_ecological_1978; @farber_linking_2006].
 For example, land managers must consider the long-term impacts of climate change and the near-term impacts of ecosystem degradation [e.g., @nepstad_interactions_2008].
-Because populations, communities, and ecosystems are not static, using the current status of an ecosystem to make management decisions may not be optimal [@boettiger_optimal_2016].
+Because populations, communities, and ecosystems are not static, using the current status of an ecosystem \new{may be insufficient to define protected areas for species} [@hannah_protected_2007; @monzon_climate_2011] or to make optimal management decisions [@boettiger_optimal_2016].
 A better approach is to consider the past, current, and future status of ecosystems.
 Doing so requires projections of how an ecosystem might respond to future stressors and conditions [@dietze_iterative_2018; @clark_ecological_2001].
 
-Infrastructure development indirectly and negatively affects species through habitat loss and transformation, which is a major driver of biodiversity loss [@powers_global_2019; @cardinale_biodiversity_2012; @sala_global_2000].
 Wildlife management often requires assessing tradeoffs between the benefits of development and the costs of habitat loss or degradation [@mcshane_hard_2011].
-To assess that tradeoff, managers often identify areas of high and low quality habitat.
-Low quality habitat is then preferred for habitat alteration.
+To assess that tradeoff, managers often identify areas of high and low quality habitat\new{, with low quality habitat preferred for habitat alteration.}
 But habitat quality is not static and global climate change has the potential alter the trajectory of an ecosystem.
 Some currently high quality habitat (for a particular species) might quickly change if on a range edge while lower quality habitat in the middle of the range might maintain its general structure and function longer [@amburgey_range_2018].
 Habitat on the edge of an ecosystem's range might also improve.
 For example, warming temperatures could benefit some plants at the cold edge of their range [@kleinhesselink_response_2018].
 Thus, climate change adds a new dimension to habitat assessments, where we are not only concerned about the current status of habitat but also what that habitat might look like 30 to 100 years in the future.
 
-Land management in the western United States focuses on several uses and species, but Greater sage-grouse (*Centrocercus urophasianus*, hereafter "sage-grouse") typically drive the conversation in sagebrush dominated ecosystems.
+Land management in the western United States focuses on several uses and species, but Greater sage-grouse (*Centrocercus urophasianus*, hereafter "sage-grouse") \new{has historically driven} the conversation in sagebrush dominated ecosystems.
 Sage-grouse are a protected species in Canada (Species at Risk Act [S.C. 2002, c. 29], https://laws-lois.justice.gc.ca/eng/acts/S-15.3/) and are listed as ``warranted, but precluded'' for listing under the United States Endangered Species Act of 1973 (U.S. Fish and Wildlife Service
 [USFWS] 2010).
-Sagebrush ecosystems provide critical habitat for Greater sage-grouse and other sagebrush obligate species [@carlisle_abundance_2020].
-Conservation of sagebrush ecosystems is primarily aimed at keeping sage-grouse off the endangered species list but sagebrush conservation will benefit other species, too [@rowland_greater_2006; @smith_habitat_2019; @pilliod_reptiles_2020].
+\new{A further review of population status and conservation efforts concluded the species did not warrant listing in 2015} [@united_states_fish_and_wildlife_service_endangered_2015].
+\new{While} conservation of sagebrush ecosystems is primarily aimed at keeping sage-grouse off the endangered species list but sagebrush conservation will benefit other species, too [@rowland_greater_2006; @smith_habitat_2019; @pilliod_reptiles_2020].
 In response to declining sage-grouse populations, the Wyoming Game and Fish Department has delineated 32 sage-grouse core areas, covering approximately 15 million acres of sage-grouse habitat (State of Wyoming 2015).
 The stated goal of the Core Area strategy is "...to minimize future disturbance by co-locating proposed disturbances within area already disturbed or naturally unsuitable" (State of Wyoming 2015).
-Sage-grouse populations are active in all core areas and most maintain stable populations [@edmunds_greater_2018], though populations outside of these core areas are not performing the same.
+Sage-grouse populations are active in all core areas and most maintain stable populations [@edmunds_greater_2018].
 
-In Wyoming, many of the landscapes with the highest potential for wind energy also support critical sage-grouse habitat in the form of sagebrush dominated ecosystems.
+<!-- Sagebrush ecosystems provide critical habitat for Greater sage-grouse and other sagebrush obligate species [@carlisle_abundance_2020]. -->
+
+\new{Habitat loss and transformation is a major driver of biodiversity loss} [@powers_global_2019; @cardinale_biodiversity_2012; @sala_global_2000], \new{and infrastructure development directly leads to habitat loss and transformation.}
+\new{Wyoming has ideal conditions for future renewable energy development such as wind} [@lloyd_prairie_2022]\new{, and while wind energy is excluded from sage-grouse core areas, achieving renewable electricity production targets would require expansion beyond disturbed lands} [@kiesecker_win-win_2011].
 This presents a challenge to land management: Should land be prioritized for sage-grouse conservation or renewable energy development?
-Renewable energy infrastructure that can mitigate the impacts of climate change could benefit sage-grouse in the long run.
-Therefore, it is critical to understand the potential impacts of climate change across sagebrush landscapes because some areas may become less beneficial to sage-grouse due to climate change, making those areas attractive for development of renewable energy infrastructure, potentially minimizing such conflicts.
-Considering how climate change impacts whether a sage-grouse core area is or will be "naturally unsuitable" clearly falls within the scope of the Core Area strategy.
-More broadly, assessing current and future habitat suitability *vis-a-vis* species of concern is essential as we face difficult and inevitable trade-offs between land preservation and land-use to combat climate change. 
+\new{However, if some areas may become less suitable for sage-grouse due to climate change, those areas might accommodate renewable energy infrastructure without long-term effects to the species.} 
+Considering how climate change impacts whether a sage-grouse core area is or will be “naturally unsuitable” clearly falls within the scope of the Core Area strategy.
+More broadly, assessing current and future habitat suitability *vis-a-vis* species of concern is useful as we face difficult and inevitable trade-offs between land preservation and land-use to combat climate change.
 
-The sagebrush biome, as a whole, is in peril [@palmquist_divergent_2021].
-But Wyoming is thought to be a stronghold where sagebrush will persist and possibly thrive in the future, especially compared to other parts of its range [@palmquist_divergent_2021].
-In part, this is because the sagebrush biome in Wyoming has been less susceptible to cheatgrass (*Bromus tectorum*) invasion, compared to other parts of the sagebrush biome [@pastick_rapid_2021].
+The sagebrush biome is in peril [@davies_saving_2011; @remington_sagebrush_2021],
+but Wyoming is thought to be a stronghold where sagebrush will persist and possibly thrive in the future, especially compared to other parts of its range [@palmquist_divergent_2021; @renwick_multi-model_2018-1].
+This may partly be due to relatively cooler temperatures in Wyoming [@renwick_multi-model_2018-1] and that Wyoming has largely avoided widespread cheatgrass (*Bromus tectorum* L.) invasion compared to other parts of the sagebrush biome [@pastick_rapid_2021].
 Cheatgrass invasion, and the subsequent cheatgrass-fire feedback cycle, is the main driver of the loss of sagebrush cover across most of sagebrush's range [@balch_introduced_2013].
 Because susceptibility to cheatgrass invasion is an indirect effect of climate change [@chambers_what_2007; @bradley_regional_2009], and because cheatgrass invasion has not been as dramatic in Wyoming, it stands to reason that the direct effects of climate change have important implications in Wyoming.
-This is especially true if increases in sagebrush cover due to climate change can inhibit cheatgrass invasion.
 Indeed, recent modeling suggests that warming temperatures will benefit sagebrush more than cheatgrass at high elevation sites, assuming fire is limited [@palmquist_divergent_2021].
 Therefore, this paper focuses on modeling the direct effects of climate on sagebrush cover change.
 
 Here we describe a computationally efficient Bayesian spatiotemporal modeling approach for making probabilistic projections of sagebrush cover dynamics under the direct effects of climate change in Wyoming, USA using remotely sensed cover estimates.
-A key feature of our approach is using the probabilistic projections to evaluate specific management targets for sagebrush cover in sage-grouse core areas.
+A key feature of our approach is using the probabilistic projections to evaluate specific management targets for sagebrush cover in sage-grouse core areas, \new{with implications for other sagebrush-dependent wildlife} [@remington_sagebrush_2021].
+\new{Specifically, our goals are to: i) quantify the sensitivity of sagebrush percent cover in sage-grouse core areas to temperature and precipitation, ii) use the fitted models to project sagebrush percent cover into this future under climate change scenarios, and iii) evaluate the projections relative to sagebrush cover targets and current sage-grouse status in each core area.}
 Our approach is applicable to diverse situations where clear management targets exist and spatiotemporal data are available to train probabilistic models.
 
 
@@ -181,21 +180,28 @@ Our approach is applicable to diverse situations where clear management targets 
 ## Data
 ### Remotely-sensed time series
 We used the Rangeland Condition, Monitoring, Assessment, and Projection (RCMAP) data product from the National Land Cover Database (NLCD), a product of the Multi-Resolution Land Characteristics Consortium [@rigge_quantifying_2020].
-We downloaded the "NLCD BIT Sagebrush Fractional Component" estimates for each year from 1985 to 2018, subset the data to the Wyoming Sage-grouse core areas, and then resampled the data up to 100-meter resolution using the mean to aggregate cover across 30-meter grid cells.
+We downloaded the "NLCD BIT Sagebrush Fractional Component" estimates for each year from 1985 to 2018, subset the data to the Wyoming sage-grouse core areas, and then resampled the data up to 100-meter resolution using bilinear interpolation to aggregate cover across 30-meter grid cells.
 We resampled the data to make the analysis computationally tractable: decreasing the spatial resolution resulted in fewer cells of data per year and thus reduced the total size of the observed data.
 Time series of cover are shown in Fig. \@ref(fig:data).
 There are no data for 2012, which we handled naively by letting 2011 be the "lag cover year" for 2013.
+\new{The BIT products are estimates with associated error} [@rigge_quantifying_2020], which we ignore in this analysis.
+\new{Assuming errors are not related to time or space, the impact of including error would likely increase the error of estimates in the model described below.}
 
 
 
 ```{r data, fig.width=8.5, fig.height=5, fig.cap="Observed time series of percent cover for each core area from the Back-In-Time product. Line shows mean cover in each year across all cells (pixels). The shaded region shows the mean plus/minus the standard deviation across all cells (pixels) in each year. Note that the y-axis changes across panels."}
 bit <- readRDS("../Output/historic_Sage_Cover_Summary.RDS")
+bit <- bit %>%
+  left_join(nameMap %>%
+              dplyr::select(Name, Abbreviation) %>%
+              rename("coreName" = Name)) %>%
+  mutate(lab = paste0(coreName, "\n(", Abbreviation, ")"))
 ggplot(bit, aes(x = year, y = mean)) +
   geom_ribbon(aes(ymin = mean-sd, ymax = mean+sd), alpha = 0.2, fill = "tan") +
   # geom_ribbon(aes(ymin = q025, ymax = q975), alpha = 0.2, fill = "tan") +
   geom_line(size = 2, color = "white") +
   geom_line() +
-  facet_wrap(~coreName, scales = "free_y", ncol = 6) +
+  facet_wrap(~lab, scales = "free_y", ncol = 6) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
         strip.text = element_text(size = 5)) +
   labs(x = "Year", y = "Cover (%)") +
@@ -205,18 +211,30 @@ ggplot(bit, aes(x = year, y = mean)) +
 
 ### Climate covariates
 We downloaded historical climate estimates from PRISM (http://prism.oregonstate.edu/), with spatial extents that matched the sage-grouse core areas.
+\new{PRISM data were resampled to 100-m resolution using bilinear interpolation to match the BIT data.}
 From these estimates, we calculated two climate covariates: 1) average spring-through-summer temperature and 2) average spring-through-summer precipitation.
 We defined spring-through-summer as March 1 through August 31 for each year.
 We decided on the two covariates based on our previous work [@tredennick_forecasting_2016] and more recent work by @kleinhesselink_response_2018.
 Previous modeling of sagebrush dynamics in Wyoming and across the sagebrush range used "lagged covariates" like precipitation in the year prior to an observed transition.
-We do not use lagged covariates here because exploratory work suggests that lagged covariates result in correlated and confounded parameter estimates (Kleinhesselink pers. comm.).
+We do not use lagged covariates here because exploratory work suggests that lagged covariates result in correlated and confounded parameter estimates (Kleinhesselink written pers. comm., 2021).
+
+\new{The choice to use two simple covariates is motivated by biology, modeling constraints, and the desire to avoid spurious, difficult-to-explain effects.} \new{First, as mentioned above, average spring-through-summer precipitation and temperature have been identified as important covariates in previous work} [@tredennick_forecasting_2016; @kleinhesselink_response_2018].
+\new{These two covariates also have the advantage of being directly tied to the limits of sagebrush performance in terms of cold, moist versus warm, dry sites} [@palmquist_divergent_2021].
+\new{Second, the models we fit are computationally intensive due to the large size of each core area and the number of core areas we modeled.}
+\new{Avoiding variable selection reduces some computational constraints.}
+\new{We also needed to use covariates that could be easily extracted and computed from GCM output for future projections}.
+\new{Last, given the number of core areas we modeled, the use of many covariates could increase the chance of detecting spurious effects, which we sought to avoid.}
 
 ### Climate projections
 We used climate projections from Global Circulation Models (GCMs) that contributed to the CMIP6 project [@eyring_overview_2016].
 Groups that contributed to CMIP6 provided output from several experimental conditions.
 We used three common experimental conditions for generating future projections under different shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions) (see @eyring_overview_2016 for more details).
+\new{ssp126 is a version the RCP2.6 scenario and assumes that radiative forcing reaches 2.6 W/m$^2$ in 2100.}
+\new{ssp245 is a version of the RCP4.5 scenario and assumes that radiative forcing reaches 4.5 W/m$^2$ in 2100.}
+\new{ssp585 is a version of the RCP8.5 scneario and assumes that radiative forcing reaches 8.5 W/m$^2$ in 2100.}
 GCM ouputs were downloaded from Lawrence Livermore National Library archives of CMIP6 model simulations and projections.
-We used the `esfg_query` function from the **epwshiftr** R package [@jia_epwshiftr_2020] the query the database and download the data.
+We used the `esfg_query` function from the **epwshiftr** R package [@jia_epwshiftr_2020] to query the database and download the data.
+\new{GCMs had to include historic, ssp126, ssp245, and ssp585 scenarios for inclusion.}
 In total, we compiled future climate projections from 18 GCMs.
 We applied a bias correction to the GCM values by shifting the means of GCM projections in reference to PRISM data from the historical time period.
 
@@ -228,7 +246,7 @@ For each year we resampled the historic GCM raster data to match the spatial res
 Following @rupp_evaluation_2013, we calculated the relative error ($E^*$) across the entire time span for both climate variables and for each GCM as
 
 \begin{equation}
-E_{i,j}^* = \frac{E_{i,j} - \text{min}(E_{j})}{\text{max}(E_{j}) - \text{min}(E_{j})}
+E_{i,j}^* = \frac{E_{i,j} - \min\limits_{i}(E_{j})}{\max\limits_{i}(E_{j}) - \min\limits_i(E_{j})}
 \end{equation}
 
 \noindent{}where $i$ indexes the variable (temperature or precipitation) and $j$ indexes the GCM.
@@ -236,12 +254,15 @@ $E_{i,j}$ is the mean absulute error, calculated as $E_{i,j} = \frac{\sum_{k=1}^
 Last, we averaged the $E^*$ values across the two variables (temperature and precipitation) to arrive at a single relative error value for each of the $J$ GCMs: $E_{j}^* = \left(\sum_{i=1}^N E_{i,j}^* \right) / N$, where $N = 2$ is the total number of variables. 
 The resulting relative errors for each GCM were used as weights ($w_j = 1 - E_j^*$) when making projections of sagebrush dynamics forced by the GCM output.
 Specifically, the projected time series of weather we used under each scenario is the weighted average of all GCMs, with $w_j$ being the weight for each GCM *j*.
+\new{For simulating projections, GCM data were resampled from 100-km resultion to 1-km resolution, cropped to each core area extent, and then the average covariate value across 1-km grid cells within each core area was calculated.}
+\new{This means that climate covariates for projections did not vary across space within each core area, only over time.}
 
 
 ## Model
 ### Dynamic additive spatio-temporal model for sagebrush cover
 We used a descriptive, dynamic model of sagebrush cover, building on our previous work [@tredennick_forecasting_2016] and animal population modeling described by @conn_using_2015.
-Our model represents the observed sagebrush cover in cell *i* of year *t* ($y_{i,t}$) as arising from a Poisson process with rate $\text{exp}(\mu_{i,t})$:
+\new{Models were fit to each core area independently.}
+\new{For each core area,} our model represents the observed sagebrush cover in cell *i* of year *t* ($y_{i,t}$) as arising from a Poisson process with rate $\text{exp}(\mu_{i,t})$:
 
 \begin{equation}
 y_{i,t} \sim \text{Poisson}(\text{exp}(\mu_{i,t})).
@@ -251,13 +272,14 @@ y_{i,t} \sim \text{Poisson}(\text{exp}(\mu_{i,t})).
 
 \begin{equation}
 \label{eq:regression}
-\mu_{i,t} = \bm{\beta} x'_{i,t} + \gamma_{t} + w_{i}
+\mu_{i,t} = \bm{\beta} x_{i,t} + \gamma_{t} + w_{i}
 \end{equation}
 
 \noindent{}where $\bm{\beta}$ is a vector of regression coefficients, $x_{i,t}$ is a vector of covariates for cell *i* at time *t*, $\gamma_{t}$ is a temporal random effect, and $w_i$ is a spatial offset for each cell *i*.
 The covariate vector $x_{i,t}$ is one row of the design matrix $\textbf{X}$, which includes a column of 1s for the intercept, a column of logged lag cover ($\text{log}(y_{t-1})$) values, a column for the precipitation covariate, and a column for the temperature covariate.
 $\textbf{X}$ is a $n \times p$ matrix and each row represents a single observation, indexed by time ($t$, year of observation) and cell ($i$, spatial location).
 We added a small offset (0.0001) to all one-year lagged observed percent cover values that occur in the design matrix $\textbf{X}$ before logging those values so that 0 cover values could be included easily.
+\new{There were very few instances of 0 cover, so this work-around likely had small, if any, influence on the results.}
 
 In previous work we estimated the spatial offset using kernel convolution and dimension reduction [@tredennick_forecasting_2016]. 
 Estimating the spatial offset is not strictly necessary because the data represent a full sample of the spatial domain.
@@ -282,7 +304,7 @@ k_{j} = \text{exp}\left( \frac{-d_{j} }{\left(r\times\frac{1}{3} \right)} \right
 
 \noindent{}where $d_j$ is the distance in meters from cell *j* to focal cell *i* and *n* is the total number of cells within the radius *r* of the focal cell.
 We defined *r* as the maximum range of spatial dependence in residuals from a simple generalized linear model (GLM) fit without climate covariates for each core area [@tredennick_forecasting_2016].
-The `focal` function from the **raster** package in R cannot accommodate missing values when calculating a focal mean with custom weights.
+The `focal` function from the **raster** package [@hijmans_raster_2023] in R cannot accommodate missing values when calculating a focal mean with custom weights.
 We pre-filled any cells with missing cover values using a focal mean with equal weight for all cells within the analysis radius *r*. 
 After calculating $\bar{f}_{i}$, all cells that originally had missing cover values were re-set to `NA` before calculating the final spatial offset value $w_i$.
 Missing cover values corresponded to masked areas not defined as "sagebrush" habitat in the RCMAP products.
@@ -404,11 +426,11 @@ The test statistics were then summed over time and space separately, yielding te
 \end{equation}
 
 \noindent{}We then computed Bayesian p-values as the proportion of the total number of MCMC iterations for which $\tau^{\text{new}} > \tau$ for each cell or year.
-Lastly, we average the Bayesian p-values over years and cells to compute two final p-values to evaluate lack-of-fit: one for lack-of-fit over the spatial dimension ($P_B^{\text{space}}$, averaged over years) and one for lack-of-fit over the temporal dimension ($P_B^{\text{time}}$, averaged over cells). 
+Lastly, we averaged the Bayesian p-values over years and cells to compute two final p-values to evaluate lack-of-fit: one for lack-of-fit over the spatial dimension ($P_B^{\text{space}}$, averaged over years) and one for lack-of-fit over the temporal dimension ($P_B^{\text{time}}$, averaged over cells). 
 Posterior predictive checks were done using a new spatially balance sample of the data (i.e., a different sample than used to fit the model).
 
 All computations were done in R [@r_core_team_r_2020].
-We bundled the computer code needed to format data, fit the model, evaluate the model, and project the model forward in an R package called **sageCastR** (http://lar-git.west-inc.com/atredennick/sagecastr).
+We bundled the computer code needed to format data, fit the model, evaluate the model, and project the model forward in an R package called **sageCastR** (https://github.com/WEST-Inc/sageCastR).
 Note that the R package is not a generalizable piece of software; it is a code bundle for this particular project.
 We also note that fitting the models required a high memory machine and parallel processing.
 Interested users can modify the code for future research. 
@@ -429,6 +451,7 @@ We fit a bimonial regression model for each core area to estimate the probabilit
 This probability was used in the dynamic projections whenever a grid cell had zero cover to simulate whether the grid cell would stay at zero or increase to non-zero cover.
 We calculated the average cover in cells that transitioned from zero cover to non-zero cover for each core area.
 Those values were used in the simulation model as the cover assigned to cells that were simulated to transition from zero cover to non-zero cover.
+\new{Projections generated during this study are available as a USGS data release} [@tredennick_data_2023].
 
 Our main goal was to evaluate future cover projections relative to specific management targets.
 We defined two management targets: 1) the percent cover needed at 100-meter resolution to maintain sage-grouse nesting habitat and 2) the percent cover needed at 100-meter rosultion to maintain sage-grouse summer habitat.
@@ -436,41 +459,40 @@ We used the 1985-2018 sagebrush cover rasters (resampled to 100 m resolution) to
 This quantile should indicate potential sagebrush cover at each pixel while reducing the influence of temporal annomalies. 
 Then, we divided Wyoming into three regions (southwest, central, and northeast) and determined the median value across all 95% quantiles that intersected either nesting or summer sage-grouse habitat, by region [@fedy_habitat_2014]. 
 These provided threshold values for nesting and summer habitat that were region-specific yet consistent with thresholds recommended by the Sage-grouse Habitat Assessment Framework: 15-25% cover for nesting and 10-25% cover for summer [@stiver_sage-grouse_2015]. 
-The threshold values we calculated are provided in the online supporting information.
+The threshold values we calculated are provided in the online supporting information (Table S81).
 
 Based on @fedy_habitat_2014, we set our lanscape level management goal to be 50\% of grid cells in a core area meeting or exceeding the nesting target percent cover value.
 We defined core areas as "optimal" or "suboptimal" for sage-grouse based on this management goal: optimal = 50\% of grid cells meeting or exceeding the nesting target, suboptimal = 50\% of grid cells below the nesting target.
 We futher categorized core areas into four groups: 1) areas that were estimated to be optimal in 2019 and are projected to remain optimal by 2100, 2) areas that were estimated to be optimal in 2019 and are projected to become suboptimal by 2100, 3) areas that were estimated to be suboptimal in 2019 and are projected to become optimal by 2100, and 4) areas that were estimated to be suboptimal in 2019 and are projected to remain suboptimal by 2100.
 Categorization was done assuming the ssp585 climate forcing scenario because observed emissions have most closely followed the modeled emissions of ssp585's precursor (RCP8.5) in the recent past.
 We used the 2019 model projections as the baseline for categorization rather than observed cover in 2018 because the projections have slightly lower spatial variance than the observed data.
-We used sage-grouse population growth rate estimates from @edmunds_greater_2018 to see whether core areas projected to become optimal or suboptimal have currently declining, stable, or increasing sage-grouse populations.
+We used sage-grouse population growth rate estimates from @edmunds_greater_2018 [@noauthor_erratum_2018] to see whether core areas projected to become optimal or suboptimal have currently declining, stable, or increasing sage-grouse populations.
 
-### Predicting sensitivity classification
+<!-- ### Predicting sensitivity classification -->
+<!-- We sought to predict the variation of precipitation and temperature sensitivities across core areas based on soil conditions, elevation, mean annual precipitation, and mean annual temperature. -->
+<!-- We did this as a second-step after fitting the models above because the focus of our modeling was on predictions for each core area, rather than inference on why a core area was responding in a certain way. -->
+<!-- However, we did want to explore possible influences on sensitivities, if possible. -->
 
-We sought to predict the variation of precipitation and temperature sensitivities across core areas based on soil conditions, elevation, mean annual precipitation, and mean annual temperature.
-We did this as a second-step after fitting the models above because the focus of our modeling was on predictions for each core area, rather than inference on why a core area was responding in a certain way.
-However, we did want to explore possible influences on sensitivities, if possible.
-
-We fit logistic regression models independently for temperature and precipition sensitivities after classifying the responses as negative or positive.
-Forty-seven covariates were included.
-Eleven soil properties from POLARIS [@chaney_polaris_2019] were used for each core area, quantified as the mean, median, 5th percentile, and 95th percentile statistics across six depths.
-We averaged the metrics across depths to arrive at 11 $\times$ 4 = 44 soil property covariates and three additional covariates: mean annual precipitation (from PRISM 30-year normals, 1981-2010), mean annual temperature (from PRISM 30-year normals, 1981-2010), and elevation (from USGS North America digital elevation map).
-All covariates were averaged over the grid cells in each core area.
-We used least-absolute shrinkage (LASSO) regression to perform model selection and identify the best predictor variables.
-Models were fit in Python [@van_rossum_python_2009] using scikit-learn [@pedregosa_scikit-learn_2011] libraries and routines.
+<!-- We fit logistic regression models independently for temperature and precipition sensitivities after classifying the responses as negative or positive. -->
+<!-- Forty-seven covariates were included. -->
+<!-- Eleven soil properties from POLARIS [@chaney_polaris_2019] were used for each core area, quantified as the mean, median, 5th percentile, and 95th percentile statistics across six depths. -->
+<!-- We averaged the metrics across depths to arrive at 11 $\times$ 4 = 44 soil property covariates and three additional covariates: mean annual precipitation (from PRISM 30-year normals, 1981-2010), mean annual temperature (from PRISM 30-year normals, 1981-2010), and elevation (from USGS North America digital elevation map). -->
+<!-- All covariates were averaged over the grid cells in each core area. -->
+<!-- We used least-absolute shrinkage (LASSO) regression to perform model selection and identify the best predictor variables. -->
+<!-- Models were fit in Python [@van_rossum_python_2009] using scikit-learn [@pedregosa_scikit-learn_2011] libraries and routines. -->
 
 
 # Results
 
 ## Global circulation model rankings and projections
 
-Relative errors of the GCMs showed that no single GCM was best at recreating historic temperature and precipitation (Fig. \@ref(fig:gcm-ranks)A).
-The best GCM was INM-CM4-8, which had the lowest combined relative error for precipitation and temperature (Fig. \@ref(fig:gcm-ranks)).
+Relative errors of the GCMs showed that no single GCM was best at recreating historic \new{average spring-through-summer} temperature or \new{average spring-through-summer} precipitation (Fig. \@ref(fig:gcm-ranks)A).
+The best GCM was INM-CM4-8, which had the lowest combined relative error for precipitation and temperature (Fig. \@ref(fig:gcm-ranks)A).
 The errors in the "Combined" panel are inversely proportional to the weights used when aggregating projections of sagebrush dynamics in the future.
 Projections based on the INM-CM4-8 future climate covariates will have the most weight and projections based on the SAMO-UNICON model will have the least weight.
 
-The amount of spring-through-summer precipitation is not expected to change in Wyoming, according to the GCMs we evaluated (Fig. \@ref(fig:gcm-ranks)B).
-Temperature is projected to increase, with the largest increase expected under the ssp585 emissions scenario (Fig. \@ref(fig:gcm-ranks)B).
+The amount of spring-through-summer precipitation is not expected to change in Wyoming, according to the GCMs we evaluated (Table \@ref(tab:gcms)).
+Temperature is projected to increase, with the largest increase expected under the ssp585 emissions scenario (Table \@ref(tab:gcms); e.g., Fig. \@ref(fig:gcm-ranks)B).
 Average temperature in 2080-2100 is projected to be 6.7 degrees Celsius higher than average temperature from 1982-2015 under the ssp585 emissions scenario (Table \@ref(tab:gcms)).
 Interannual variation is not expected to substantially increase or decrease over time (Table \@ref(tab:gcms)).
 
@@ -535,10 +557,10 @@ climateAll <- read.csv("../AuxData/CMIP6_future_by_core.csv") %>%
                 MeanVar_pr, MeanMean_tas, MeanVar_tas) %>%
   rename("GCM Scenario" = experiment_id,
          "Time Period" = YearGroup,
-         "Avg. Precip. (mm)" = MeanMean_pr,
-         "Var. Precip." = MeanVar_pr,
-         "Avg. Temp. (deg. C)" = MeanMean_tas,
-         "Var. Temp." = MeanVar_tas)
+         "Avg. spr-sum Precip. (mm/day)" = MeanMean_pr,
+         "Var. spr-sum Precip." = MeanVar_pr,
+         "Avg. spr-sum Temp. (deg. C)" = MeanMean_tas,
+         "Var. spr-sum Temp." = MeanVar_tas)
   
 kable(climateAll, 
       caption = "Averages and variances of climate covariates over different time periods. Averages are average values over the core areas. Core area values were the weighted averages according to GCM weights. Variances are average variances over the core areas. Core area variances were computed over the weighted averages of values for each core area.",
@@ -555,8 +577,8 @@ climate <- read.csv("../AuxData/CMIP6_future_by_core.csv") %>%
   filter(coreName == "Greater South Pass 1") %>%
   pivot_longer(cols = c("pr", "tas")) %>%
   mutate(group = paste0(source_id, experiment_id)) %>%
-  mutate(name = case_when(name == "pr" ~ "Precipitation (mm)",
-                          TRUE ~ "Temperature (deg. C)"))
+  mutate(name = case_when(name == "pr" ~ "Spr-Summ Precipitation (mm/day)",
+                          TRUE ~ "Spr-Summ Temperature (deg. C)"))
 
 gcms <- unique(climate$source_id)
 gcmWeights <- gcmLong %>%
@@ -617,8 +639,10 @@ badSites <- c(badspace$CoreArea, badtime$CoreArea)
 
 ```
 
-Convergence diagnostics indicated that all MCMC chains converged on their stationary distributions (upper 0.95 quantiles of $\hat{R}$ < 1.1 for all parameters; see online supporting information).
-Most Bayesian *P*-values indicated no lack-of-fit because they were greater than 0.05 and less than 0.95 for both the spatial ($P_B^{\text{space}}$) and temporal ($P_B^{\text{time}}$) test statistic *P*-values.
+Convergence diagnostics indicated that most MCMC chains converged on their stationary distributions (upper 0.95 quantiles of $\hat{R}$ < 1.1 for all parameters; Tables S1 - S39).
+\new{This was true except for the model for Elk Basin West (Table S9).}
+\new{Results from Elk Basin West are not further discussed because the MCMC chains did not converge and because the model failed the posterior predictive checks described next.}
+Most Bayesian *P*-values indicated no lack-of-fit because they were greater than 0.05 and less than 0.95 for both the spatial ($P_B^{\text{space}}$) and temporal ($P_B^{\text{time}}$) test statistic *P*-values (Table S40).
 The $P_B^{\text{time}}$ value for `r str_flatten(badtime$CoreArea, ", ", ", and ")` indicated lack-of-fit.
 The $P_B^{\text{space}}$ values for `r str_flatten(badspace$CoreArea, ", ", ", and ")` indicated lack-of-fit.
 We do not present any further results on these sites because inference from their models cannot be trusted [@hobbs_bayesian_2015].
@@ -626,65 +650,11 @@ We do not present any further results on these sites because inference from thei
 
 ## Parameter estimates
 
-Posterior distributions for all model parameters for each core area are presented in the online supporting information.
-The posterior distributions of equilibrium cover $\left(y' = e^{\beta_1 / \left(1 - \beta_2 \right)}\right)$ for each core area contain the observed mean cover values, except for a few core areas (Fig. \@ref(fig:equilibrium-cover)).
+Posterior distributions for all model parameters for each core area are presented in the online supporting information (Figs. S1 - S39; Tables S41 - S79).
+The posterior distributions of equilibrium cover $\left(y' = e^{\beta_1 / \left(1 - \beta_2 \right)}\right)$ for each core area contain the observed mean cover values, except for a few core areas (Fig. S40).
 Cases where mean observed cover does not fall within estimated equilibrium cover suggest that climate effects over the past 30 years or other disturbances not modeled (but potentially reflected in random year effects) have kept cover from reaching the equilibrium.
 Climate effects are described as sensitivities below.
-
-```{r equilibrium-cover, fig.cap="Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018."}
-obscover <- read.csv("../Output/historic_Sage_Cover_Summary.csv") %>%
-  group_by(coreName) %>%
-  summarise(MeanCover = mean(mean)) %>%
-  mutate(NameNoSep = gsub(" ", "", coreName)) %>%
-  left_join(nameMap) %>%
-  filter(!Name %in% badSites)
-
-allpostdirs <- list.files("../Output/MCMC/")
-allposts <- tibble()
-for(d in allpostdirs) {
-  f <- paste0("../Output/MCMC/", d, "/MCMC.RDS")
-  if(file.exists(f)) {
-    tmp <- readRDS(f)
-    cover <- exp(tmp[ , "Beta[1]"] / (1 - tmp[,"Beta[2]"]))
-    df <- data.frame(CoreArea = d,
-                     Cover = cover)
-    allposts <- bind_rows(allposts, df)
-  }
-}
-
-allposts <- allposts %>%
-  rename("NameNoSep" = CoreArea) %>%
-  left_join(nameMap) %>%
-  filter(!Name %in% badSites)
-
-ggplot(allposts, aes(x = Cover)) +
-  geom_density(color = NA, fill = "tan", adjust = 2) +
-  geom_vline(data = obscover, aes(xintercept = MeanCover)) +
-  facet_wrap(~Abbreviation, scales = "free") +
-  labs(x = "Average equilibrium cover (%)", y = NULL) +
-  theme(axis.line.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank()) +
-  scale_x_continuous(breaks = scales::pretty_breaks(3))
-```
-
-```{r colonization-res}
-colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
-  rename("Core area" = CoreArea,
-         "Pr(colonize | cover = 0)" = ProbabilityOfColonization,
-         "Mean cover in colonized cells" = MeanColonizationCover) %>%
-  filter(!`Core area` %in% badSites)
-
-kable(colonization, 
-      caption = "Results from colonization model for each core area. Pr(colonize | cover = 0) reads, 'the probability of colonizition given that current cover is zero.'",
-      digits = 2,
-      label = "colonization",
-      format = "latex", 
-      booktabs = TRUE,
-      linesep = "",
-      escape = FALSE) 
-```
-
+Results from the colonization probability model used for future simulations are presented in the online supporting information (Table S80).
 
 ## Sensitivities
 
@@ -730,7 +700,7 @@ The most consistent pattern was a positive effect of temperature on sagebrush pe
 <!-- Sensitivity to climate drivers was not strongly influenced by mean annual precipiation, mean annual temperature, or elevation (Table \@ref(tab:corrs)). -->
 <!-- Only sensitivity to precipitation had a significant correlation with elevation (Spearman's rank correlation = -0.32, $P=0.05$; Table \@ref(tab:corrs)). -->
 
-```{r sensitivities, fig.height = 7.5, fig.width=8.5, fig.cap = "Sensitivity of sagebrush cover to temperature and precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Panels to the right of the maps show the mean (crosshairs), 95% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area."} 
+```{r sensitivities, fig.height = 7.5, fig.width=8.5, fig.cap = "Sensitivity of sagebrush cover to average spring-through-summer temperature and average spring-through-summer precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Dark grey core areas are those whose models did not pass posterior predictive checks. Panels to the right of the maps show the mean (crosshairs), 95% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area."} 
 
 pal <- RColorBrewer::brewer.pal(7, name = "BrBG")
 pal[4] <- "grey80" 
@@ -889,11 +859,11 @@ tempSummary <- paste0(
 ```
 
 
-Averaging over all the posterior distributions for the precipitation and temperature effects, we found that overall average effect of precipitation was negative: `r precipSummary`. 
-The overall average effect of temperature was positive: `r tempSummary`.
+Averaging over all the posterior distributions for the precipitation and temperature \new{sensitivities}, we found that overall average \new{sensitivity} to precipitation was negative: `r precipSummary`. 
+The overall average \new{sensitivity} to temperature was positive: `r tempSummary`.
 Note that we refer to the confidence intervals as "pseudo BCIs" because the average of the posteriors is not strictly the cross-core area posterior distribution.
 Nonetheless, the average values do inform the general pattern.
-The variance of the overall average effects should be viewed as the variance of the mean effect, not as the variance of effect sizes across core areas.
+The variance of the overall average \new{sensitivities} should be viewed as the variance of the mean sensitivity, not as the variance of \new{sensitivity magnitudes} across core areas.
 
 ```{r, eval = FALSE}
 soil <- read.csv("../AuxData/CoreArea_POLARIS_Summaries.csv") %>%
@@ -1035,7 +1005,7 @@ This is because precipitation is not projected to increase or decrease much in t
 Because most core areas had a positive sensitivity to temperature, sagebrush cover is projected to increase at most core areas (Fig. \@ref(fig:projections)).
 Projections of sagebrush cover are similar across GCM scenarios until about mid-century, at which point ssp585 projections diverge if temperature has a large (positive or negative) effect on interannual changes in sagebrush cover (Fig. \@ref(fig:projections)).
 
-More core areas were projected to increase (n = 21 for ssp126; n = 22 for ssp245 and ssp585) than decrease (n = 13 for ssp126; n = 12 for ssp245 and ssp585) and the magnitude of increases was greater than decreases for each GCM scenario.
+More core areas were projected to increase \new{in sagebrush cover} (n = 21 for ssp126; n = 22 for ssp245 and ssp585) than decrease (n = 13 for ssp126; n = 12 for ssp245 and ssp585) and the magnitude of increases was greater than decreases for each GCM scenario.
 For decreases, the median percent difference between average cover in 2018 and average cover in 2100 was `r as.character(round(percentDiffs[1, "MedianPercDiff"]))`% for ssp126, `r as.character(round(percentDiffs[2, "MedianPercDiff"]))`% for ssp245, and `r as.character(round(percentDiffs[3, "MedianPercDiff"]))`% for ssp585.
 For increases, the median percent difference between average cover in 2018 and average cover in 2100 was `r as.character(round(percentDiffs[4, "MedianPercDiff"]))`% for ssp126, `r as.character(round(percentDiffs[5, "MedianPercDiff"]))`% for ssp245, and `r as.character(round(percentDiffs[6, "MedianPercDiff"]))`% for ssp585.
 The percent differences show that projected increases in sagebrush cover are nearly twice the magnitude of projected decreases for each GCM scenario, on average.
@@ -1043,13 +1013,15 @@ Summing across core areas, `r as.character(round(min(areaDiffsInc$TotalArea)))` 
 `r as.character(round(min(areaDiffsDec$TotalArea)))` - `r as.character(round(max(areaDiffsDec$TotalArea)))`  $\text{km}^2$ of land is projected to experience decreases in sagebrush cover on average, depending on GCM scenario.
 
 Figure \@ref(fig:spatial-projections) shows projections over time and space for the Salt Wells core area (as an example) under the ssp585 climate forcing scenario.
+\new{Salt Wells is located in southwestern Wyoming} (Fig. \@ref(fig:sensitivities)).
 Spatial heterogeneity is maintained because of the spatial offset included in the model, but heterogeneity is smoothed somewhat, resulting in slightly lower spatial variance.
 Lower spatial variance can impact the calculation of the proportion of grid cells with cover over or under the nesting and summer habitat targets.
-At this core area, projections show sagebrush declining in most of the area with a hotspot of increasing sagebrush on the western edge (Fig. \@ref(fig:spatial-projections)).
+At this core area, projections show sagebrush \new{increasing slightly over most of the area, but with large increases in cover in the western edge of the core area.} (Fig. \@ref(fig:spatial-projections)).
 
 Notable declines in sagebrush cover are projected for Bear River (BrRv), Elk Basin East (ElBE), Jackson (Jcks), Little Mountain (LttM), and North Gillette (NrthGll) core areas (Fig. \@ref(fig:projections)).
-These same core areas may become suboptimal for sage-grouse over the long-term, as projections suggest the proportion of cells in Bear River, Little Mountain, and Jackson that exceed the sage-grouse nesting target drop below 50% at some point in the future (Figs. \@ref(fig:nesting-targs) and \@ref(fig:lambda-compares)B).
+These same core areas may become suboptimal for sage-grouse over the long-term, as projections suggest the proportion of cells in Bear River, Little Mountain, and Jackson that exceed the sage-grouse nesting target (Table S81) drop below 50% at some point in the future (Figs. \@ref(fig:nesting-targs) and \@ref(fig:lambda-compares)B).
 Twelve core areas are projected to switch from supoptimal to optimal for sage-grouse by crossing the 50% threshold in the future (Figs. \@ref(fig:nesting-targs) and \@ref(fig:lambda-compares)D).
+\new{Results based on summer habitat cover targets are similar (Fig. S41).}
 The most common projection (n = 16) is for currently suboptimal core areas to remain suboptimal, even though most will experience gains in sagebrush cover (Fig. \@ref(fig:lambda-compares)).
 
 Most sage-grouse population growth rates have confidence intervals that overlap one, indicating a stable population (Fig. \@ref(fig:lambda-compares)).
@@ -1057,7 +1029,7 @@ However, the mean growth rates suggest that 12 of the 16 core areas projected to
 Ten of the 12 core areas projected to switch from suboptimal to optimal have mean sage-grouse population growth rates that are negative (Fig. \@ref(fig:lambda-compares)D).
 
 
-```{r projections, fig.cap="Projections of sagebrush percent cover from 2018 to 2080 under three climate change scenarios (ssp indicated by colors) for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. Box and whiskers show the 68% (boxes) and 95% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, and 2080. The y-axis scale differs across plots.", fig.height=6}
+```{r projections, fig.cap="Projections of sagebrush percent cover from 2018 to 2100 under three climate change scenarios (ssp indicated by colors) for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. Box and whiskers show the 68% (boxes) and 95% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, 2080, and 2100. The y-axis scale differs across plots.", fig.height=6}
 
 d <- "../Output/ForecastSummaries/"
 allfiles <- list.files(d)
@@ -1124,7 +1096,7 @@ grid.arrange(thePlot)
 ```
 
 
-```{r nesting-targs, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse nesting threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area. The y-axis scale differs across plots.", fig.height=6}
+```{r nesting-targs, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse nesting threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area.", fig.height=6}
 d <- "../Output/ForecastSummaries"
 allfiles <- list.files(d)
 summaryFiles <- allfiles[grep("summaries", allfiles, invert = TRUE)]
@@ -1173,7 +1145,7 @@ ggplot(props %>% filter(TargetType == "nesting"), aes(x = CalYear, y = MeanProp,
   guides(fill = FALSE) 
 ```
 
-```{r lambda-compares, fig.cap="Sage-grouse population growth rates from Edmunds et al. (2018) for each core area, grouped by whether (A) the core area is currently more suitable and projected to remain more suitable, (B) currently more suitable and projected to become less suitable, (C) currently less suitable and projected to remain less suitable, and (D) currently less suitable and projected to become more suitable. 'More suitable' is defined as over 50% of cells with cover over the nesting threshold. 'Less suitable' is defined as fewer than 50% of cells with cover over the nesting threshold. ", fig.width = 8.5, fig.height = 6}
+```{r lambda-compares, fig.cap="Sage-grouse population growth rates from Edmunds et al. (2018) for each core area (point = estimate, whiskers = 95% CI), grouped by whether (A) the core area is currently more suitable and projected to remain more suitable, (B) currently more suitable and projected to become less suitable, (C) currently less suitable and projected to remain less suitable, and (D) currently less suitable and projected to become more suitable. 'More suitable' is defined as over 50% of cells with cover over the nesting threshold. 'Less suitable' is defined as fewer than 50% of cells with cover over the nesting threshold. ", fig.width = 8.5, fig.height = 6}
 propQuals <- props %>%
   filter(TargetType == "nesting") %>%
   dplyr::select(CalYear, Scenario, NameNoSep, MeanProp) %>%
@@ -1192,9 +1164,9 @@ propQuals <- props %>%
 
 lambdas <- coreAreaLambdas %>%
   dplyr::select(Name, NameNoSep, Abbreviation, lambda, 
-                `lambda.95..Lower`, `lambda.95..Upper`) %>%
-  rename("Lower95" = `lambda.95..Lower`,
-         "Upper95" = `lambda.95..Upper`) %>%
+                `lambda 95% Lower`, `lambda 95% Upper`) %>%
+  rename("Lower95" = `lambda 95% Lower`,
+         "Upper95" = `lambda 95% Upper`) %>%
   mutate(Lower95 = as.numeric(Lower95))
 
 propQuals <- propQuals %>%
@@ -1211,48 +1183,47 @@ ggplot(propQuals, aes(x = reorder(Name, -lambda), y = lambda)) +
   ggthemes::theme_few()
 ```
 
-## Drivers of sensitivity classifications
+<!-- ## Drivers of sensitivity classifications -->
+<!-- The best model for predicting precipitation sensitivity class (negative or positive) failed to beat a null model of random classification. -->
+<!-- Therefore, we do not discuss results from the precipitation sensitivity classification model. -->
+<!-- The best model for predicting temperature sensitivity class (negative or positive) included six non-zero covariates, all of which were soil properties (Table \ref{tab:lassos}). -->
+<!-- The model achieved a leave-one-out cross-validation accuracy score of 0.66 and an F1 score of 0.78 (F1 <= 0.5 indicates a poor model). -->
+<!-- The covariate with the largest LASSO-penalized coefficient value was the average (averaged over grid cells and then over depths) of the 95th percentile of sand percentage ($\hat{\beta}$ = 0.48). -->
+<!-- All coefficient values were positive, meaning that increases in the covariates values increased the odds that sensitivity to temperature will be positive. -->
 
-The best model for predicting precipitation sensitivity class (negative or positive) failed to beat a null model of random classification.
-Therefore, we do not discuss results from the precipitation sensitivity classification model.
-The best model for predicting temperature sensitivity class (negative or positive) included six non-zero covariates, all of which were soil properties (Table \ref{tab:lassos}).
-The model achieved a leave-one-out cross-validation accuracy score of 0.66 and an F1 score of 0.78 (F1 <= 0.5 indicates a poor model).
-The covariate with the largest LASSO-penalized coefficient value was the average (averaged over grid cells and then over depths) of the 95th percentile of sand percentage ($\hat{\beta}$ = 0.48).
-All coefficient values were positive, meaning that increases in the covariates values increased the odds that sensitivity to temperature will be positive.
+<!-- ```{r lasso} -->
+<!-- res <- read.csv("../exploratoryAnalysis/Python/output/topLogRegModel_temperature.csv") -->
+<!-- resdf <- res %>% -->
+<!--   dplyr::select(-X) %>% -->
+<!--   pivot_longer(cols = everything()) -->
 
-```{r lasso}
-res <- read.csv("../exploratoryAnalysis/Python/output/topLogRegModel_temperature.csv")
-resdf <- res %>%
-  dplyr::select(-X) %>%
-  pivot_longer(cols = everything())
+<!-- soilCovMap <- data.frame( -->
+<!--   name = c("z_alp95", "z_clp95", "z_ksp5", "z_omp5", "z_sap5", "z_sap95"), -->
+<!--   full = c("95th percentile of alpha", -->
+<!--            "95th percentile of clay percentage", -->
+<!--            "5th percentile of saturated hydraulic conductivity", -->
+<!--            "5th percentile of organic matter", -->
+<!--            "5th percentile of sand percentage", -->
+<!--            "95th percentile of sand percentage") -->
+<!-- ) -->
 
-soilCovMap <- data.frame(
-  name = c("z_alp95", "z_clp95", "z_ksp5", "z_omp5", "z_sap5", "z_sap95"),
-  full = c("95th percentile of alpha",
-           "95th percentile of clay percentage",
-           "5th percentile of saturated hydraulic conductivity",
-           "5th percentile of organic matter",
-           "5th percentile of sand percentage",
-           "95th percentile of sand percentage")
-)
+<!-- resdf <- resdf %>% -->
+<!--   left_join(soilCovMap, by = "name") %>% -->
+<!--   dplyr::select(full, value) %>% -->
+<!--   mutate_if(is.numeric, round, digits = 2) %>% -->
+<!--   rename("Soil property" = full, -->
+<!--          "LASSO-penalized coefficient value" = value) -->
 
-resdf <- resdf %>%
-  left_join(soilCovMap, by = "name") %>%
-  dplyr::select(full, value) %>%
-  mutate_if(is.numeric, round, digits = 2) %>%
-  rename("Soil property" = full,
-         "LASSO-penalized coefficient value" = value)
+<!-- kable(resdf,  -->
+<!--       caption = "LASSO-penalized coefficient values for the selected model for classifying temperature sensitivity. Note that all predictor values were averaged over grid cells within a core area and then averaged over depth from surface. The 'alpha' covariate is: 'scale parameter inversely proportional to mean pore diameter'. Standard errors, confidence intervals, and/or p-values are not reported because these metrics are not yet available for penalized regression under frequentist framework.", -->
+<!--       digits = 3, -->
+<!--       label = "lassos", -->
+<!--       format = "latex",  -->
+<!--       booktabs = TRUE, -->
+<!--       linesep = "") %>%  -->
+<!--   kable_styling(latex_options = c("scale_down")) -->
 
-kable(resdf, 
-      caption = "LASSO-penalized coefficient values for the selected model for classifying temperature sensitivity. Note that all predictor values were averaged over grid cells within a core area and then averaged over depth from surface. The 'alpha' covariate is: 'scale parameter inversely proportional to mean pore diameter'. Standard errors, confidence intervals, and/or p-values are not reported because these metrics are not yet available for penalized regression under frequentist framework.",
-      digits = 3,
-      label = "lassos",
-      format = "latex", 
-      booktabs = TRUE,
-      linesep = "") %>% 
-  kable_styling(latex_options = c("scale_down"))
-
-```
+<!-- ``` -->
 
 # Discussion
 
@@ -1261,68 +1232,84 @@ We found that sagebrush performance at most core areas showed positive sensitivi
 Because average temperature is expected to increase in Wyoming in the future and average precipitation is expected to remain relatively constant, we project an increase in sagebrush cover at most core areas across Wyoming.
 Moreover, projected increases were larger in magnitude than decreases and increases were projected on about four times larger land area (about 45,000 $\text{km}^2$ expected to experience increases relative to about 13,000 $\text{km}^2$ expected to experience decreases, on average).
 This finding suggests that few core areas are "lost causes" in terms of maintaining existing sagebrush cover in the future.
-Continued conservation of these core areas has the potential to increase sage-grouse populations in the future because the extent of the landscape with sagebrush cover that exceeds the nesting threshold is expected to increase for several core areas (Fig. \@ref(fig:nesting-targs)).
+Continued conservation of these core areas has the potential to increase \new{the extent of the landscape with sagebrush cover exceeding the nesting and summer habitat thresholds} (Figs. \@ref(fig:nesting-targs) and S41).
 Even when the threshold is not projected to be exceeded, sagebrush cover is most commonly projected to increase.
-While sagebrush is a key component of sage-grouse habitat, our models to not currently consider other factors that can affect habitat quality, including herbaceous vegetation, structure and configuration of sagebrush on the landscape, or disturbances [@fedy_habitat_2014].
+<!-- While sagebrush is a key component of sage-grouse habitat, our models to not currently consider other factors that can affect habitat quality, including herbaceous vegetation, structure and configuration of sagebrush on the landscape, or disturbances [@fedy_habitat_2014]. -->
 
 The most common climate response across the core areas was a positive effect of temperature on sagebrush performance.
 This finding is consistent with theoretical and empirical research suggesting that plants at the cold-limited edge of their distribution may benefit from global climate change [@amburgey_range_2018; @kleinhesselink_response_2018; @renwick_multi-model_2018].
-The finding is also consistent with results across a broader range of the sagebrush distribution using these same data sources [@rigge_projected_2021].
+The finding is also consistent with results across a broader range of the sagebrush distribution using \new{the BIT data but with more and different climate predictors} [@rigge_projected_2021].
 Recent mechanistic modeling across the sagebrush biome also suggests that increases in temperature will benefit sagebrush in high elevation portions of its range, like Wyoming [@palmquist_divergent_2021].
-@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in warm, moisture-limited areas.
+@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in \new{cold, moist areas where sagebrush performance is temperature-limited.}
 Other studies have also found positive effects of temperature increases at high elevation sagebrush sites, likely due to earlier snowmelt and a longer growing season [@perfors_enhanced_2003; @harte_convergent_2015].
-Our statistical models appear to reflect these underlying mechanstic explanations at a majority of core areas.
+Our statistical models appear to reflect these underlying mechanistic explanations at a majority of core areas.
 A negative of effect of increased precipitation combined with a positive effect of temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snowmelt in warmer years.
+\new{The confusing negative sensitivity of sagebrush to precipitation less becomes less so if the precipitation effect is related to temperature through an interaction we failed to model.}
 
 Climate responses were not uniform across core areas, however.
 The models showed positive and negative responses to both precipitation and temperature annual anomolies.
 Opposing effects of weather on sagebrush performance are not uncommon [@renwick_multi-model_2018; @palmquist_divergent_2021].
 Regional, landscape, and local gradients in average climate [@kleinhesselink_response_2018], soil conditions [@schlaepfer_ecohydrological_2012], and subspecies composition [@rosentreter_sagebrush_2005] can have a strong influence on sagebrush responses to weather and climate.
-Our analysis of the drivers of estimated sensitivities yielded little insight, though.
-The model for precipiation sensitivity classification was no better than a random classifier.
-The model for temperature sensitivity classification showed that several soil properties predict whether temperature sensitivity will be positive or negative.
-Two covariates stood out with higher coefficient values: the average 95th percentail of sand percentage and the average 95th percentile of clay percentage.
-The odds of temperature sensitivity being positive (warmer temperatures $\rightarrow$ increase in sagebrush cover) increased with both of those covariates.
-Based on these results, it appears that sagebrush climate response is mediated by the extremes of soil properties within a landscape.
-Indeed, all non-zero coefficients were associated with either 5th percentile or 95th percentile statistics (Table \ref{tab:lassos}).
-Thus, landscape level responses of sagebrush cover to climate may be mostly influenced by sagebrush that exist outside of average soil conditions.
+<!-- Our analysis of the drivers of estimated sensitivities yielded little insight, though. -->
+<!-- The model for precipiation sensitivity classification was no better than a random classifier. -->
+<!-- The model for temperature sensitivity classification showed that several soil properties predict whether temperature sensitivity will be positive or negative. -->
+<!-- Two covariates stood out with higher coefficient values: the average 95th percentail of sand percentage and the average 95th percentile of clay percentage. -->
+<!-- The odds of temperature sensitivity being positive (warmer temperatures $\rightarrow$ increase in sagebrush cover) increased with both of those covariates. -->
+<!-- Based on these results, it appears that sagebrush climate response is mediated by the extremes of soil properties within a landscape. -->
+<!-- Indeed, all non-zero coefficients were associated with either 5th percentile or 95th percentile statistics (Table \ref{tab:lassos}). -->
+<!-- Thus, landscape level responses of sagebrush cover to climate may be mostly influenced by sagebrush that exist outside of average soil conditions. -->
 
 
 The biggest limiation of our study is that we only quantified the direct effects of climate on sagebrush performance.
-The indirect effects of climate change and other non-climate related effects might be more influential.
+Indirect effects of climate change and other non-climate related effects might be more influential.
 In particular, the fire-cheatgrass invasion cycle has been implicated as the major driver of sagebrush loss across most of its historical range.
 Recent modeling suggests that parts of Wyoming may become more suitable for cheatgrass but that cheatgrass invasion could be limited if disturbances that reduce native grass and shrub cover are limited [@palmquist_divergent_2021].
 Hotter and drier conditions in the future will likely increase fire risk throughout Wyoming shrublands, meaning it could be difficult to limit cheatgrass invasion if fires become widespread.
-Nonetheless, our results corroroborate those of @palmquist_divergent_2021 by suggesting that climate change alone should benefit, or at least not significantly disadvantage, sagebush in Wyoming.
+@schlaepfer_understanding_2021 \new{found a similar result in terms of sagebrush regeneration: regeneration will likely remain possible under a warming climate alone, but the fire-cheatgrass interaction will likely limit sagebrush persistence.}
+Nonetheless, our results corroborate those of @palmquist_divergent_2021 and @schlaepfer_understanding_2021 by suggesting that climate change alone should benefit, or at least not significantly disadvantage, sagebrush in Wyoming.
+
+\new{A second limitation is that we implicitly assume that the relationships between sagebrush percent cover and temperature and precipitation are log-linear.
+That is, by using the statistical models to project cover into the future, we are assuming that the relationships quantified from historical data will be maintained in the future.
+It is certainly possible that sagebrush performance will plateau at temperatures and precipitation levels outside of the historical range of variability, either because of physiological limits or evolutionary adaptation} [@adler_matching_2020].
+\new{Evolutionary adaptation represents just one of many possible "slow" processes that impact our ability to make projections using short-term data that likely represent "fast" processes} [@adler_matching_2020].
+\new{Sagebrush are slow to recover from extreme events like drought that cause die-offs, representing another slow process potentially not capture by our models.}
+\new{Therefore, our models likely miss the impact of such extreme events.}
 
 Our sagebrush projections can be used as part of a decision-support toolbox for managers in Wyoming.
 The projections are also useful for generating hypotheses and scientific questions.
 For example, what conditions lead to two core areas in the same region having divergent responses to temperature (North Gillette versus Thunder Basin, Fig. \@ref(fig:sensitivities)A)?
 Observational and experimental studies could help explain the divergent responses.
+\new{So too could targeted modeling studies that use more climate and environmental covariates then we used here.}
 Such explanations are critical to guide region-wide management of sagebrush landscapes in the face of climate change and potential cheatgrass invasion.
 
 
 # Implications for sage-grouse management
 
-Sage-grouse are sagebrush-obligate species, meaning any increase in sagebrush cover likely benefits sage-grouse but consideration of other habitat components also affect habitat quality for sage-grouse [@fedy_habitat_2014].
-Although not all core areas are projected to increase in sagebrush cover, the magnitude of increase and the area over which we project increases far outweighs projected declines.
+Sage-grouse are sagebrush-obligate species, meaning any increase in sagebrush cover likely benefits sage-grouse.
+\new{However, other factors not considered here can affect habitat quality, including herbaceous vegetation, structure, and configuration of sagebrush on the landscape, and disturbances} @fedy_habitat_2014], \new{in addition to higher temperatures} [@blomberg_characteristics_2012; @lundblad_sensitivity_2022]. 
+\new{We also acknowledge that our use of thresholds to determine whether habitat was ``optimal'' for sage-grouse, while consistent with the Sage-grouse Habitat Assessment Framework} [@stiver_sage-grouse_2015], \new{may not correspond with more local trends in demography} [@smith_are_2020]. 
+\new{Indeed, most core areas we classified as currently "suboptimal" had stable population trends} [@edmunds_greater_2018] \new{whereas fewer core areas currently had "optimal" levels of sagebrush cover} (Fig. \@ref(fig:lambda-compares)). 
+\new{Therefore, we emphasize that while the thresholds used here were useful for a relative comparison of habitat status across core areas, studying effects of sagebrush cover on demographics such as population trends, at relevant spatial scales} [@monroe_spatial_2022], \new{would provide a more direct assessment of habitat quality for sage-grouse (and implications of climate change).}
+
+Nevertheless, not all core areas are projected to increase in sagebrush cover.
+But the magnitude of increase and the area over which we project increases far outweighs projected declines.
 These results highlight the importance of active and adaptive management in Wyoming's sage-grouse core areas, which contain about 37% of all sage-grouse [@fedy_habitat_2014].
-Potential management actions include reducing cheatgrass invasion to the greatest extent possible and limiting disturbances in core areas.
-These management actions are important because our results, and others, indicate that climate change per se is not going to cause declines in sagebrush in Wyoming.
+\new{Our results suggest that climate change per se is not going to cause declines in sagebrush in Wyoming.}
+\new{Therefore, management actions aimed at reducing cheatgrass invasion and limiting disturbances in core areas might help mitigate the negative, indirect impacts of climate change.}
 In part, this is good news because managing disturbances and plant invasions is more feasible than managing global climate change.
 
-Even still, effectively conserving all of the core areas may not be enough.
+Even still, effectively conserving all of the core areas may not be enough \new{to ensure sage-grouse conservation} [@hannah_protected_2007; @monzon_climate_2011].
 Sage-grouse use vast areas outside of the core areas as well, particularly in the apex of the population cycles [@heinrichs_influences_2019].
 Sage-grouse require diverse resource compositions across life stages, with an upper limit of annual life-time home ranges estimated at ~2975 km$^2$ [@connelly_response_2000; @connelly_conservation_2000].
-Maintaining large intact landscapes inside and outside of core areas (Heinrichs et al. 2019) will be necessary to ensure viable sage-grouse populations persist. 
-Our models help to identify sagebrush habitats that persist into the future given climate change, which should be protected from disturbances.
+\new{This suggests that} maintaining large intact landscapes inside and outside of core areas (Heinrichs et al. 2019) \new{can help} ensure viable sage-grouse populations persist. 
+Our models help to identify sagebrush habitats that \new{are likely to} persist into the future given climate change, \new{highlighting areas for potential long-term preservation and protection.}
 Areas with projected sagebrush declines may need to be more closely managed.
 
 
 # Acknowledgements
 This study was funded by the Bureau of Land Management and the US Geological Survey.
 Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. government.
-We thank Darren Long for reviewing preliminary versions of the manuscript.
+We thank Robert Shriver and Darren Long for reviewing preliminary versions of the manuscript.
 
 
 # References

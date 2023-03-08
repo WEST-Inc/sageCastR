@@ -97,8 +97,8 @@ for(a in 1:length(allAreas)) {
     filter(CoreArea == coreArea)
 
   coords <- coordinates(eta)
-  lons <- unique(coords[ , 1])
-  lats <- unique(coords[ , 2])
+  lons <- sort(unique(coords[ , 1]))
+  lats <- sort(unique(coords[ , 2]))
 
   test <- all.equal(dim(etaMat), dim(initMat))
   if(!test) {

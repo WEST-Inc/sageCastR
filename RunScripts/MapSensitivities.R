@@ -3,12 +3,13 @@ library(ggplot2)
 library(colorspace)
 library(ggpubr)
 library(here)
+library(tidyverse)
 
 # Script to map the average sensitivities in each core area and
 #     calculate the mean temperature, precip, and elevation.
 
 #
-wdir <- "\\\\lar-file-srv/Data/102 - USGS/102 - 88 - SageCastWY/"
+# wdir <- "\\\\lar-file-srv/Data/102 - USGS/102 - 88 - SageCastWY/"
 # setwd(wdir)
 
 nameMap <- read.csv("AuxData/CoreAreaNamesMapping.csv")
@@ -39,9 +40,9 @@ for(i in 1:length(allSensDirs)) {
 #-------------------------------------------------------------------------------
 
 
-coreAreas <- sf::st_read(file.path(wdir,"Data\\SageGrouseCoreAreasv4\\corev4_072915_final.shp"))
+coreAreas <- sf::st_read("AuxData/corev4_072915_final.shp")
 
-ustates <- sf::st_read(paste(wdir,"Data", "US_states","tl_2019_us_state.shp",sep = "\\"))
+ustates <- sf::st_read("AuxData/tl_2019_us_state.shp")
 wy <- ustates[ustates$NAME == 'Wyoming',]
 wy <- sf::st_transform(wy, 26913) #UTMzone 13)
 wyBfDist <- 4000 # distance in meters to buffer wyoming border
@@ -105,6 +106,7 @@ write.csv(combDat, file.path(outDatDir, "environ_sensitivity_summary.csv"))
 #----- Maps of sensitivities
 #-------------------------------------------------------------------------------
 
+combDat <- read.csv("Output/environ_sensitivity_summary.csv")
 coreMerge <- merge(coreAreas, combDat, by.all = NAME, all.x = T)
 coreMerge <- sf::st_transform(coreMerge, 26913)
 wyProj <- sf::st_transform(wy, 26913)
@@ -123,7 +125,10 @@ coreMerge <- coreMerge %>%
 rms <- c("Powder", "Sage", "Seedskadee", "Uinta", "Elk Basin West")
 
 coreMerge <- coreMerge %>%
-  filter(!Name %in% rms)
+  mutate(sensPr = case_when(Name %in% rms ~ NA_real_,
+                            TRUE ~ sensPr),
+         sensTmean = case_when(Name %in% rms ~ NA_real_,
+                            TRUE ~ sensTmean))
 
 pal <- RColorBrewer::brewer.pal(7, name = "BrBG")
 pal[4] <- "grey80"

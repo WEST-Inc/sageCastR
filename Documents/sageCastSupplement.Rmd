@@ -11,8 +11,10 @@ output:
 bibliography: sagecast.bib
 csl: ecology.csl
 header-includes:
- \usepackage{float}
- \floatplacement{figure}{H}
+ - \usepackage{float}
+ - \floatplacement{figure}{H}
+ - \usepackage{bm}
+ - \usepackage{mathptmx}
 ---
 
 \renewcommand{\thefigure}{S\arabic{figure}}
@@ -33,7 +35,7 @@ library(knitr)
 
 # Potential scale reduction factors
 
-Potential scale reduction factors ($\hat{R}$) help diagnose MCMC convergence.
+Potential scale reduction factors ($\hat{R}$) help diagnose Markov chain Monte Carlo (MCMC) convergence.
 MCMC algorithms have reached convergence when $\hat{R} < 1.1$.
 
 ```{r rhats, eval = TRUE, results = 'asis'}
@@ -44,7 +46,7 @@ for(doCore in cores) {
   thisname <- nameMap %>%
     filter(NameNoSep == doCore) %>%
     pull(Name)
-  thiscap <- paste0("Potential scale reduction factors ($\\hat{R}$) for all parameters in the model for the ", thisname, " core area.")
+  thiscap <- paste0("Potential scale reduction factors ($\\hat{R}$) for all parameters in the model for the ", thisname, " sage-grouse core area in Wyoming, USA. C.I. is confidence interval.")
    tab <- rhats[[doCore]]$psrf
    print(knitr::kable(tab, digits = 2, caption = thiscap))
    cat("\\pagebreak")
@@ -62,7 +64,7 @@ news <- readRDS("../Output/BayesianPValues-Redos.RDS") %>%
 allp <- bind_rows(pvals, news) %>%
   pivot_wider(names_from = "name", values_from = "value") %>%
   setNames(c("Core area", "Spatial Bayesian P-value", "Temporal Bayesian P-value"))
-knitr::kable(allp, digits = 2, caption = "Bayesian P-values for each core area. P-values greater than 0.95 or less than 0.05 indicate lack of fit. See main text for description of the P-value calculations.")
+knitr::kable(allp, digits = 2, caption = "Bayesian P-values for each sage-grouse core area in Wyoming, USA. P-values greater than 0.95 or less than 0.05 indicate lack of fit. See main text for description of the P-value calculations.")
 ```
 
 \pagebreak
@@ -106,7 +108,7 @@ for(doArea in subDirs) {
     facet_wrap(~Parameter, nrow = 2, scales = "free") +
     ggthemes::theme_few(base_size = 12) +
     labs(x = "Parameter estimate", y = "Posterior density")
-   thiscap <- paste0("Posterior distributions of key parameters for the ", thisname, " core area.")
+   thiscap <- paste0("Posterior distributions of key parameters for the ", thisname, " sage-grouse core area in Wyoming, USA.")
    names(allplots)[i] <- thiscap
    # print(p)
    
@@ -122,7 +124,7 @@ for(doArea in subDirs) {
      as.data.frame()
    rownames(postSummary) <- tableLabs
    alltables[[i]] <- postSummary
-   names(alltables)[i] <- paste0("Statistical summaries of posterior distributions of key parameters for the ", thisname, " core area. SD = standard deviation; 2.5% and 97.5% quantiles bound the 95% Bayesian credible interval.")
+   names(alltables)[i] <- paste0("Statistical summaries of posterior distributions of key parameters for the ", thisname, " sage-grouse core area in Wyoming, USA. SD = standard deviation; 2.5% and 97.5% quantiles bound the 95% Bayesian credible interval.")
    
    i = i+1
 }
@@ -162,7 +164,7 @@ mcmcList[["ElkBasinWest"]] %>%
 
 # Estimated equilibrium cover
 
-```{r equilibrium-cover, eval = TRUE, fig.cap="Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each core area from 1985-2018."}
+```{r equilibrium-cover, eval = TRUE, fig.cap="Posterior distributions of equilibrium cover calculated from fitted model parameters. The vertical black lines show the observed mean cover for each sage-grouse core area in Wyoming, USA from 1985-2018."}
 nameMap <- read.csv("../AuxData/CoreAreaNamesMapping.csv")
 
 pvals <- readRDS("../Output/BayesianPValues.RDS") %>%
@@ -230,7 +232,7 @@ colonization <- readRDS("../Output/ColonizationModelResults.RDS") %>%
 
 kable(colonization, 
       digits = 2,
-      caption = 'Results from colonization model for each core area. Pr(colonize | cover = 0) reads, "the probability of colonizition given that current cover is zero."') %>%
+      caption = 'Results from colonization model for each sage-grouse core area in Wyoming, USA. Pr(colonize | cover = 0) reads, "the probability of colonizition given that current cover is zero."') %>%
 print()
 ```
 
@@ -290,7 +292,7 @@ read.csv("../AuxData/CoreAreaNamesMapping.csv") %>%
 
 # Summer habitat cover targets compared to projections
 
-```{r nesting-targs, fig.height=6, eval = TRUE, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse summer cover threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area."}
+```{r nesting-targs, fig.height=6, eval = TRUE, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse summer cover threshold defined for each sage-grouse core area in Wyoming, USA. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% Bayesian credible interval (BCI); very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area. Shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions)."}
 d <- "../Output/ForecastSummaries"
 allfiles <- list.files(d)
 summaryFiles <- allfiles[grep("summaries", allfiles, invert = TRUE)]

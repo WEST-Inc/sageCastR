@@ -189,7 +189,7 @@ There are no data for 2012, which we handled naively by letting 2011 be the "lag
 
 
 
-```{r data, fig.width=8.5, fig.height=5, fig.cap="Observed time series of percent cover for each core area from the Back-In-Time product. Line shows mean cover in each year across all cells (pixels). The shaded region shows the mean plus/minus the standard deviation across all cells (pixels) in each year. Note that the y-axis changes across panels."}
+```{r data, fig.width=8.5, fig.height=5, fig.cap="Observed time series of percent cover for each sage-grouse core area in Wyoming, USA from the NLCD BIT Sagebrush Fractional Component product. Line shows mean cover in each year across all cells (pixels). The shaded region shows the mean plus/minus the standard deviation across all cells (pixels) in each year. Note that the y-axis changes across panels."}
 bit <- readRDS("../Output/historic_Sage_Cover_Summary.RDS")
 bit <- bit %>%
   left_join(nameMap %>%
@@ -361,7 +361,7 @@ We used results from @tredennick_forecasting_2016 to define informative prior di
 Vague prior distributions were assigned to all other parameters (Table \ref{tab:priors}).
 
 \begin{table}[tbp]
-\caption{\label{tab:priors}Prior distributions for the dynamic-additive spatiotemporal regression model of sagebrush cover.}
+\caption{\label{tab:priors}Prior distributions for the dynamic-additive spatiotemporal regression model of sagebrush cover. Standard deviations from Tredennick et al. (2016) were replaced with 1 for the intercept and density-dependence terms to generate a slightly more skeptical prior.}
 \small
 \begin{tabular}{p{0.1\linewidth}p{0.35\linewidth}p{0.2\linewidth}p{0.2\linewidth}}
 \hline
@@ -563,7 +563,7 @@ climateAll <- read.csv("../AuxData/CMIP6_future_by_core.csv") %>%
          "Var. spr-sum Temp." = MeanVar_tas)
   
 kable(climateAll, 
-      caption = "Averages and variances of climate covariates over different time periods. Averages are average values over the core areas. Core area values were the weighted averages according to GCM weights. Variances are average variances over the core areas. Core area variances were computed over the weighted averages of values for each core area.",
+      caption = "Averages and variances of climate covariates over different time periods. Averages are average values over the sage-grouse core areas in Wyoming, USA. Core area values were the weighted averages according to global circulation model (GCM) weights. Variances are average variances over the core areas. Core area variances were computed over the weighted averages of values for each core area. Shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions).",
       digits = 3,
       label = "gcms",
       format = "latex", 
@@ -572,7 +572,7 @@ kable(climateAll,
   kable_styling(latex_options = c("scale_down"))
 ```
 
-```{r gcm-ranks, fig.width=8.5, fig.height=4.5, fig.cap="(A) Relative errors of global circulation models when comparing historical projections to observed PRISM climate data within Wyoming sage-grouse core areas for the period 1985-2018. Values in the top panel (Combined) were subtracted from 1 and normalized for use as model weights when projecting sagebrush dynamics. GCMs are ordered from lowest (left) to highest (right) combined error. (B) Climate change projections for Greater South Pass (north) from all GCMs (light lines) and the weighted average of climate projections, which are proportional to the relative errors in panel A."}
+```{r gcm-ranks, fig.width=8.5, fig.height=4.5, fig.cap="(A) Relative errors of global circulation models (GCMs) when comparing historical projections to observed PRISM climate data within sage-grouse core areas in Wyoming, USA for the period 1985-2018. Values in the top panel (Combined) were subtracted from 1 and normalized for use as model weights when projecting sagebrush dynamics. GCMs are ordered from lowest (left) to highest (right) combined error. (B) Climate change projections for Greater South Pass (north) from all GCMs (light lines) and the weighted average of climate projections, which are proportional to the relative errors in panel A. Shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions)."}
 climate <- read.csv("../AuxData/CMIP6_future_by_core.csv") %>%
   filter(coreName == "Greater South Pass 1") %>%
   pivot_longer(cols = c("pr", "tas")) %>%
@@ -700,7 +700,7 @@ The most consistent pattern was a positive effect of temperature on sagebrush pe
 <!-- Sensitivity to climate drivers was not strongly influenced by mean annual precipiation, mean annual temperature, or elevation (Table \@ref(tab:corrs)). -->
 <!-- Only sensitivity to precipitation had a significant correlation with elevation (Spearman's rank correlation = -0.32, $P=0.05$; Table \@ref(tab:corrs)). -->
 
-```{r sensitivities, fig.height = 7.5, fig.width=8.5, fig.cap = "Sensitivity of sagebrush cover to average spring-through-summer temperature and average spring-through-summer precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each core area. Dark grey core areas are those whose models did not pass posterior predictive checks. Panels to the right of the maps show the mean (crosshairs), 95% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area."} 
+```{r sensitivities, fig.height = 7.5, fig.width=8.5, fig.cap = "Sensitivity of sagebrush cover to average spring-through-summer temperature and average spring-through-summer precipitation. Maps show the mean of the posterior distribution of sensitivity to temperature (A) and precipitation (B) for each sage-grouse core area in Wyoming, USA. Dark grey core areas are those whose models did not pass posterior predictive checks. Panels to the right of the maps show the mean (crosshairs), 95% Bayesian credible interval (bold lines), and range of the posterior distributions (whiskers) of sensitivity to temperature (C) and precipitation (D) for each core area. Colors indicate positive (greens), negative (browns), and negligble (light grey) sensitivity. Sensitivity is defined as the log change in cover relative to equilibrium cover when a +1 standard deviation perturbation is applied to the climate effect in the fitted model for each core area."} 
 
 pal <- RColorBrewer::brewer.pal(7, name = "BrBG")
 pal[4] <- "grey80" 
@@ -747,7 +747,7 @@ cowplot::plot_grid(maps[[1]], plotList[[1]],  maps[[2]], plotList[[2]],
 
 
 
-```{r sen-scatter, fig.cap="Sensitivity of each core area to temperature and precipitation grouped by positive and negative responses to each climate driver. (A) Core areas with negative sensitivity to precipitation and positive sensitivity to temperature. (B) Core areas with positive sensitivity to precipitation and temperature, (C) Core areas with a negative sensitivity to precipitation and temperature. (D) Core areas with a positive sensitivity to precipitation and a negative sensitivity to temperature. Points show the posterior means and whiskers show the 95% Bayesian credible intervals. Dashed tan lines show where sensitivity equals zero. The panel labels also indicate the number of core areas (n) in each sensitivity quadrant."}
+```{r sen-scatter, fig.cap="Sensitivity of each sage-grouse core area in Wyoming, USA to temperature and precipitation grouped by positive and negative responses to each climate driver. (A) Core areas with negative sensitivity to precipitation and positive sensitivity to temperature. (B) Core areas with positive sensitivity to precipitation and temperature, (C) Core areas with a negative sensitivity to precipitation and temperature. (D) Core areas with a positive sensitivity to precipitation and a negative sensitivity to temperature. Points show the posterior means and whiskers show the 95% Bayesian credible intervals. Dashed tan lines show where sensitivity equals zero. The panel labels also indicate the number of core areas (n) in each sensitivity quadrant."}
 
 sensSummaries <- sensSummaries %>%
   rename("CoreName" = NameNoSep)
@@ -1029,7 +1029,7 @@ However, the mean growth rates suggest that 12 of the 16 core areas projected to
 Ten of the 12 core areas projected to switch from suboptimal to optimal have mean sage-grouse population growth rates that are negative (Fig. \@ref(fig:lambda-compares)D).
 
 
-```{r projections, fig.cap="Projections of sagebrush percent cover from 2018 to 2100 under three climate change scenarios (ssp indicated by colors) for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. Box and whiskers show the 68% (boxes) and 95% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, 2080, and 2100. The y-axis scale differs across plots.", fig.height=6}
+```{r projections, fig.cap="Projections of sagebrush percent cover from 2018 to 2100 under three climate change scenarios (ssp indicated by colors) for each sage-grouse core area in Wyoming, USA. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% Bayesian credible interval (BCI); very light shaded ribbon bounds the 95% BCI. Box and whiskers show the 68% (boxes) and 95% (whiskers) BCIs at discrete time horizons of 2020, 2040, 2060, 2080, and 2100. The y-axis scale differs across plots. Shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions).", fig.height=6}
 
 d <- "../Output/ForecastSummaries/"
 allfiles <- list.files(d)
@@ -1088,7 +1088,7 @@ ggplot(forecasts, aes(x = CalYear, y = MeanCover,
 
 
 
-```{r spatial-projections, fig.cap="Projections of sagebrush percent cover (color bars indicate percent cover value) over space and time for the Salt Wells (SltW) core area. Projections are plotted from a single ensemble member (one parameter set) and using the ssp585 climate forcing scenario.", fig.width=8.5, fig.height=5}
+```{r spatial-projections, fig.cap="Projections of sagebrush percent cover (color bars indicate percent cover value) over space and time for the Salt Wells (SltW) sage-grouse core area in southwestern Wyoming, USA. Projections are plotted from a single ensemble member (one parameter set) and using the ssp585 (high future carbon emissions) climate forcing scenario.", fig.width=8.5, fig.height=5}
 
 thePlot <- readRDS("../Figures/SaltWellsSpatialForecasts.RDS")
 grid.arrange(thePlot)
@@ -1096,7 +1096,7 @@ grid.arrange(thePlot)
 ```
 
 
-```{r nesting-targs, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse nesting threshold defined for each core area. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% BCI; very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area.", fig.height=6}
+```{r nesting-targs, fig.cap="Projections of the proportion of 100-meter cells within a core area where sagebrush percent cover exceeds the sage-grouse nesting threshold defined for each sage-grouse core area in Wyoming, USA. The solid line is the median of the posterior predictive distribution; light shaded ribbon bounds the 68% Bayesian credible interval (BCI); very light shaded ribbon bounds the 95% BCI. The dashed horizontal line shows where the proportion of cells is equal to 50% of the area. Shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions).", fig.height=6}
 d <- "../Output/ForecastSummaries"
 allfiles <- list.files(d)
 summaryFiles <- allfiles[grep("summaries", allfiles, invert = TRUE)]
@@ -1145,7 +1145,7 @@ ggplot(props %>% filter(TargetType == "nesting"), aes(x = CalYear, y = MeanProp,
   guides(fill = FALSE) 
 ```
 
-```{r lambda-compares, fig.cap="Sage-grouse population growth rates from Edmunds et al. (2018) for each core area (point = estimate, whiskers = 95% CI), grouped by whether (A) the core area is currently more suitable and projected to remain more suitable, (B) currently more suitable and projected to become less suitable, (C) currently less suitable and projected to remain less suitable, and (D) currently less suitable and projected to become more suitable. 'More suitable' is defined as over 50% of cells with cover over the nesting threshold. 'Less suitable' is defined as fewer than 50% of cells with cover over the nesting threshold. ", fig.width = 8.5, fig.height = 6}
+```{r lambda-compares, fig.cap="Sage-grouse population growth rates from Edmunds et al. (2018; Erratum 2018) for each sage-grouse core area in Wyoming, USA (point = estimate, whiskers = 95% confidence interval [CI]), grouped by whether (A) the core area is currently more suitable and projected to remain more suitable, (B) currently more suitable and projected to become less suitable, (C) currently less suitable and projected to remain less suitable, and (D) currently less suitable and projected to become more suitable. 'More suitable' is defined as over 50% of cells with cover over the nesting threshold. 'Less suitable' is defined as fewer than 50% of cells with cover over the nesting threshold. ", fig.width = 8.5, fig.height = 6}
 propQuals <- props %>%
   filter(TargetType == "nesting") %>%
   dplyr::select(CalYear, Scenario, NameNoSep, MeanProp) %>%
@@ -1243,8 +1243,8 @@ Recent mechanistic modeling across the sagebrush biome also suggests that increa
 @palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in \new{cold, moist areas where sagebrush performance is temperature-limited.}
 Other studies have also found positive effects of temperature increases at high elevation sagebrush sites, likely due to earlier snowmelt and a longer growing season [@perfors_enhanced_2003; @harte_convergent_2015].
 Our statistical models appear to reflect these underlying mechanistic explanations at a majority of core areas.
-A negative of effect of increased precipitation combined with a positive effect of temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snowmelt in warmer years.
-\new{The negative sensitivity of sagebrush to precipitation is confusing, but becomes less confusing if the precipitation effect is related to temperature through an interaction we failed to model.}
+A negative \new{sensitivity} to precipitation combined with a positive \new{sensitivity} to temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snowmelt in warmer years.
+\new{The negative sensitivity of sagebrush to precipitation is confusing, but the negative sensitivity could be reflecting an interaction we failed to model.}
 
 Climate responses were not uniform across core areas, however.
 The models showed positive and negative responses to both precipitation and temperature annual anomolies.

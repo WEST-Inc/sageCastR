@@ -59,7 +59,7 @@ urlcolor: black
 
 \noindent{}**Open Research Statement**
 
-\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: https://github.com/WEST-Inc/sageCastR). Data and code will be archived on Zenodo upon acceptance. Projections generated during this study are available as a USGS data release [@tredennick_data_2023]. All data used in this study are publicly available elsewhere as cited in the text.
+\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: https://github.com/WEST-Inc/sageCastR). Data and code will be archived on Zenodo upon acceptance. Projections generated during this study will be available as a USGS data release [@tredennick_data_2023] (link to be activated upon acceptance). All data used in this study are publicly available elsewhere: sagebrush cover data, @rigge_quantifying_2020; PRISM climate product, http://prism.oregonstate.edu/; CMIP climate projections, @eyring_overview_2016 accessed with **epwshiftr** R package [@jia_epwshiftr_2020].
 
 \newpage{}
 

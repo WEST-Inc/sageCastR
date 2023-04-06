@@ -1,5 +1,5 @@
 ---
-title: Online Supporting Information
+title: Appendix S1
 subtitle: Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales
 author: |
   | Andrew T. Tredennick, Adrian P. Monroe, Thomas Prebyl, 

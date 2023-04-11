@@ -12,7 +12,7 @@ header-includes:
    - \usepackage{array}
    - \usepackage{caption}
    - \usepackage{subcaption}
-   - \usepackage{endfloat}
+   - \usepackage[nomarkers]{endfloat}
 
 ## rmarkdown render options
 output:
@@ -35,7 +35,7 @@ urlcolor: black
 \begin{centering}
 \textbf{\Large{Dynamic spatiotemporal modeling of a habitat defining plant species to support wildlife management at regional scales}}
 
-\textsc{\small{Andrew T. Tredennick\footnote{Corresponding author: \textit{email}, \texttt{atredenn@gmail.com}; \textit{phone}, 970-443-1599. Current address: Metrum Research Group, Tariffville, Connecticut}\textsuperscript{1,}, Adrian P. Monroe\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{2,3}}}
+\textsc{\small{Andrew T. Tredennick\footnote{Current address: Metrum Research Group, Tariffville, Connecticut}\textsuperscript{1}, Adrian P. Monroe\footnote{Corresponding author: \textit{email}, \texttt{amonroe@usgs.gov}}\textsuperscript{2}, Thomas Prebyl\textsuperscript{1}, John Lombardi\textsuperscript{1}, \& Cameron L. Aldridge\textsuperscript{2,3}}}
 
 \textit{\small{\textsuperscript{1}Western EcoSystems Technology, Inc., Laramie, WY}} \\
 \textit{\small{\textsuperscript{2}U.S. Geological Survey, Fort Collins Science Center, Fort Collins, CO}} \\
@@ -51,7 +51,7 @@ urlcolor: black
 
 \noindent{}**Open Research Statement**
 
-\noindent{}Data and code are provided as private-for-peer review (shared publicly in a repository: https://github.com/WEST-Inc/sageCastR). Data and code will be archived on Zenodo upon acceptance. Projections generated during this study will be available as a USGS data release [@tredennick_data_2023] (link to be activated upon acceptance). All data used in this study are publicly available elsewhere: sagebrush cover data, @rigge_quantifying_2020; PRISM climate product, http://prism.oregonstate.edu/; CMIP climate projections, @eyring_overview_2016 accessed with **epwshiftr** R package [@jia_epwshiftr_2020].
+\noindent{}Code, intermediately derived data, and results are archived on Zenodo [@tredennick_zenodo_2023]. Projections generated during this study are available as a USGS data release [@tredennick_data_2023]. All data used in this study are publicly available elsewhere: sagebrush cover data, @rigge_quantifying_2020; PRISM climate product, http://prism.oregonstate.edu/; CMIP climate projections, @eyring_overview_2016 accessed with **epwshiftr** R package [@jia_epwshiftr_2020].
 
 \newpage{}
 
@@ -381,7 +381,7 @@ Lastly, we averaged the Bayesian p-values over years and cells to compute two fi
 Posterior predictive checks were done using a new spatially balance sample of the data (i.e., a different sample than used to fit the model).
 
 All computations were done in R [@r_core_team_r_2020].
-We bundled the computer code needed to format data, fit the model, evaluate the model, and project the model forward in an R package called **sageCastR** (https://github.com/WEST-Inc/sageCastR).
+We bundled the computer code needed to format data, fit the model, evaluate the model, and project the model forward in an R package called **sageCastR** (https://github.com/WEST-Inc/sageCastR, archived on Zenodo @tredennick_zenodo_2023).
 Note that the R package is not a generalizable piece of software; it is a code bundle for this particular project.
 We also note that fitting the models required a high memory machine and parallel processing.
 Interested users can modify the code for future research. 
@@ -1036,16 +1036,18 @@ The most common climate response across the core areas was a positive effect of 
 This finding is consistent with theoretical and empirical research suggesting that plants at the cold-limited edge of their distribution may benefit from global climate change [@amburgey_range_2018; @kleinhesselink_response_2018; @renwick_multi-model_2018].
 The finding is also consistent with results across a broader range of the sagebrush distribution using the BIT data but with more and different climate predictors [@rigge_projected_2021].
 Recent mechanistic modeling across the sagebrush biome also suggests that increases in temperature will benefit sagebrush in high elevation portions of its range, like Wyoming [@palmquist_divergent_2021].
-@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in cold, moist areas where sagebrush performance is temperature-limited.
+@palmquist_divergent_2021 showed that soil moisture will likely remain adequate under a warming climate in cold, winter-wet areas where sagebrush performance is temperature-limited.
 Other studies have also found positive effects of temperature increases at high elevation sagebrush sites, likely due to earlier snowmelt and a longer growing season [@perfors_enhanced_2003; @harte_convergent_2015].
 Our statistical models appear to reflect these underlying mechanistic explanations at a majority of core areas.
-A negative sensitivity to precipitation combined with a positive sensitivity to temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snow melt in warmer years.
+A negative sensitivity to above average spring-through-summer precipitation combined with a positive sensitivity to spring-through-summer temperature could reflect sagebrush responding negatively to late season snow in colder years and positively to earlier snow melt in warmer years.
 The negative sensitivity of sagebrush to precipitation is confusing, but the negative sensitivity could be reflecting an interaction we failed to model.
+Last, variable responses to above- and below-average precipitation is expected across large regions with variable soil depths [@germino_desert_2014].
+
 
 Climate responses were not uniform across core areas, however.
 The models showed positive and negative responses to both precipitation and temperature annual anomolies.
 Opposing effects of weather on sagebrush performance are not uncommon [@renwick_multi-model_2018; @palmquist_divergent_2021].
-Regional, landscape, and local gradients in average climate [@kleinhesselink_response_2018], soil conditions [@schlaepfer_ecohydrological_2012], and subspecies composition [@rosentreter_sagebrush_2005] can have a strong influence on sagebrush responses to weather and climate.
+Regional, landscape, and local gradients in average climate [@kleinhesselink_response_2018], soil conditions [@schlaepfer_ecohydrological_2012; @germino_desert_2014], and subspecies composition [@rosentreter_sagebrush_2005] can have a strong influence on sagebrush responses to weather and climate.
 
 The biggest limiation of our study is that we only quantified the direct effects of climate on sagebrush performance.
 Indirect effects of climate change and other non-climate related effects might be more influential.

@@ -1,5 +1,5 @@
 \begin{table}[tbp]
-\caption{\label{tab:priors}Prior distributions for the dynamic-additive spatiotemporal regression model of sagebrush cover.}
+\caption{\label{tab:priors}Prior distributions for the dynamic-additive spatiotemporal regression model of sagebrush cover. Standard deviations from Tredennick et al. (2016) were replaced with 1 for the intercept and density-dependence terms to generate a slightly more skeptical prior.}
 \small
 \begin{tabular}{p{0.1\linewidth}p{0.35\linewidth}p{0.2\linewidth}p{0.2\linewidth}}
 \hline
@@ -15,7 +15,7 @@ $\sigma_{\gamma}$ & standard deviation of temporal random effects & Cauchy(0, 2.
  
 \begin{table}
 
-\caption{\label{tab:gcms}Averages and variances of climate covariates over different time periods. Averages are average values over the core areas. Core area values were the weighted averages according to GCM weights. Variances are average variances over the core areas. Core area variances were computed over the weighted averages of values for each core area.}
+\caption{\label{tab:gcms}Averages and variances of climate covariates over different time periods. Averages are average values over the sage-grouse core areas in Wyoming, USA. Core area values were the weighted averages according to global circulation model (GCM) weights. Variances are average variances over the core areas. Core area variances were computed over the weighted averages of values for each core area. Shared socio-economic pathways (SSPs): ssp126 (low future carbon emissions), ssp245 (intermediate future carbon emissions), and ssp585 (high future carbon emissions).}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{llrrrr}

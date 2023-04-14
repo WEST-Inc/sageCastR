@@ -8,8 +8,8 @@ library(RColorBrewer)
 library(lattice)
 library(gridExtra)
 
-ncdfPath <- "L:\\102 - USGS\\102 - 88 - SageCastWY\\Output\\Forecasts\\"
-# ncdfPath <- "../../Desktop/Tredennick_files/"
+# ncdfPath <- "L:\\102 - USGS\\102 - 88 - SageCastWY\\Output\\Forecasts\\"
+ncdfPath <- "../../Desktop/Tredennick_files/"
 ncNames <- c("SaltWells-dast-forecast-2018-2045-ssp585.nc",
              "SaltWells-dast-forecast-2046-2070-ssp585.nc",
              "SaltWells-dast-forecast-2071-2100-ssp585.nc")
